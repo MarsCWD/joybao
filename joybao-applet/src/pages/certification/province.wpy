@@ -1,0 +1,55 @@
+<style>
+page {
+    background-color: #f6f6f6;
+}
+</style>
+
+<template>
+<view class="container">
+    <view class="section">
+        <repeat for="{{provinceList}}" key="index" index="index" item="item">
+            <view @tap="locationClick({{index}})" class="list-item">
+                <view class="list-item-left" style="margin-top:2rpx">
+                    <view class="list-item-left-text">{{item.label}}</view>
+                </view>
+                <view class="list-item-right">
+                    <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                    <view class="clear"></view>
+                </view>
+            </view>
+        </repeat>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import dataAPI from "../../config/utils";
+export default class province extends wepy.page {
+    config = {
+        "navigationBarTitleText": "选择省份",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        provinceList: dataAPI.provinceList
+    }
+    onLoad(options) {
+        // 页面初始化 options为页面跳转所带来的参数
+
+    }
+    methods = {
+        locationClick(index) {
+            let app = this.$parent;
+            app.globalData.province = this.provinceList[index].label;
+            wx.navigateTo({
+                url: "./city?index=" + index,
+                success: function(res) {},
+                fail:function(err){
+                    console.log(err);
+                }
+            });
+        }
+    }
+}
+</script>

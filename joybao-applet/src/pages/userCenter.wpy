@@ -1,0 +1,385 @@
+<style>
+/* pages/UserCenter/UserCenter.wxss */
+
+page {
+    background-color: #f6f6f6;
+    height:100%;
+    overflow:hidden;
+}
+.container{
+    height:100%;
+    overflow:auto;
+}
+.banner {
+    height: 350rpx;
+    width: 750rpx;
+    background-color: #539DDB;
+    position: relative;
+}
+
+.banner-avatar {
+    position: absolute;
+    height: 170rpx;
+    width: 170rpx;
+    left: 290rpx;
+    top: 20rpx;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 85rpx;
+}
+
+.banner-avatar image {
+    position: absolute;
+    height: 150rpx;
+    width: 150rpx;
+    left: 10rpx;
+    top: 10rpx;
+    border-radius: 85rpx;
+}
+
+.banner-name {
+    color: #fff;
+    position: absolute;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 750rpx;
+    top: 180rpx;
+    text-align: center;
+}
+
+.banner-identify {
+    color: #fff;
+    font-size: 24rpx;
+    position: absolute;
+    top: 250rpx;
+    width: 750rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
+}
+
+.banner-identify navigator {
+    width: 150rpx;
+    margin: 0 auto;
+}
+
+.banner-identify text {
+    border: 1rpx solid #5CC2F2;
+    padding: 0 10rpx;
+    border-radius: 8rpx;
+    background-color: #5CC2F2;
+}
+
+.mysign {
+    margin-top: 30rpx;
+}
+
+
+
+
+
+
+/*.list-item-icon{
+    position: absolute;
+    height: 60rpx;
+    width: 60rpx;
+    top:30rpx;
+    left:30rpx;
+}
+.list-item-text{
+    position: absolute;
+    height: 120rpx;
+    line-height: 120rpx;
+    left:120rpx;
+}*/
+
+.list-item-alarm {
+    position: absolute;
+    height: 40rpx;
+    line-height: 40rpx;
+    margin-top: 30rpx;
+    min-width: 40rpx;
+    right: 80rpx;
+    text-align: center;
+    font-size: 24rpx;
+    padding: 0 10rpx;
+    border-radius: 20rpx;
+    background-color: #ffd700;
+    color: #fff;
+}
+</style>
+
+<template>
+<!--pages/UserCenter/UserCenter.wxml-->
+<view class="container">
+
+    <view class="recharge" wx:if="{{isRecharge}}" >
+        <view class="recharge-bg" bindtap="switchRecharge"  style="position:absolute;top:0;left:0; display:block;width:100%;height:100%;background-color:rgba(0,0,0,.5); z-index:10"></view>
+        <view class="recharge-list" style="overflow-y:auto ;box-sizing: border-box;position:fixed; bottom:0;left:0;background-color:white; width:100%;border-bottom:1px solid #f6f6f6; z-index:11;padding:20rpx;">
+            <view class="recharge-head" style="font-size:32rpx;margin:10rpx 0;"> 请选择套餐进行充值</view>
+            <view style="max-height:400rpx; overflow-y:auto">
+            <view hover-class="list-item-active" bindtap="pay({{index}})" wx:for="{{packages}}" wx:key="_id" class="recharge-item" style="width:100%;font-size:30rpx; color:#aaa;border-bottom:1px solid #f6f6f6;height:80rpx;line-height:80rpx;">
+                <view class="recharge-name" style="float:left">{{item.name}}（可以签署{{item.increment}}次）</view>
+                <view class="recharge-price" style="color:white; text-align:center;float:right; background-color:#c40000; box-shadow:0px 0px 5px #ddd; width:100rpx; height:40rpx;line-height:40rpx;margin-top:20rpx;border-radius:10rpx;font-size:26rpx;">¥{{item.price}}.00</view>
+                <view class="clear:both"></view>
+            </view>
+        </view>
+        </view>
+    </view>
+    <view class="banner">
+        <navigator url="./userInfo">
+            <view class="banner-avatar">
+                <image src="{{userInfo.avatarUrl}}"></image>
+            </view>
+        </navigator>
+        <view class="banner-name">
+            <text> {{userStatus.identity.name}} </text>
+            <text style="font-size:12px; ">{{userStatus.identity.showRole}}</text>
+        </view>
+        <view class="banner-identify">
+            <view style="display:inline-block; padding:0 10rpx" @tap="gotoMenu">
+                <text  >{{userStatus.identity.identityName}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="mysign">
+        <navigator class="list-item" hover-class="list-item-active" url="./autograph">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/mysign11.png"></image>
+                <view class="list-item-left-text">我的签名</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+    </view>
+    <view class="section">
+        <navigator class="list-item" hover-class="list-item-active" url="./contracts/contractList?title=已签署合约&state=Finish&waitme=false">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/donecontract.png"></image>
+                <view class="list-item-left-text">已生效</view>
+                <view class="clear"></view>
+            </view>
+            <view wx:if="{{counts&&counts.unreadCount&&counts.unreadCount>=1}}" class="list-item-alarm">{{counts.unreadCount}}</view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+        <navigator class="list-item" hover-class="list-item-active" url="./contracts/contractList?title=待我签署合约&state=Wait&waitme=true">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/waitothercontract.png"></image>
+                <view class="list-item-left-text">待我签署</view>
+                <view class="clear"></view>
+            </view>
+            <view wx:if="{{counts&&counts.waitMeCount&&counts.waitMeCount!=0}}" class="list-item-alarm">{{counts.waitMeCount}}</view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+        <navigator class="list-item" hover-class="list-item-active" url="./contracts/contractList?title=待他人签署合约&state=Wait&waitme=false">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/waitcontract.png"></image>
+                <view class="list-item-left-text">待他人签署</view>
+                <view class="clear"></view>
+            </view>
+            <view wx:if="{{counts&&counts.waitOtherCount&&counts.waitOtherCount!=0}}" class="list-item-alarm">{{counts.waitOtherCount}}</view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+
+        <!-- <navigator class="list-item" hover-class="list-item-active" url="./contracts/contractList?title=已签署合约&state=Wait">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/waitcontract.png"></image>
+                <view class="list-item-left-text">待我签署</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+        <navigator class="list-item" hover-class="list-item-active" url="./contracts/contractList?title=待他人签署&type=2">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/waitothercontract.png"></image>
+                <view class="list-item-left-text">待他人签署</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator> -->
+    </view>
+
+    <view class="section">
+        <view class="list-item" hover-class="list-item-active">
+            <view class="list-item-left">
+                <!-- key_icon.png -->
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/surplus.jpg"></image>
+                <view class="list-item-left-text">剩余签署次数</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <view class="list-item-right-des">{{userStatus.signatureNumber?userStatus.signatureNumber:0}}次</view>
+            </view>
+        </view>
+        <view class="list-item" bindtap="switchRecharge" hover-class="list-item-active">
+            <view class="list-item-left">
+                <!-- money_icon.png -->
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/charge.jpg"></image>
+                <view class="list-item-left-text">马上充值</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </view>
+    </view>
+
+    <view class="section">
+        <navigator class="list-item" hover-class="list-item-active" url="./lawyer/lawyerList">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/service.png"></image>
+                <view class="list-item-left-text">法律服务</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+    </view>
+    <!--  <view class="section">
+        <button class="list-item" hover-class="list-item-active" style="color:inherit;border:0;border-radius:0" open-type="contact" session-from="wechat">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/service.png"></image>
+                <view class="list-item-left-text">在线客服</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </button>
+    </view> -->
+    <view class="section" wx:if="{{userStatus.isAdmin}}">
+        <navigator class="list-item" hover-class="list-item-active" url="./audit/auditList">
+            <view class="list-item-left">
+                <image class="list-item-left-icon" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/shenhe.png"></image>
+                <view class="list-item-left-text">代理审核</view>
+                <view class="clear"></view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+            </view>
+        </navigator>
+    </view>
+
+    <view style="height: 30rpx;"></view>
+</view>
+<view class="bottom-line"></view>
+
+</template>
+
+
+<script>
+import wepy from "wepy";
+import help from "../helps/help";
+import ConstantCode from "../helps/ConstantCode";
+import Config from "../config/Config";
+export default class UserCenter extends wepy.page {
+    config = {
+        navigationBarTitleText: "我的",
+        navigationBarTextStyle: "white",
+        navigationBarBackgroundColor: "#539DDB"
+    }
+    data = {
+        counts: {},
+        isRecharge: false,
+        user: {
+            name: "",
+        },
+        packages: [],
+        userInfo: null,
+        userStatus: {},
+        waitedCount: 0,
+    }
+    async onLoad(options) {
+        // 页面初始化 options为页面跳转所带来的参数
+        // 从本地缓存中拿数据
+        this.userInfo = wx.getStorageSync("userInfo");
+        let res = await help.request(Config.host + "package.list", {}, "get");
+        this.packages = res.data.data;
+
+        // this.packages.sort(function(a,b){
+        //     return a>b;
+        // })
+    }
+    async onShow() {
+        const userStatus = await help.getUserStatus();
+        this.userStatus = userStatus;
+        const countsRes = await help.request(Config.host + "user.counts", {}, "get");
+        console.log(countsRes);
+        this.counts = countsRes.data.data.contractCounts;
+        this.$apply();
+    }
+    methods={
+        onShareAppMessage: function () {
+            return {
+                title: "白鲸宝",
+                path: "/pages/index",
+                success: function(res) {
+                },
+                fail: function(res) {
+                    // 转发失败
+                    help.showToast("分享失败");
+                }
+            };
+        },
+        switchRecharge: function() {
+            this.isRecharge = !this.isRecharge;
+            this.$apply();
+        },
+        gotoMenu() {
+            if (this.userStatus && (!this.userStatus.phone || !this.userStatus.hasSignPassword)) {
+                wx.navigateTo({
+                    url: "./phoneAndPassword/phoneAndPassword"
+                });
+            } else {
+                if (this.userStatus.identity.identityStatusCode === 1) {
+                    help.showToast("目前正在实名认证中", "error");
+                } else {
+                    wx.navigateTo({
+                        url: "./certification/menu"
+                    });
+                }
+            }
+        },
+        async pay(index) {
+            this.isRecharge = false;
+            if (this.userStatus.identity.identityStatusCode != 2) {
+                help.showToast("请先完成实名认证", "error");
+                return;
+            }
+            try {
+                let curPackage = this.packages[index];
+                let payPa = {price: curPackage.price, increment: curPackage.increment, packageId: curPackage._id};
+                if (this.userStatus.userRole === "Company") {
+                    payPa.companyId = this.userStatus.defaultCompanyId;
+                }
+                let pa = await help.request(Config.host + "order.pay", payPa);
+                pa = pa.data.data;
+                await wepy.requestPayment({
+                    timeStamp: pa.timeStamp.toString(),
+                    nonceStr: pa.nonceStr,
+                    package: pa.package.toString(),
+                    signType: "MD5",
+                    paySign: pa.paySign,
+                });
+                help.showToast("支付成功", "success");
+            } catch (err) {
+                help.showToast("支付失败", "error");
+            } finally {
+                this.$apply();
+            }
+        }
+    }
+}
+</script>

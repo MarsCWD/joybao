@@ -1,0 +1,79 @@
+<style>
+/*#539DDB 蓝色*/
+
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+</style>
+
+<template>
+<view class="container">
+    <dateList :list.sync="list" title="当月" label="发起对账" @press.user="sendDebit"></dateList>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+
+import DateList from "../../components/date-list";
+
+export default class Debit extends wepy.page {
+    config = {
+        "navigationBarTitleText": "对账",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+
+    components = {
+        dateList: DateList,
+    }
+
+    data = {
+        list: [],
+    }
+
+    onLoad(options) {
+        this.getList();
+    }
+
+    getList() {
+        help.request(`${Config.host}debit.view?debitId=XFvXtw7zN4Y5EWFaa`, {}, "get").then(
+            res => {
+                res = res.data;
+                if (res.success) {
+                    this.list.length = 0;
+                    this.list.push({
+                        showType: 2,
+                    });
+                    res.data.forEach(item => {
+                        item.money = item.amount - item.backMoney - item.returnGoods;
+                        if (item.type === "Pay") {
+                            item.money = -item.money;
+                        }
+                        item.showType = 0;
+                        item.updatedAt = new Date(item.updatedAt);
+                        item.time = help.DateFormat(item.updatedAt, "MM/dd");
+                        this.list.push(item);
+                    });
+                    this.$apply();
+                } else {
+                    help.showToast(res.msg, "error");
+                }
+            },
+            err => {
+                console.error(err);
+                help.showToast(err, "error");
+            }
+        );
+    }
+
+    methods = {
+        sendDebit() {
+            console.log("发起对账");
+        }
+    }
+};
+</script>

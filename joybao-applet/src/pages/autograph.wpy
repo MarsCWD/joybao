@@ -1,0 +1,378 @@
+<style>
+/* pages/autograph/autograph.wxss */
+
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+.container-layout {
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    padding: 30rpx;
+    box-sizing: border-box;
+}
+
+.autograph-tab {
+    position: absolute;
+    width: 600rpx;
+    left: 75rpx;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.autograph-tab .left {
+    height: 60rpx;
+    width: 196rpx;
+    line-height: 60rpx;
+    text-align: center;
+    border: 1rpx solid #539DDB;
+}
+
+.autograph-tab .left:first-child {
+    border-top-left-radius: 10rpx;
+    border-bottom-left-radius: 10rpx;
+}
+
+.autograph-tab .left:last-child {
+    border-top-right-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+}
+
+.autograph-tab .active {
+    background-color: #539DDB;
+    color: white;
+}
+
+.autograph-page {
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 90rpx;
+    box-sizing: border-box;
+}
+
+.autograph-floor {
+    background: #fff;
+    border-radius: 20rpx;
+    width: 100%;
+    height: 200rpx;
+    text-align: center;
+    margin-bottom: 30rpx;
+    overflow: hidden;
+    position: relative;
+}
+
+.autograph-floor .autograph-image {
+    width: 200rpx;
+    height: 200rpx;
+}
+
+swiper {
+    height: 100%;
+}
+
+.autograph-delete {
+    position: absolute;
+    right: 20rpx;
+    bottom: 20rpx;
+    z-index: 100;
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.autograph-add {
+    margin: 20rpx;
+    border: 1px dashed #ffd700;
+    text-align: center;
+    line-height: 240rpx;
+    border-radius: 20rpx;
+    font-size: 34rpx;
+    color: #aaa;
+    height: 160rpx;
+    position: relative;
+}
+
+.autograph-add image {
+    height: 80rpx;
+    width: 80rpx;
+    position: absolute;
+    top: 20rpx;
+    left: 285rpx;
+}
+
+.autograph-select {
+    background-color: #ffd700;
+
+    color: white;
+    height: 40rpx;
+    width: 80rpx;
+    border-bottom-right-radius: 20rpx;
+    border-top-right-radius: 20rpx;
+    margin-top: 20rpx;
+    font-size: 30rpx;
+    padding-left: 10rpx;
+    line-height: 40rpx;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+</style>
+
+<template>
+<view class="container-layout">
+    <view class="container">
+        <view class="autograph-tab">
+            <repeat for="{{swiperItems}}" key="key" index="index" item="item">
+                <view class="left {{currentPage==index?'active':''}}" @tap="selectTab({{index}})">{{item}}</view>
+            </repeat>
+        </view>
+
+        <swiper @change="pageChange" current="{{currentPage}}">
+
+            <!--您的签名-->
+            <swiper-item class="autograph-page">
+                <view class="autograph-floor">
+                    <view class="autograph-add" @tap="showSignMenu">
+                        <image src="https://sxflcp.0575s.com/wximages/add.png"></image>
+                        创建新签名
+                    </view>
+                </view>
+                <repeat for="{{signs}}" key="key" index="index" item="item">
+                    <view class="autograph-floor" wx:if="{{item.status=='Finish'}}" @longtap="selectDefault({{index}})">
+                        <view wx:if="{{item._id===default}}" class="autograph-select">默认</view>
+                        <image src="{{item.url}}" class="autograph-image"></image>
+                        <image src="https://sxflcp.0575s.com/wximages/delete.png" class="autograph-delete" @tap="deleteSeal({{item._id}}, {{index}})"></image>
+                    </view>
+                </repeat>
+            </swiper-item>
+
+            <!--审核中-->
+            <swiper-item class="autograph-page">
+                <repeat for="{{signs}}" key="key" index="index" item="item">
+                    <view class="autograph-floor" wx:if="{{item.status=='InProcessing'}}">
+                        <view wx:if="{{item._id===default}}" class="autograph-select">默认</view>
+                        <image src="{{item.url}}" class="autograph-image"></image>
+                        <image src="https://sxflcp.0575s.com/wximages/delete.png" class="autograph-delete" @tap="deleteSeal({{item._id}}, {{index}})"></image>
+                    </view>
+                </repeat>
+            </swiper-item>
+
+            <!--已驳回-->
+            <swiper-item class="autograph-page">
+                <repeat for="{{signs}}" key="key" index="index" item="item">
+                    <view class="autograph-floor" wx:if="{{item.status=='Reject'}}">
+                        <view wx:if="{{item._id===default}}" class="autograph-select">默认</view>
+                        <image src="{{item.url}}" class="autograph-image"></image>
+                        <image src="https://sxflcp.0575s.com/wximages/delete.png" class="autograph-delete" @tap="deleteSeal({{item._id}}, {{index}})"></image>
+                    </view>
+                </repeat>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import ConstantCode from "../helps/ConstantCode";
+import tools from "../helps/tools";
+import help from "../helps/help";
+import Config from "../config/Config";
+
+/** TODO 添加公司选择 **/
+export default class autograph extends wepy.page {
+    config = {
+        "navigationBarTitleText": "我的签名",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        default: "",
+        identityStatus: "",
+        role: "",
+        name: "",
+        companyId: "",
+
+        title: "选择签章方式",
+        signMenu: [],
+        personSigns: [{
+            name: "拍照签名",
+            type: "chooseImage",
+        }, {
+            name: "手绘签名",
+            type: "navigate",
+            value: "/pages/signature/draw?isCompany=false",
+        }, {
+            name: "模板印章",
+            type: "navigate",
+            value: "/pages/signature/template?isCompany=false"
+        }],
+        companySigns: [{
+            name: "拍照签名",
+            type: "chooseImage",
+        }, {
+            name: "模板印章",
+            type: "navigate",
+            value: "/pages/signature/template?isCompany=true"
+        }],
+
+        swiperItems: ["您的签名", "审核中", "已驳回"],
+        currentPage: 0,
+        signs: [],
+
+    }
+    onLoad(options) {
+    }
+    async onShow() {
+        const userInfo = await help.requestUserStatus();
+        this.name = userInfo.name;
+        this.role = userInfo.userRole;
+        this.default = userInfo.defaultSealId;
+        this.companyId = userInfo.defaultCompanyId;
+        this.identityStatus = userInfo.identityStatus;
+
+        this.signs = [];
+        this.signMenu = this.role === "Company" ? this.companySigns : this.personSigns;
+        if (this.identityStatus === ConstantCode.IDENTITY_STATUS.SUCCESS) {
+            this.getSealList(new Date().getTime());
+        }
+    }
+    getSealList() {
+        const that = this;
+        help.request(`${Config.host}seal.list`, {}, "get").then(
+            res => {
+                let arr = res.data.data;
+                /** 显示图片 **/
+                arr = arr.map(item => {
+                    if (item.sealData) {
+                        item.url = `${Config.imageUrl}/${item.sealData}`;
+                    } else if (item.imgB64) {
+                        item.url = `${Config.imageUrl}/${item.imgB64}`;
+                    } else {
+                        // TODO 错误显示
+                        item.url = "https://sxflcp.0575s.com/wximages/contract.png";
+                    }
+                    return item;
+                });
+
+                Array.prototype.push.apply(that.signs, arr);
+                that.$apply();
+            }
+        );
+    }
+    /** 下拉刷新 */
+    onPullDownRefresh() {
+        this.signs = [];
+        if (this.identityStatus === ConstantCode.IDENTITY_STATUS.SUCCESS) {
+            this.getSealList(new Date().getTime());
+        }
+    }
+    /** 保存签章 **/
+    saveSign(fileName) {
+        const that = this;
+        const sealObj = {
+            companyId: this.companyId,
+            imgB64: fileName,
+            templateType: this.role === "Company" ? ConstantCode.SEAL.TYPE.COMPANY_PHOTO : ConstantCode.SEAL.TYPE.PERSON_PHOTO
+        };
+        help.request(`${Config.host}seal.new`, sealObj).then(
+            res => {
+                that.signs = [];
+                that.getSealList();
+
+            },
+            err => {
+                console.log(err);
+                help.showToast(err, "error");
+            }
+        );
+    }
+    methods = {
+        deleteSeal(sealId, index) {
+            const that = this;
+            if (sealId === this.default) {
+                return help.showToast("请先更换默认签章再进行删除", "success");
+            }
+            help.showModal("删除", "你即将删除该签章,确认删除?", true, () => {
+                console.log("删除签章Id", sealId);
+                help.request(`${Config.host}seal.delete?sealId=${sealId}`, {}, "get").then(
+                    res => {
+                        that.signs.splice(index, 1);
+                        that.$apply();
+                    },
+                    err => {
+                        console.log(err);
+                        help.showToast(err, "../../../images/err.png");
+                    }
+                );
+            });
+        },
+        showSignMenu() {
+            if (this.identityStatus !== ConstantCode.IDENTITY_STATUS.SUCCESS) {
+                return help.showToast("你还未进行实名认证,不能创建签章", "../images/err.png");
+            }
+
+            const that = this;
+            const itemList = this.signMenu.map(item => item.name);
+            wx.showActionSheet({
+                itemList,
+                success(res) {
+                    if (res.tapIndex < that.signMenu.length) {
+                        const item = that.signMenu[res.tapIndex];
+                        if (item.type === "navigate") {
+                            console.log(`${item.value}&name=${that.name}`);
+                            wx.navigateTo({ url: `${item.value}&name=${that.name}&companyId=${that.companyId}` });
+                        } else if (item.type === "chooseImage") {
+                            wx.chooseImage({
+                                count: 1, // 默认9
+                                sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+                                sourceType: ["camera"], // 可以指定来源是相册还是相机，默认二者都有
+                                success(res) {
+                                    that.saveSign(res);
+                                },
+                                fail(err) {}
+                            });
+                        }
+                    }
+                }
+            });
+        },
+        pageChange(e) {
+            this.currentPage = e.detail.current;
+        },
+        selectTab(index) {
+            this.currentPage = index;
+        },
+        selectDefault(index) {
+            const that = this;
+            if (this.signs[index]._id === this.default) {
+                return help.showToast("已经是默认签章了", "success");
+            }
+            wx.showActionSheet({
+                itemList: ["设为默认签章"],
+                success(res) {
+                    if (res.tapIndex === 0) {
+                        const sealId = that.signs[index]._id;
+                        help.request(`${Config.host}seal.change`, {
+                            newId: sealId
+                        }).then(
+                            async res => {
+                                that.default = sealId;
+                                await help.requestUserStatus();
+                                that.$apply();
+                            },
+                            err => {
+                                console.log(err);
+                            }
+                        );
+                    }
+                }
+            });
+        },
+    }
+}
+</script>

@@ -1,0 +1,210 @@
+<style>
+/* pages/sign/sign.wxss */
+page {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.canvas-select {
+    position: absolute;
+    text-align: center;
+    top: 20rpx;
+    left: 20rpx;
+    margin: auto;
+}
+
+.canvas-color {
+    width: 60rpx;
+    height: 60rpx;
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    border-radius: 30rpx;
+    transition: 0.3s transform ease;
+}
+
+.canvas-color.active {
+    transform: scale(1.5);
+}
+
+.canvas-clear {
+    width: 60rpx;
+    height: 60rpx;
+    position: absolute;
+    bottom: 20rpx;
+    left: 20rpx;
+    transform: rotate(90deg);
+}
+
+.canvas-ok {
+    width: 60rpx;
+    height: 60rpx;
+    position: absolute;
+    bottom: 20rpx;
+    right: 20rpx;
+    transform: rotate(90deg);
+}
+</style>
+
+<template>
+<view class="container">
+    <canvas canvas-id="myCanvas" bindtouchmove="touchMove" bindtouchstart="touchStart" bindtouchend="touchEnd" />
+
+    <view class="canvas-select">
+        <repeat for="{{colors}}" key="key" index="index" item="item">
+            <view class="canvas-color {{currentColor===item.name?'active':''}}" style="background-color: {{item.value}}" @tap="changColor({{index}})"></view>
+        </repeat>
+    </view>
+
+    <view bindtap="clearCanvas">
+        <image class="canvas-clear" src="https://sxflcp.0575s.com/wximages/delete.png"></image>
+    </view>
+
+    <view bindtap="canvasToTempFile">
+        <image class="canvas-ok" src="https://sxflcp.0575s.com/wximages/success.png"></image>
+    </view>
+    <!--<image src="wxfile://tmp_1fbf8efd0955a98b2a08d9ee33e06f2b5ccb0e5d201ae2b2.png"></image>-->
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import ConstantCode from "../../helps/ConstantCode";
+import tools from "../../helps/tools";
+const ctx = wx.createCanvasContext("myCanvas");
+
+export default class sign extends wepy.page {
+    config = {
+        "navigationBarTitleText": "绘制签名",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white",
+        "disableScroll":"true"
+    }
+    data = {
+        /** 绘制相关 **/
+        currentColor: "RED",
+        color: "#ff0000",
+        colors: [{
+            name: "RED",
+            value: "#ff0000"
+        }, {
+            name: "BLUE",
+            value: "#0000ff"
+        }, {
+            name: "BLACK",
+            value: "#000000"
+        }],
+
+        lineWidth: 2
+    }
+    onLoad(options) {
+        // 页面初始化 options为页面跳转所带来的参数
+        this.methods.initCanvasContext(this.data.color, this.data.lineWidth);
+    }
+    /** 保存签章 **/
+    saveSign(fileName) {
+        help.showLoading("生成签名中");
+        const sealObj = {
+            imgB64: fileName,
+            color: this.currentColor,
+            templateType: ConstantCode.SEAL.TYPE.PERSON_SIGNATURE
+        };
+        help.request(`${Config.host}seal.new`, sealObj).then(
+            res => {
+                help.hideToast();
+                wx.navigateBack();
+            },
+            err => {
+                help.hideToast();
+                help.toast(err, "error");
+            }
+        );
+    }
+
+    methods = {
+        initCanvasContext(color, lineWidth) {
+            ctx.setStrokeStyle(color); // 边框颜色
+            ctx.setFillStyle(color); // 填充颜色
+            ctx.setLineWidth(lineWidth);
+            ctx.setLineCap("round"); // 线条定点圆角
+            ctx.setLineJoin("round"); // 线条交点圆弧
+        },
+
+        touchMove(e) {
+            ctx.moveTo(this.perX, this.perY);
+
+            let curX = e.changedTouches[0].x;
+            let curY = e.changedTouches[0].y;
+
+            ctx.lineTo(curX, curY);
+
+            this.perX = curX;
+            this.perY = curY;
+            this.setData({
+                perX: curX,
+                perY: curY
+            });
+
+            ctx.stroke();
+            ctx.draw(true);
+        },
+        touchEnd(e) {
+
+        },
+        touchStart(e) {
+            // this.setData({perX:e.changedTouches[0].x,perY:e.changedTouches[0].y})
+            this.perX = e.changedTouches[0].x;
+            this.perY = e.changedTouches[0].y;
+        },
+        changColor(index) {
+            this.currentColor = this.colors[index].name;
+            this.color = this.colors[index].value;
+            this.methods.initCanvasContext(this.currentColor, this.lineWidth);
+            this.$apply();
+        },
+        clearCanvas: function () {
+            ctx.draw();
+            this.methods.initCanvasContext(this.data.color, this.data.lineWidth);
+        },
+        // 导出图片
+        canvasToTempFile() {
+            help.showLoading();
+            const that = this;
+            wx.canvasToTempFilePath({
+                canvasId: "myCanvas",
+                success: function (res) {
+                    tools.uploadImage(res.tempFilePath).then(
+                        res => {
+                            console.log(res);
+                            that.saveSign(res);
+                        },
+                        err => {
+                            console.error(err);
+                        }
+                    );
+                },
+                fail: function (err) {
+                    console.log(err);
+                },
+                complete: function () {
+                    help.hideToast();
+                }
+            });
+        }
+    }
+}
+</script>

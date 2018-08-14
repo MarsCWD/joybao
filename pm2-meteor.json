@@ -1,0 +1,43 @@
+{
+    "appName": "joybao",
+    "appLocation": {
+        "//": "Meteor项目源码路径",
+        "local": "~/Documents/Code/work/joybao/joybao-meteor"
+    },
+
+    "//": "Meteor项目 JSON配置路径",
+    "meteorSettingsLocation": "~/Documents/Code/work/joybao/config/test.json",
+    "meteorSettingsInRepo": false,
+    "prebuildScript": "",
+
+    "//": "项目运行平台",
+    "meteorBuildFlags": "--architecture os.linux.x86_64",
+
+    "//": "部署服务器的数据库配置",
+    "env": {
+        "ROOT_URL": "http://127.0.0.1",
+        "PORT": "3080",
+        "MONGO_URL": "mongodb://localhost:27017/joybao"
+    },
+
+    "//": "部署服务器的相关配置",
+    "//": "host是服务器的公网ip port 是服务器ssh端口(默认22)",
+    "//": "deploymentDir 是部署文件路径",
+    "//": "nvm node路径",
+    "server": {
+        "host": "120.27.202.39",
+        "port": "16688",
+        "username": "sjt2",
+        "password": "SooJiTech2017",
+        "deploymentDir": "/home/sjt2/meteor-apps",
+        "nvm": {
+            "bin": "/home/sjt2/.nvm/nvm.sh",
+            "use": "8.2.1"
+        },
+        "exec_mode": "cluster_mode",
+        "instances": "1"
+    },
+
+    "//": "是否允许卸载应用",
+    "allowUndeploy": true
+}

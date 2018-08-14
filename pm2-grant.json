@@ -1,0 +1,12 @@
+{
+    "apps": [{
+        "name": "joybao-grant",
+        "script": "./joybao-grant/bin/www",
+        "log_file": "../joybao-data/logs/grant/app.log",
+        "error_file": "../joybao-data/logs/grant/app-err.log",
+        "out_file": "../joybao-data/logs/grant/app-out.log",
+        "pid_file": "../joybao-data/logs/grant/app.pid",
+        "exec_mode": "cluster_mode",
+        "watch": false
+    }]
+}

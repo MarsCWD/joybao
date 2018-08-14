@@ -1,0 +1,90 @@
+<style>
+page {
+    background-color: #f6f6f6;
+}
+
+.panel {
+    width: 100%;
+    background-color: white;
+    margin: 30rpx 0;
+}
+
+.package {
+    width: 30%;
+    margin: 20rpx 1.65%;
+    height: 180rpx;
+    border: 1px solid #ddd;
+    border-radius: 10rpx;
+    box-sizing: border-box;
+    padding: 20rpx;
+    /*margin:20rpx;*/
+    float: left;
+    text-align: center;
+    overflow: hidden;
+}
+
+.list-item .active {
+    border-color: red;
+}
+
+.package-name {
+    font-size: 32rpx;
+    height: 70rpx;
+    line-height: 70rpx;
+}
+
+.package-value {
+    font-size: 30rpx;
+    color: #ddd;
+    height: 70rpx;
+    line-height: 70rpx;
+}
+</style>
+
+<template>
+<view class="container">
+    <view class="list-item">
+        <view class="list-item-left">
+            <view class="list-item-left-text">剩余签署次数</view>
+            <view class="clear"></view>
+        </view>
+        <view class="list-item-right">
+            <view class="list-item-right-des">{{amount}}次</view>
+        </view>
+    </view>
+
+    <view class="panel ">
+        <view class="package">
+            <view class="package-name">8次签署次数</view>
+            <view class="package-value">¥8</view>
+        </view>
+        <view class="package">
+            <view class="package-name">8次签署次数</view>
+            <view class="package-value">¥8</view>
+        </view>
+        <view class="package">
+            <view class="package-name">8次签署次数</view>
+            <view class="package-value">¥8</view>
+        </view>
+        <view class="package">
+            <view class="package-name">8次签署次数</view>
+            <view class="package-value">¥8</view>
+        </view>
+        <view class="clear"></view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import ConstantCode from "../../helps/ConstantCode";
+export default class recharge extends wepy.page {
+    config = {
+        navigationBarTitleText: "充值签署次数",
+        navigationBarTextStyle: "white",
+        navigationBarBackgroundColor: "#539DDB"
+    }
+    data = {}
+}
+</script>

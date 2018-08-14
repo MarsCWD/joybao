@@ -1,0 +1,340 @@
+<style lang="less">
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+
+.container {
+    font-family: 微软雅黑;
+    font-size: 36rpx;
+    color: #555;
+    height: 100%;
+    overflow: hidden;
+}
+.clear {
+    clear: both;
+}
+.bottom-line {
+    position: fixed;
+    height: 3rpx;
+    background-color: #eee;
+    bottom: 0;
+    width: 750rpx;
+}
+
+.section {
+    margin-top: 30rpx;
+}
+.list-item-active {
+    background-color: #eee !important;
+}
+
+/*列表样式1*/
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+}
+.list-item-left-icon {
+    float: left;
+    height: 60rpx;
+    width: 60rpx;
+    margin-top: 20rpx;
+    margin-right: 30rpx;
+}
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+    font-size: 33rpx;
+}
+.list-item-right {
+    position: absolute;
+    right: 30rpx;
+}
+.list-item-right-img {
+    height: 80rpx;
+    width: 80rpx;
+    margin-top: 10rpx;
+    border-radius: 40rpx;
+}
+.list-item-right-des {
+    float: left;
+    height: 100rpx;
+    line-height: 100rpx;
+    color: #aaa;
+    font-size: 36rpx;
+    margin-right: 15rpx;
+}
+.list-item-arrow {
+    float: left;
+    height: 30rpx;
+    width: 30rpx;
+    margin-top: 36rpx;
+}
+.list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 540rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+/*列表样式1*/
+
+/*列表样式2*/
+.special-list .list-item {
+    position: relative;
+    width: 750rpx;
+    height: 130rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+    overflow: hidden;
+}
+.special-list .list-item-left {
+    position: absolute;
+    height: 130rpx;
+    top: 0;
+    left: 30rpx;
+}
+.special-list .list-item-left-icon {
+    float: left;
+    height: 90rpx;
+    width: 90rpx;
+    margin-top: 20rpx;
+}
+.special-list .list-item-left-textbox {
+    float: left;
+    height: 130rpx;
+}
+.special-list .list-item-left-textbox-name {
+    height: 60rpx;
+    width: 300rpx;
+    line-height: 60rpx;
+    margin-top: 15rpx;
+    font-size: 33rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.special-list .list-item-left-textbox-des {
+    height: 40rpx;
+    width: 400rpx;
+    line-height: 40rpx;
+    font-size: 30rpx;
+    color: #aaa;
+    margin-bottom: 15rpx;
+    font-size: 26rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.special-list .list-item-right {
+    position: absolute;
+    height: 130rpx;
+    right: 30rpx;
+    top: 0;
+}
+.special-list .list-item-right-status {
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 26rpx;
+    color: #aaa;
+    margin-top: 5rpx;
+    text-align: right;
+}
+.special-list .list-item-right-time {
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 26rpx;
+    color: #aaa;
+    margin-top: 5rpx;
+}
+/*列表样式2*/
+</style>
+
+<script>
+import wepy from "wepy";
+import "wepy-async-function";
+import Promise from "promise-polyfill";
+import help from "./helps/help";
+import Config from "./config/Config";
+import global from "./helps/global";
+
+const initApp = function () {
+    // 手机信息
+    if (!wx.getStorageSync("device")) {
+        const device = wx.getSystemInfoSync();
+        device.rpxDpx = 750 / device.screenWidth; // rps/px
+        wx.setStorageSync("device", device);
+    }
+    // 模板更新
+    // 读取配置文件
+    const templateKeys = ["agent", "idcard", "company"];
+    templateKeys.map(async(key) => {
+        try{
+            const res = await help.request(Config.host + "template.getTemplate", { templateKey: key }, "get");
+            const template = res.data.data;
+            const curTemplate = wx.getStorageSync(key)
+            if (!template || !curTemplate || !curTemplate.code || curTemplate.code!=template.code) { 
+                template.templateKey = key;
+                wx.setStorageSync(key, template)
+            }
+        }
+        catch(err){
+            
+        }
+    })
+
+}
+
+export default class extends wepy.app {
+    constructor() {
+        super();
+        this.use("promisify");
+        this.use('requestfix');
+    }
+    config = {
+        pages: [
+            /** 记账相关 **/
+            "pages/index",
+
+            /** 签署， 合约相关 **/
+            "pages/contract",
+            "pages/contracts/signarue",
+            "pages/contracts/addReceiver",
+            "pages/contracts/contractList",
+            "pages/contracts/contractDetail",
+            "pages/contracts/sign",
+
+            /** 个人相关 **/
+            "pages/userCenter",
+            "pages/userInfo",
+            "pages/certification/certificationIndex",
+
+            /** 审核相关 **/
+            "pages/audit/auditList",
+            "pages/audit/auditDetail",
+
+            /** 法律服务相关 **/
+            "pages/lawyer/lawyerList",
+            "pages/lawyer/regulation", // 隐私声明
+
+            /** 手机号码 及签署密码绑定 **/
+            "pages/phoneAndPassword/phoneAndPassword",
+            "pages/phoneAndPassword/phoneRegister",
+            "pages/phoneAndPassword/resetPassword",
+            // 认证
+            "pages/certification/province",
+            "pages/certification/city",
+            "pages/certification/menu",
+
+            /** 签名相关 **/
+            "pages/autograph",
+            "pages/signature/draw",
+            "pages/signature/template",
+
+            /** 账本 **/
+            "pages/ledger/ledger",
+            "pages/ledger/debit",
+
+            /** 充值 **/
+            "pages/recharge/recharge",
+
+            /** 一些通用页面 **/
+            "pages/common/findPerson"
+        ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "白鲸宝",
+            "navigationBarTextStyle": "black"
+        },
+        "tabBar": {
+            "borderStyle": "white",
+            "color": "#999999",
+            "selectedColor": "#4e8cee",
+            "backgroundColor": "#ffffff",
+            "list": [{
+                    "pagePath": "pages/index",
+                    "text": "账本",
+                    "iconPath": "images/index.png",
+                    "selectedIconPath": "images/sindex.png"
+                },
+                {
+                    "pagePath": "pages/contract",
+                    "text": "签署",
+                    "iconPath": "images/contract.png",
+                    "selectedIconPath": "images/scontract.png"
+                },
+                {
+                    "pagePath": "pages/userCenter",
+                    "text": "我的",
+                    "iconPath": "images/usercenter.png",
+                    "selectedIconPath": "images/susercenter.png"
+                }
+            ]
+        }
+    }
+    globalData = {
+        userInfo: null,
+        receivers: [],
+        systemInfo: null,
+        countDown: 60,
+
+        person: null, // 查找到的用户
+        to: "", // 哪个页面调用了 findPerson
+    }
+    onLaunch() {
+        console.log("app onLaunch");
+        initApp();
+    }
+    async onShow() {
+        console.log("app onshow");
+        try{
+           await help.requestUserStatus();
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    onHide() {}
+    getCountDown() {
+        return global.countDown;
+    }
+    startCountDown() {
+        const that = this;
+        if (global.countDown > 0) {
+            global.countDown -= 1;
+            setTimeout(()=>{that.startCountDown()}, 1000);
+        } else {
+            global.countDown = 60;
+        }
+    }
+    // getSystemInfo() {
+    //     console.log(globalData);
+    //     let systemInfo = this.globalData.systemInfo;
+    //     if (!systemInfo) {
+    //         systemInfo = wx.getSystemInfoSync();
+    //         systemInfo.rpxDpx = 750 / systemInfo.windowWidth;
+    //     }
+    //     return systemInfo;
+    // }
+}
+</script>

@@ -1,0 +1,21 @@
+{
+    "ESign": {
+        "name": "test",
+        "projectId": "1111563517",
+        "projectSecret": "95439b0863c241c63a861b87d1e647b7",
+
+        "contractPath": "/home/sjt2/joybao-data/contract",
+
+        "java": {
+            "apis_url": "http://121.40.164.61:8080/tgmonitor/rest/app!getAPIInfo2"
+        },
+
+        "preservation": {
+            "url": "http://smlcunzheng.tsign.cn:8083/evi-service/evidence/v1/preservation/original/url",
+            "encoding": "UTF-8",
+            "algorithm": "HmacSHA256"
+        }
+    },
+
+    "imageURL": "https://r.0575s.com/wximages/"
+}

@@ -1,0 +1,246 @@
+<style>
+/* pages/Contract/functions/addReceiver/addReceiver.wxss */
+
+page {
+    background-color: #f6f6f6;
+}
+/*.list-item-input{
+height: 120rpx;
+width: 330rpx;
+position: absolute;
+left: 180rpx;
+}*/
+
+.cutline {
+    height: 80rpx;
+    width: 3rpx;
+    position: absolute;
+    right: 230rpx;
+    background-color: #eee;
+    top: 20rpx;
+}
+
+.list-item-button {
+    position: absolute;
+    height: 120rpx;
+    line-height: 120rpx;
+    right: 0rpx;
+    width: 230rpx;
+    text-align: center;
+}
+
+.submit-button {
+    color: #fff;
+    background-color: #539DDB;
+    width: 730rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    font-size: 36rpx;
+}
+
+.section-message1 {
+    padding-left: 30rpx;
+    font-size: 30rpx;
+    color: #bbb;
+}
+
+.section-message2 {
+    text-align: center;
+    font-size: 30rpx;
+    color: #bbb;
+}
+
+.button-active {
+    background-color: #598dcd;
+}
+
+
+
+.add-item {
+    height: 100rpx;
+    width: 750rpx;
+    position: relative;
+    border-top: 1rpx solid #eee;
+    border-bottom: 1rpx solid #eee;
+    margin-top: 15rpx;
+    margin-bottom: 150rpx;
+}
+
+.list-item-add {
+    position: absolute;
+    height: 50rpx;
+    width: 50rpx;
+    top: 25rpx;
+    left: 50rpx;
+}
+
+
+
+
+
+
+/*.list-item-text{
+position: absolute;
+height: 100rpx;
+line-height: 100rpx;
+left: 120rpx;
+color:#aaa;
+}*/
+
+.list-item-more {
+    position: absolute;
+    height: 40rpx;
+    width: 40rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+</style>
+
+<template>
+<!--pages/Contract/functions/addReceiver/addReceiver.wxml-->
+<view class="container">
+    <view class="section" >
+        <view class="list-item">
+            <view class="list-item-left">
+                <view class="list-item-left-text">手机号码</view>
+                <view class="clear"></view>
+            </view>
+            <input class="list-item-input" value="{{user.userPhone}}" type="number" maxlength="11" placeholder="请输入手机号码" placeholder-style="color:#ccc" bindinput="bindChangeName" />
+        </view>
+        <view class="list-item">
+            <view class="list-item-left">
+                <view class="list-item-left-text">姓 名</view>
+                <view class="clear"></view>
+            </view>
+            <input class="list-item-input" value="{{user.userName}}" disabled="true" placeholder="" placeholder-style="color:#ccc" />
+        </view>
+    </view>
+    <view class="section" wx:if="{{historyUsers.length}}">
+        <view class="section-message1">点击选择历史用户</view>
+    </view>
+    <view class="section">
+        <view class="special-list">
+            <view class="list-item" wx:key="id" wx:for="{{historyUsers}}"  data-index="{{index}}" hover="true" hover-class="list-item-active" bindtap="bindSelectUser">
+                <view class="list-item-left">
+                    <image src="{{item.avatar?item.avatar:'http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png'}}" class="list-item-left-icon"></image>
+                    <view class="list-item-left-textbox">
+                        <view class="list-item-left-textbox-name" name="name">{{item.name}}</view>
+                        <view class="list-item-left-textbox-des" name="phone">{{item.phone}}</view>
+                    </view>
+                </view>
+                <view class="list-item-select"></view>
+            </view>
+        </view>
+    </view>
+    <view class="section">
+        <button class="submit-button" disabled="{{!isPass}}" hover-class="button-active" bindtap="bindAddUser">确定</button>
+    </view>
+</view>
+</template>
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import tools from "../../helps/tools";
+import Config from "../../config/Config";
+
+export default class addReceiver extends wepy.page {
+    config = {
+        "navigationBarTitleText": "添加接收方",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white",
+
+    }
+    data = {
+        isPass: false,
+        user: {
+            userName: "",
+            userPhone: ""
+        },
+        historyUsers: [
+            //  { name: "陈先生", phone: "15236548952" }, { name: "付女士", phone: "15254123642" }, { name: "沈老板", phone: "18162562542" }
+        ],
+        // users: [{
+        //     name: "陈先生",
+        //     phone: "15236548952"
+        // }, {
+        //     name: "付女士",
+        //     phone: "15254123642"
+        // }, {
+        //     name: "沈老板",
+        //     phone: "18162562542"
+        // }]
+    }
+    onLoad(options) {
+        this.user = {
+            userName: "",
+            userPhone: ""
+        };
+        this.isPass = false;
+        this.historyUsers =  help.getHistoryUsers();
+    }
+    bindAddUser() {
+        // 验证
+        if (!this.isPass) return;
+
+        let app = this.$parent;
+        let obj = {};
+        let array = app.globalData.receivers;
+
+        obj.userName = this.user.userName;
+        obj.userPhone = this.user.userPhone;
+        obj.userAvatar = this.user.userAvatar;
+        obj.showText = `${obj.userName}(${obj.userPhone})`;
+        obj.property = 0;
+        // 查重
+        for (let i = 0; i < app.globalData.receivers.length; i++) {
+            if (app.globalData.receivers[i].userPhone === obj.userPhone) {
+                wx.navigateBack();
+                return;
+            }
+        }
+        array.push(obj);
+        help.pushHistoryUsers({phone:obj.userPhone,name:obj.userName,avatar:obj.userAvatar});
+        wx.navigateBack();
+    }
+    // 初始化姓名,校验手机号码合法性,查库
+    async validatePhone(phone) {
+        var that = this;
+        this.isPass = false;
+        this.user.userName = "";
+        this.user.userPhone = phone;
+        if (phone.length === 11) {
+            if (tools.checkPhone(phone)) {
+                try {
+                    help.showLoading("读取数据中...");
+                    let phoneRes = await help.request(Config.host + "user.getByPhone" , {phone:phone}, "get");
+                    that.user.userName = phoneRes.data.data.realName;
+                    that.user.userAvatar = phoneRes.data.data.avatarUrl?phoneRes.data.data.avatarUrl:undefined;
+                    that.isPass = true;
+                    that.$apply();
+                } catch (err) {
+                    that.user.userName = "该用户尚未注册";
+                    that.user.userAvatar = undefined;
+                    that.isPass = true;
+                    that.$apply();
+                }
+                finally {
+                    help.hideToast();
+                }
+            } else {
+                this.user.userName = "手机号码不合法";
+            }
+        }
+    }
+    methods = {
+        bindSelectUser: function(e) {
+            var index = e.currentTarget.dataset.index;
+            this.user.phone = this.data.historyUsers[index].phone;
+            this.validatePhone(this.user.phone);
+        },
+        bindChangeName: function(e) {
+            var phone = e.detail.value;
+            this.validatePhone(phone);
+        }
+    }
+}
+</script>

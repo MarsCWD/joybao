@@ -1,0 +1,142 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
+    },
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "plugins": [
+        "meteor"
+    ],
+    "extends": [
+        "airbnb",
+        "plugin:meteor/recommended"
+    ],
+    "settings": {
+        "import/resolver": "meteor",
+        "import/core-modules": [
+            "meteor/meteor",
+            "meteor/mongo",
+
+            "meteor/accounts-base",
+
+            "meteor/simple:rest",
+            "meteor/simple:json-routes",
+            "meteor/simple:rest-method-mixin",
+
+            "meteor/aldeed:autoform",
+            "meteor/aldeed:collection2",
+            "meteor/aldeed:simple-schema",
+
+            "meteor/mdg:validated-method",
+            "meteor/mdg:validation-error",
+
+            "meteor/reywood:publish-composite",
+            "meteor/vsivsi:job-collection"
+        ]
+    },
+    "globals": {
+        "wx": true,
+        "Meteor": false,
+        "Npm": true,
+        "RestMiddleware": true,
+        "_": false,
+        "Job": true
+    },
+    "rules": {
+        "accessor-pairs": 2,
+        "arrow-body-style": [2, "as-needed"],
+        "arrow-parens": [2, "as-needed"],
+        "arrow-spacing": 2,
+        "block-scoped-var": 2,
+        "block-spacing": 2,
+        "brace-style": [2, "1tbs"],
+        "camelcase": 2,
+        "computed-property-spacing": 2,
+        "comma-spacing": 2,
+        "comma-style": 2,
+        "comma-dangle": [2, "only-multiline"],
+        "consistent-return": 2,
+        "curly": [2, "all"],
+        "dot-notation": 2,
+        "eqeqeq": 2,
+        "func-call-spacing": 2,
+        "func-names": [2, "as-needed"],
+        "indent": [2, 4, {
+            "SwitchCase": 1
+        }],
+        "keyword-spacing": 2,
+        "linebreak-style": [2, "unix"],
+        "max-len": [2, 180],
+        "meteor/audit-argument-checks": 0,
+        "new-parens": 2,
+        "no-class-assign": 2,
+        "no-cond-assign": 2,
+        "no-const-assign": 2,
+        "no-constant-condition": 2,
+        "no-control-regex": 2,
+        "no-debugger": 2,
+        "no-delete-var": 2,
+        "no-dupe-keys": 2,
+        "no-dupe-class-members": 2,
+        "no-duplicate-case": 2,
+        "no-empty": 2,
+        "no-empty-character-class": 2,
+        "no-ex-assign": 2,
+        "no-extra-boolean-cast": 2,
+        "no-extra-semi": 2,
+        "no-eval": 2,
+        "no-extend-native": 2,
+        "no-fallthrough": 2,
+        "no-func-assign": 2,
+        "no-inner-declarations": [2, "functions"],
+        "no-invalid-regexp": 2,
+        "no-irregular-whitespace": 2,
+        "no-lonely-if": 2,
+        "no-mixed-spaces-and-tabs": 2,
+        "no-multiple-empty-lines": 2,
+        "no-multi-spaces": 2,
+        "no-multi-str": 2,
+        "no-nested-ternary": 2,
+        "no-new": 0,
+        "no-obj-calls": 2,
+        "no-octal": 2,
+        "no-redeclare": 2,
+        "no-regex-spaces": 2,
+        "no-sparse-arrays": 2,
+        "no-trailing-spaces": 2,
+        "no-undef": 2,
+        "no-underscore-dangle": 0,
+        "no-unneeded-ternary": 2,
+        "no-unreachable": 2,
+        "no-unused-vars": [2, {
+            "args": "after-used"
+        }],
+        "no-unsafe-negation": 2,
+        "no-use-before-define": 2,
+        "no-var": 2,
+        "object-shorthand": 2,
+        "one-var": 0,
+        "operator-linebreak": 2,
+        "prefer-const": 2,
+        "prefer-spread": 2,
+        "prefer-template": 2,
+        "quotes": [2, "double"],
+        "radix": 2,
+        "semi": [2, "always"],
+        "semi-spacing": 2,
+        "space-before-function-paren": [2, "never"],
+        "space-before-blocks": [2, "always"],
+        "space-in-parens": [2, "never"],
+        "space-unary-ops": 2,
+        "strict": 0,
+        "use-isnan": 2,
+        "valid-typeof": 2,
+        "wrap-iife": 2
+    }
+}

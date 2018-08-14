@@ -1,0 +1,130 @@
+<style>
+/* pages/servicerList/servicerList.wxss */
+
+page {
+    background-color: #eee;
+    font-family: 微软雅黑;
+}
+
+.list-item {
+    position: relative;
+    height: 120rpx;
+    width: 750rpx;
+    margin-top: 3rpx;
+    background-color: #fff;
+}
+
+.photo {
+    height: 80rpx;
+    width: 80rpx;
+    border-radius: 10rpx;
+    margin-top: 20rpx;
+    margin-left: 30rpx;
+}
+
+.phone-img {
+    height: 60rpx;
+    width: 60rpx;
+    position: absolute;
+    top: 30rpx;
+    right: 30rpx;
+}
+
+.name {
+    position: absolute;
+    top: 20rpx;
+    left: 130rpx;
+    font-size: 30rpx;
+    line-height: 50rpx;
+    color: #555;
+}
+
+.des {
+    position: absolute;
+    left: 130rpx;
+    font-size: 24rpx;
+    bottom: 10rpx;
+    line-height: 50rpx;
+    color: #aaa;
+}
+
+.point {
+    position: absolute;
+    line-height: 110rpx;
+    color: #3d74b3;
+    right: 90rpx;
+    top: 0rpx;
+}
+
+.title {
+    height: 100rpx;
+    width: 750rpx;
+    font-size: 32rpx;
+    background-color: #fff;
+    text-align: center;
+    line-height: 100rpx;
+    color: #539DDB;
+}
+</style>
+
+<template>
+<!--pages/servicerList/servicerList.wxml-->
+<view class="servicer-container">
+    <view class="title">专业律师为您服务</view>
+    <view class="list">
+
+        <view class="list-item" wx:for="{{lawyers}}">
+            <image class="photo" src="https://sxflcp.0575s.com/wximages/people.jpg"></image>
+            <view class="name">{{item.name}}</view>
+            <view class="des">电话号码 {{item.phone}}</view>
+            <view class="point">---</view>
+            <image @tap="call({{item.phone}})" class="phone-img" src="https://sxflcp.0575s.com/wximages/phone.png"></image>
+        </view>
+
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import tools from "../../helps/tools";
+export default class lawyerList extends wepy.page {
+    config = {
+        "navigationBarTitleText": "在线咨询",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        lawyers: [{
+                name: "诸律师",
+                phone: "暂无"
+            },
+            {
+                name: "石其江",
+                phone: "13605759333"
+            },
+            {
+                name: "范丹",
+                phone: "13777330213"
+            },
+            {
+                name: "魏力",
+                phone: "15267597373"
+            },
+        ]
+    }
+    methods = {
+        call: function(phone) {
+            if (tools.checkPhone(phone)) {
+                wx.makePhoneCall({
+                    phoneNumber: phone  //仅为示例，并非真实的电话号码
+                })
+            }
+            else{
+                help.showToast("电话号码不合法", "error");
+            }
+        }
+    }
+}
+</script>

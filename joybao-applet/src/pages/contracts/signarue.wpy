@@ -1,0 +1,442 @@
+<style>
+page {
+    height: 100%;
+    background-color: #f6f6f6;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+@keyframes seal-ring {
+    from {
+        box-shadow: 0 0 0 0px rgba(255, 0, 0, 0.7);
+    }
+    to {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+    }
+}
+
+.contract {
+    top: 0;
+    bottom: 80rpx;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    vertical-align: middle;
+    z-index: 0;
+    background-color: white;
+}
+
+.seal-bg {
+    position: absolute;
+    /*height: 120rpx;
+    width: 120rpx;
+    box-sizing: border-box;
+    border-radius: 120rpx;*/
+    height: 160px;
+    width: 160px;
+    box-sizing: border-box;
+    /*animation-name: seal-ring;
+    animation-duration: 0.5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;*/
+}
+
+.seal-bg .seal {
+    /*position: absolute;
+    float: left;*/
+    /*height:140px;
+    width: 140px;*/
+    height: 100%;
+    width: 100%;
+    /*  top: 50%;
+    left: 50%;
+    margin-left: -70px;
+    margin-top: -70px;*/
+}
+
+.seal-bg .animation {
+    position: absolute;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    top: 50%;
+    left: 50%;
+    margin-left: -80px;
+    margin-top: -80px;
+    animation-name: seal-ring;
+    animation-duration: .8s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    box-sizing: border-box;
+}
+
+.button-layout {
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.button-layout button {
+    margin: 0 50rpx;
+}
+
+.button-box {
+    height: 140rpx;
+    position: relative;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+
+.button-next {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+    background-color: #FA8383;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+swiper-item {
+    height: auto !important;
+    width: 100% !important;
+    text-align: center;
+    position: absolute;
+}
+
+swiper-item image {
+    box-shadow: 1px 1px 6px #aaa;
+    background-color: #fff;
+}
+
+swiper {
+    width: 100%;
+}
+
+.noSwiper {
+    transform: translate(100%, 0);
+}
+</style>
+
+<template>
+<view class="container">
+    <swiper current="{{pageIndex-1}}" bindchange="swiperChange" indicator-dots="true" style="height:{{windowHeight+30}}px">
+        <block wx:for="{{contracts.annex}}" wx:key="path">
+            <swiper-item wx:show="{{item.top||item.left}}" class="{{isSwiper||index==0?'':'noSwiper' }}" style="left:0px;top:{{item.top?item.top:0}}px;">
+                <image bindload="imageLoad({{index}})" src="{{item.path}}" class="slide-image" style=" width:{{item.showWidth?item.showWidth:0}}px; height:{{item.showHight?item.showHight:0}}px" />
+            </swiper-item>
+        </block>
+    </swiper>
+    <view class="seal-bg" style="left:{{left}}px;top:{{top}}px;height: {{contracts.annex[pageIndex-1].sealWidth}}px;width: {{contracts.annex[pageIndex-1].sealWidth}}px;" catchtouchstart="start" catchtouchmove="move" catchtouchend="end">
+        <image class="seal" style="" src="{{sealBg}}"></image>
+        <view class="animation" style="margin-left:{{-contracts.annex[pageIndex-1].sealWidth/2}}px;margin-top:{{-contracts.annex[pageIndex-1].sealWidth/2}}px; "></view>
+    </view>
+
+    <button class="button-next" hover-class="button-next-active" @tap="nextStep">下一步</button>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+/** TODO 样式完成 **/
+export default class Test extends wepy.page {
+    config = {
+        "navigationBarTitleText": "我的签名",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        windowHeight: 0,
+        windowWidth: 0,
+        top: 0,
+        left: 0,
+        lastX: 0,
+        lastY: 0,
+        // animationState: "running"
+        contractId: "",
+        userStatus: {},
+        seal: {},
+        sealRadius: 160,
+        sealRatio: 1 / 5, // 签章宽度占页面的比例
+        contracts: {},
+        // 当前签署页面
+        pageIndex: 1,
+        signType: false,
+        sealBg: "",
+        // 判断是否左右滑动过了
+        isSwiper: false
+    }
+    async onUnload() {
+        this.data = {
+            windowHeight: 0,
+            windowWidth: 0,
+            top: 0,
+            left: 0,
+            lastX: 0,
+            lastY: 0,
+            // animationState: "running"
+            contractId: "",
+            userStatus: {},
+            seal: {},
+            sealRadius: 160, // rpx
+            sealRatio: 1 / 5, // 签章宽度占页面的比例
+            contracts: {},
+            // 当前签署页面
+            pageIndex: 1,
+            signType: false,
+            sealBg: "",
+            isSwiper: false
+        }
+    }
+    async onLoad(options) {
+        console.log("onLoad");
+        let that = this;
+        const device = wx.getSystemInfoSync();
+        this.rpxDpx = device.rpxDpx = 750 / device.screenWidth;;
+        this.sealRadius = this.sealRadius / device.rpxDpx;
+        this.windowHeight = device.windowHeight - (130 / device.rpxDpx);
+        this.windowWidth = device.windowWidth;
+        that.$apply();
+        try {
+            this.contractId = options.contractId;
+            // 获取合约模板
+            let contract = await help.request(Config.host + "contract.view", { contractId: this.contractId }, "get");
+            this.contracts = contract.data.data;
+            // 初始化图片链接
+            if (this.contracts.annex) {
+                for (let i = 0; i < this.contracts.annex.length; i++) {
+                    let item = this.contracts.annex[i];
+                    // item.path = "https://sxflcp.0575s.com/wximages/sample.png";
+                    item.path = Config.ALiYun.address + "/wximages/" + item.path;
+                    // await that.setImagePosition(item);
+                }
+            }
+            // 获取用户状态信息
+            let userStatus = await help.getUserStatus();
+            this.userStatus = userStatus;
+            // 获取签章
+            let seal = await help.request(Config.host + "seal.view", { sealId: this.userStatus.defaultSealId }, "get");
+            this.seal = seal;
+            this.sealBg = `${Config.imageUrl}/${seal.data.data.sealData}`;
+
+
+        } catch (err) {
+            help.showToast(err, "error", function () {
+                wx.navigateBack({
+                    delta: 1
+                });
+            });
+        }
+        that.$apply();
+    }
+
+    setImagePosition(annex, w, h) {
+        let that = this;
+        /** 计算显示区域的比例 **/
+        const ratio = this.windowWidth / this.windowHeight;
+        // console.log(Image);
+        // const img = new Image();
+        // img.src = annex.path;
+        // return new Promise(function(resolve, reject) {
+        //     if(!annex){
+        //         reject();
+        //     }
+        //     img.onload = () => {
+        // const w = img.naturalWidth;
+        // const h = img.naturalHeight;
+        const windowHeight = that.windowHeight;
+        const windowWidth = that.windowWidth;
+
+        // 图片的长宽比
+        let curRatio = w / h;
+        // 图片缩放比
+        let scale;
+        // 图片显示大小
+        let showWidth;
+        let showHight;
+        // 长屏
+        if (curRatio < ratio) {
+            scale = windowHeight / h;
+            showWidth = Math.floor(w * scale);
+            showHight = windowHeight;
+        }
+        // 宽屏
+        else {
+            scale = windowWidth / w;
+            showWidth = windowWidth;
+            showHight = Math.floor(h * scale);
+        }
+        annex.scale = scale;
+        // 签章显示的大小
+        if(w*this.sealRatio<160){
+            annex.sealWidth = Math.floor(160 * scale);
+        }
+        else{
+            annex.sealWidth = showWidth * this.sealRatio;
+        }
+        annex.sealScale = annex.sealWidth / 80;
+        // 图片显示位置
+        annex.top = (windowHeight - showHight) / 2;
+        annex.left = (windowWidth - showWidth) / 2;
+        annex.bottom = annex.top + showHight;
+        annex.right = annex.left + showWidth;
+        // 图片大小
+        annex.showWidth = showWidth;
+        annex.showHight = showHight;
+        // 签章显示范围
+        annex.sealTop = annex.top;
+        annex.sealBottom = annex.bottom - annex.sealWidth;
+        annex.sealLeft = annex.left;
+        annex.sealRight = annex.right - annex.sealWidth;
+
+        annex.scale = scale;
+        console.log(annex);
+        this.$apply();
+        // resolve();
+        //     }
+        // })
+    }
+    start(e) {
+        // console.log("开始移动", e);
+        const point = e.touches[0];
+        this.lastX = point.clientX;
+        this.lastY = point.clientY;
+        // this.animationState = "paused";
+        this.curAnnex = this.contracts.annex[this.pageIndex - 1];
+    }
+    move(e) {
+        // console.log("正在移动");
+        // console.log(e);
+        const endPoint = e.touches[e.touches.length - 1];
+        const moveX = endPoint.clientX - this.lastX;
+        const moveY = endPoint.clientY - this.lastY;
+
+        let curLeft = this.left + moveX;
+        let curTop = this.top + moveY;
+
+        if (curLeft > this.curAnnex.sealRight) {
+            curLeft = this.curAnnex.sealRight;
+        } else if (curLeft < this.curAnnex.sealLeft) {
+            curLeft = this.curAnnex.sealLeft;
+        }
+
+        if (curTop > this.curAnnex.sealBottom) {
+            curTop = this.curAnnex.sealBottom;
+        } else if (curTop < this.curAnnex.sealTop) {
+            curTop = this.curAnnex.sealTop;
+        }
+
+        this.left = curLeft;
+        this.top = curTop;
+        this.lastX = endPoint.clientX;
+        this.lastY = endPoint.clientY;
+    }
+    end(e) {
+        // this.animationState = "runing";
+    }
+
+    methods = {
+        nextStep() {
+            if (!this.contracts.annex) {
+                return;
+            }
+            let that = this;
+            let annex = this.contracts.annex[this.pageIndex - 1];
+            let positionX = parseInt((this.left - annex.left + annex.sealWidth / 2) / annex.scale);
+            let positionY = parseInt((annex.bottom - this.top - annex.sealWidth / 2) / annex.scale);
+            let width = parseInt(annex.sealWidth / annex.scale);
+            if (this.contracts.annex.length === 1) {
+                wx.redirectTo({
+                    url: `./sign?width=${width}&signatureType=Single&positionX=${positionX}&positionY=${positionY}&defaultSealId=${that.userStatus.defaultSealId}&contractId=${that.contractId}&pageIndex=${that.pageIndex}`
+                });
+                return;
+            }
+            wx.showModal({
+                title: "提示",
+                content: "请选择签署方式",
+                cancelText: "多页签署",
+                confirmText: "单页签署",
+                confirmColor: "#000000",
+                success: function (res) {
+                    if (res.confirm) { // 单页签署
+                        wx.redirectTo({
+                            url: `./sign?width=${width}&signatureType=Single&positionX=${positionX}&positionY=${positionY}&defaultSealId=${that.userStatus.defaultSealId}&contractId=${that.contractId}&pageIndex=${that.pageIndex}`
+                        });
+                    } else { // 多页签署
+                        wx.redirectTo({
+                            url: `./sign?width=${width}&signatureType=Multi&positionX=${positionX}&positionY=${positionY}&defaultSealId=${that.userStatus.defaultSealId}&contractId=${that.contractId}&pageIndex=1-${that.contracts.annex.length}`
+                        });
+                    }
+                }
+            });
+
+        },
+        swiperChange(e) {
+            let index = e.detail.current;
+            this.pageIndex = index + 1;
+            let annex = this.contracts.annex[index];
+            this.left = annex.left;
+            this.top = annex.top;
+            this.isSwiper = true;
+        },
+        imageLoad(index, e) {
+            if (!this.contracts.annex) {
+                return;
+            }
+            let that = this;
+            // TODO 首次图片重叠
+            this.setImagePosition(this.contracts.annex[index], e.detail.width, e.detail.height);
+            if (index === 0) {
+                this.left = this.contracts.annex[0].left;
+                this.top = this.contracts.annex[0].top;
+            }
+
+        }
+    }
+}
+</script>

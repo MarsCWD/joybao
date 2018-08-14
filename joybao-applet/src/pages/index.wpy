@@ -1,0 +1,385 @@
+<style>
+/* pages/index/index.wxss */
+
+page {
+    height: 100%;
+    background-color: #eee;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+}
+
+.banner {
+    position: relative;
+    height: 350rpx;
+    width: 750rpx;
+}
+
+.banner-bg {
+    position: absolute;
+    height: 350rpx;
+    width: 750rpx;
+    background-color: #539DDB;
+    background-image: url("http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/indexbg.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.banner image {
+    position: absolute;
+    z-index: -100;
+    height: 350rpx;
+    width: 750rpx;
+}
+
+.banner-text {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    right: 30rpx;
+    float: left;
+    color: #fff;
+    font-size: 32rpx;
+}
+
+.banner-text2 {
+    font-size: 66rpx;
+}
+
+.banner-text3-right {
+    float: right;
+}
+
+.button-area {
+    height: 160rpx;
+    width: 750rpx;
+    background-color: #fff;
+    /*box-shadow:2px 0 2px #CCC;*/
+}
+
+.button-box {
+    float: left;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    color: #fff;
+    width: 690rpx;
+    /*background-color: #fff;*/
+    margin-top: 30rpx;
+    margin-left: 30rpx;
+    border-radius: 10rpx;
+}
+
+.button {
+    float: left;
+    width: 580rpx;
+    background-color: #539DDB;
+    /*b6cbe6*/
+    border-top-left-radius: 10rpx;
+    border-bottom-left-radius: 10rpx;
+}
+
+.button-img {
+    float: left;
+    width: 110rpx;
+    height: 100rpx;
+    background-color: #b6cbe6;
+    border-top-right-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+}
+
+
+
+.side-slider {
+    position: absolute;
+    height: 100%;
+    width: 600rpx;
+    background-color: red;
+    top: 0;
+    left: -100rpx;
+}
+
+
+.banner swiper-item {
+    width: 180rpx !important;
+    height: 250rpx !important;
+    text-align: center;
+    line-height: 250rpx;
+    background-color: #FFB90F;
+    background-image: url('../../images/book.jpg');
+    background-size: 100% 100%;
+}
+
+.banner swiper {
+    position: absolute;
+    top: 20rpx;
+    right: 50rpx;
+    height: 250rpx;
+    width: 180rpx !important;
+    z-index: 100;
+    border-radius: 10rpx;
+    overflow: hidden;
+    box-shadow: 1px 1px 6px #084a83;
+    background-color: #b6cbe6;
+}
+
+
+.contracts {
+    /*border-top:  1rpx solid #eee;*/
+}
+
+
+.button-img {
+    float: left;
+    width: 110rpx;
+    height: 100rpx;
+    background-color: #70aee1;
+    border-top-right-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+}
+
+.button-img image {
+    margin-top: 20rpx;
+    height: 60rpx;
+    width: 60rpx;
+}
+
+
+
+
+
+/*可展开列表*/
+
+.kind-list-item {
+    margin: 3rpx 0;
+    background-color: #FFFFFF;
+    border-radius: 4rpx;
+    overflow: hidden;
+}
+
+.kind-list-text {
+    flex: 1;
+    font-size: 30rpx;
+    line-height: 40rpx;
+}
+
+.kind-list-text image {
+    height: 26rpx;
+    width: 26rpx;
+}
+
+.kind-list-item-hd-show .kind-list-text image {
+    transform: rotate(90deg);
+    transition: all .3s;
+}
+
+.kind-list-des {
+    font-size: 28rpx;
+    color: #ddd;
+    line-height: 40rpx;
+}
+
+.kind-list-item-hd {
+    padding: 26rpx 30rpx;
+    display: flex;
+    align-items: center;
+
+    transition: opacity .3s;
+}
+
+.kind-list-item-hd-show {
+    opacity: .3;
+}
+
+.kind-list-item-bd {
+    height: 0;
+    overflow: hidden;
+}
+
+.kind-list-item-bd-show {
+    height: auto;
+}
+
+.navigator-box-show {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.navigator-box {
+    opacity: 0;
+    position: relative;
+    background-color: #f6f6f6;
+    line-height: 1.41176471;
+    font-size: 34rpx;
+    transform: translateY(-50%);
+    transition: .3s;
+}
+</style>
+
+<template>
+<!--pages/index/index.wxml-->
+<view class="container">
+    <scroll-view scroll-y bindscrolltolower="scrolltolower" style="height:100%">
+        <navigator url="./ledger/ledger">
+            <view class="banner">
+                <view class="banner-bg">
+                    <!--<image src="../../images/banner.jpg"></image>-->
+                </view>
+                <view class="banner-text">
+                    <view class="banner-text1">今日签署</view>
+                    <view class="banner-text2">0</view>
+                    <view class="banner-text3">
+                        <text>本月签署: 0</text>
+                        <text class="banner-text3-right">剩余签署次数: {{userStatus.signatureNumber||0}}次</text>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <view class="button-area">
+
+            <view class="button-box" @tap="gotoContract">
+                <view class="button">快捷签约</view>
+                <view class="button-img">
+                    <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/edit11.png"></image>
+                </view>
+                <view class="clear"></view>
+            </view>
+        </view>
+        <view class="contracts">
+            <view wx:if="{{!categories||categories.length===0}}" style="margin-top:30rpx; text-align:center">
+                <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/logo.png" style="width:300rpx;" mode="aspectFit"></image>
+                <!-- <view>暂无数据</view> -->
+            </view>
+            <block wx:if="{{categories&&categories.length!=0}}">
+                <navigator class="kind-list-item" style="display:flex;line-height:40rpx;padding:10rpx 30rpx; " hover-class="list-item-active" url="./contracts/contractList?title=所有合约">
+                    <view style="text-align:left;font-size:28rpx;padding:10rpx 0;line-height:40rpx;flex:1;font-weight:bold">我的签署</view>
+                    <view style="vertical-align:middle; text-align:right;font-size:28rpx;padding:10rpx 0;line-height:40rpx;"><text style="vertical-align:middle;">查看更多</text>
+                        <image src="https://sxflcp.0575s.com/wximages/open_arrow.png" style="height:26rpx;width:26rpx;vertical-align:middle;" mode="widthFix" />
+                    </view>
+                </navigator>
+                <view class="kind-list-item" wx:for="{{categories}}" wx:key="_id">
+                    <view wx:if="{{item.res.length!==0}}">
+                        <view class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="kindToggle({{index}})">
+                            <view class="kind-list-text">
+                                <image src="https://sxflcp.0575s.com/wximages/open_arrow.png" mode="widthFix" /> {{item._id}}</view>
+                            <!-- <view class="kind-list-des">{{item.finish}}/{{item.unFinish+item.finish}}</view> -->
+                            <!-- <image class="kind-list-img" src="resources/kind/{{item.id}}.png"></image> -->
+                        </view>
+                        <view class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">
+                            <view class="navigator-box {{item.open ? 'navigator-box-show' : ''}} special-list">
+                                <navigator url="./contracts/contractDetail?id={{item.contractId}}" wx:for="{{item.res}}" wx:key="id">
+                                    <view class="list-item">
+                                        <view class="list-item-left">
+                                            <image class="list-item-left-icon" src="{{item.userAvatar||'http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png'}}"></image>
+                                            <view class="list-item-left-textbox">
+                                                <view class="list-item-left-textbox-name">{{item.userName||item.userPhone}}</view>
+                                                <view class="list-item-left-textbox-des">
+                                                    <text>{{item.contractName}}</text>
+                                                </view>
+                                            </view>
+                                            <view class="clear"></view>
+                                        </view>
+                                        <view class="list-item-right">
+                                            <view class="list-item-right-status">{{item.contractState === 'Wait'?'未生效':'已生效'}}</view>
+                                            <view class="list-item-right-time">{{item.updatedAt}}</view>
+                                        </view>
+                                    </view>
+                                </navigator>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </block>
+        </view>
+    </scroll-view>
+</view>
+
+<!--侧边滑块-->
+<!--<view class="side-slider">
+</view>-->
+<!--侧边滑块-->
+<view class="bottom-line"></view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../helps/help";
+import Config from "../config/Config";
+export default class index extends wepy.page {
+    config = {
+        "navigationBarTitleText": "白鲸宝",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        categories: [],
+        userStatus: {}
+    }
+    async initContractList() {
+        // 页面初始化 options为页面跳转所带来的参数
+        try {
+            let contracts = await help.request(Config.host + "contract.list", {
+                latest: new Date().getTime()
+            });
+
+            this.categories = contracts.data.data;
+            this.categories.map((item) => {
+                item.res.map((itemitem) => {
+                    itemitem.updatedAt = help.DateFormat(new Date(itemitem.updatedAt), "MM/dd hh:mm");
+                    return itemitem
+                })
+                return item;
+            });
+            console.log(this.categories);
+        }
+        catch (err) {
+            return;
+        }
+        this.$apply();
+    }
+    async onLoad(options) {
+    }
+    async onShow() {
+        console.log("index onshow");
+        this.userStatus = await help.getUserStatus();
+        this.initContractList();
+        this.$apply();
+    }
+    methods = {
+        kindToggle: function (index) {
+            for (let i in this.categories) {
+                if (i == index) {
+                    this.categories[i].open = !this.categories[i].open;
+                } else {
+                    this.categories[i].open = false;
+                }
+            }
+            this.$apply();
+        },
+        scrolltolower: function () {
+            console.log("到底了");
+        },
+        onShareAppMessage: function () {
+            return {
+                title: '白鲸宝',
+                path: '/pages/index1',
+                success: function (res) {},
+                fail: function (res) {
+                    // 转发失败
+                    help.showToast("分享失败");
+                }
+            }
+        },
+
+        gotoContract: async function (e) {
+            wx.switchTab({
+                url: "contract"
+            });
+        }
+    }
+}
+</script>

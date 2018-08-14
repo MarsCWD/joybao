@@ -1,0 +1,680 @@
+<style lang="less">
+.clear {
+    clear: both;
+}
+.list-item-active {
+    background-color: #eee !important;
+}
+
+/*列表样式1*/
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+.list-item-button {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    right: 0;
+    width: 230rpx;
+    text-align: center;
+}
+.cInputButton .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 330rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+
+/*列表样式1*/
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+    overflow: hidden;
+}
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+.cInput .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 550rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+.IDfile {
+    width: 690rpx;
+    margin-left: 30rpx;
+    height: 440rpx;
+    margin-top: 30rpx;
+    border-radius: 40rpx;
+    box-shadow: 1px 1px 6px #aaa;
+    background-color: #efefef;
+}
+
+.IDdesc {
+    text-align: center;
+    width: 100%;
+    margin: 20rpx 0 40rpx;
+}
+
+.IDbtn {
+    margin-left: 75rpx;
+    width: 600rpx;
+    height: 80rpx;
+    text-align: center;
+    color: white;
+    background-color: #539DDB;
+    line-height: 80rpx;
+    border-radius: 20rpx;
+    margin-bottom: 40rpx;
+}
+
+.IDconfirm {
+    background-color: #62b900 !important;
+}
+.cImage {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+.cImage-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+.cImage-text {
+    margin-left: 20rpx;
+
+}
+.step-section {
+    margin-top: 40rpx;
+
+}
+.step-section-text {
+    margin-left: 50rpx;
+    padding-bottom: 10rpx;
+    font-size: 34rpx;
+    color: #ccc;
+}
+.cutline {
+    height: 60rpx;
+    width: 3rpx;
+    position: absolute;
+    right: 230rpx;
+    background-color: #eee;
+    top: 20rpx;
+}
+
+.input-list {
+    position: relative;
+    height: 100rpx;
+    width: 690rpx;
+    margin-left: 30rpx;
+    /*border-bottom: 3rpx solid #539DDB;*/
+    border-bottom: 3rpx solid #eee;
+    background-color: #fff;
+}
+.input-list-text {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 190rpx;
+    font-size: 34rpx;
+    padding-left: 20rpx;
+}
+.input-list-input {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 500rpx;
+    left: 190rpx;
+}
+.input-list-view {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 400rpx;
+    left: 190rpx;
+    font-family: 微软雅黑;
+    font-size: 34rpx;
+    color: #ddd;
+}
+.input-list-image {
+    position: absolute;
+    right: 20rpx;
+    top: 20rpx;
+    height: 60rpx;
+    width: 60rpx;
+}
+.input-list-placeholder {
+    font-family: 微软雅黑;
+    font-size: 34rpx;
+    color: #aaa;
+}
+.input-list-active {
+    border-bottom: 3rpx solid #539DDB;
+}
+.input-list-error {
+    border-bottom: 3rpx solid #FA8383;
+}
+.page-body-info.input-list-error{
+    border-bottom: 3rpx solid #FA8383;
+}
+.IDfile.input-list-error{
+    border-bottom:0 !important;
+    box-shadow:1px 1px 6px #FA8383;
+}
+.input-list-disabled {
+    color: #aaa;
+}
+.radio-group {
+    margin-top: 30rpx;
+
+}
+.radio-group label {
+    margin-left: 30rpx;
+}
+.page-body-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    width: 690rpx;
+    display: flex;
+    box-sizing: border-box;
+    padding: 30rpx;
+    height: 420rpx;
+    border-bottom: 3rpx solid #eee;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.page-body-info image {
+    width: 100%;
+}
+.page-section {
+    width: 690rpx;
+    margin-bottom: 60rpx;
+    position: relative;
+    margin: 0 auto;
+}
+.image-plus {
+
+    height: 150rpx;
+    border: 2rpx solid #D9D9D9;
+    position: relative;
+}
+.image-plus-nb {
+    border: 0;
+}
+.image-plus-text {
+    color: #888888;
+    font-size: 28rpx;
+}
+.image-plus-horizontal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #d9d9d9;
+    width: 4rpx;
+    height: 80rpx;
+    transform: translate(-50%, -50%);
+}
+.image-plus-vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #d9d9d9;
+    width: 80rpx;
+    height: 4rpx;
+    transform: translate(-50%, -50%);
+}
+.image-plus-text {
+    color: #888888;
+    font-size: 28rpx;
+}
+</style>
+<template>
+<view>
+    <repeat for="{{step.fields}}" key="index" index="index" item="item">
+        <view  class="{{ item.split ? 'step-section' : ''}}">
+            <view class="step-section-text" wx:if="{{ item.split }}">{{ item.split }}</view>
+
+            <view  class="input-list cInput {{item.focused?'input-list-active':''}} {{item.disabled?'input-list-disabled':''}} {{item.isValidated === 'false'?'input-list-error':''}}" wx:if="{{item.showType=='cInput' && (!item.ignore || item.value)}}" hidden="{{item.hidden}}">
+                <view class="input-list-text">{{item.name}}</view>
+                <input class="input-list-input" disabled="{{item.disabled || step.disabled}}" type="{{item.dataType}}" value="{{item.value}}" placeholder="{{item.placeholder}}" placeholder-class="input-list-placeholder" @blur="inputBlur({{index}})" @input="inputChange({{index}})"
+                    @focus="inputFocus({{index}})" />
+            </view>
+
+
+            <!-- <view class="list-item cInputButton" wx:if="{{item.showType=='cInputButton'}} ">
+                <view class="list-item-left">
+                    <view class="list-item-left-text">{{item.name}}</view>
+                    <view class="clear"></view>
+                </view>
+                <input class="list-item-input" disabled="{{item.disabled || step.disabled}}" value="{{item.value}}" type="{{item.dataType}}" @input="inputChange({{index}})" value="{{item.value}}" placeholder="{{item.placeholder}}" placeholder-style="color:#ccc" />
+                <view class="cutline"></view>
+                <view class="list-item-button" hover="true" @tap="inputButtonClick({{index}})" hover-class="list-item-active">{{item.isReciprocal?item.reciprocal+'s':item.btnName}}</view>
+            </view> -->
+
+            <view  wx:if="{{item.showType=='cIdCard'}}">
+                <image mode="aspectFill" src="{{item.showUrl?item.showUrl:'http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/idcard1.png'}}"  class="IDfile {{item.isValidated === 'false'?'input-list-error':''}}" @tap="chooseIdCard({{index}})"></image>
+                <view class="IDdesc">{{item.placeholder}}</view>
+            </view>
+
+            <view wx:if="{{item.showType=='cImage'}}">
+                <view class="page-section" >
+                    <view class="page-body-info {{item.isValidated === 'false'?'input-list-error':''}}" @tap="chooseImage({{index}})" >
+
+                        <block wx:if="{{item.value&&item.value!=''}}">
+                            <image src="{{item.value}}" class="image" style="height:420rpx;" mode="aspectFit"></image>
+                        </block>
+
+                        <block wx:else>
+                            <view class="image-plus image-plus-nb">
+                                <view class="image-plus-horizontal"></view>
+                                <view class="image-plus-vertical"></view>
+                            </view>
+                            <view class="image-plus-text">{{item.placeholder}}</view>
+                        </block>
+
+                    </view>
+                </view>
+            </view>
+
+            <view wx:if="{{item.showType=='cDownLoadImage'}}" >
+                <view class="page-section">
+                    <view class="page-body-info {{item.isValidated === 'false'?'input-list-error':''}}" style="flex-flow:row">
+
+                        <block wx:if="{{item.value&&item.value!=''}}">
+                            <image src="{{item.value}}" @tap="clearImage({{index}})" class="image" style="height:420rpx;" mode="aspectFit"></image>
+                        </block>
+
+                        <block wx:else>
+                            <view style="flex:1; text-align:center">
+                                <view class="image-plus image-plus-nb" @tap="downFile({{index}},{{item.url}})">
+                                    <image mode="aspectFit" style="height:100rpx;" src="https://sxflcp.0575s.com/wximages/downLoad.png"></image>
+                                </view>
+                                <view class="image-plus-text">{{item.filePlaceholder}}</view>
+                            </view>
+                            <view style="flex:1;text-align:center">
+                                <view class="image-plus image-plus-nb" @tap="chooseImage({{index}})">
+                                    <image mode="aspectFit" style="height:100rpx;transform:rotate(180deg);" src="https://sxflcp.0575s.com/wximages/downLoad.png"></image>
+                                </view>
+                                <view class="image-plus-text">{{item.placeholder}}</view>
+                            </view>
+                            <!-- <view class="image-plus image-plus-nb" @tap="chooseImage({{index}})">
+                                    <view class="image-plus-horizontal"></view>
+                                    <view class="image-plus-vertical"></view>
+                                </view>
+                                <view class="image-plus-text">{{item.placeholder}}</view> -->
+                        </block>
+
+                    </view>
+                </view>
+            </view>
+
+            <view wx:if="{{item.showType === 'cLocationPicker'}}">
+                <!-- <navigator url="./province"> -->
+                <view class="input-list" @tap="goto('./province')">
+                    <view class="input-list-text">{{item.name}}</view>
+                    <view class="input-list-view" style="{{item.value?'color:#555':''}}">{{item.value?item.value:item.placeholder}}</view>
+                    <image class="input-list-image" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/location.png"></image>
+                </view>
+                <!-- </navigator> -->
+            </view>
+            <view wx:if="{{item.showType === 'cRadio'}}">
+                <view class="input-list">
+                    <radio-group class="radio-group"  @change="radioChange({{index}})">
+                        <repeat  for="{{item.radios}}" key="label" index="cindex" item="citem">
+                            <label class="radio" >
+                                <radio value="{{cindex}}" disabled="{{step.disabled || citem.disabled}}" checked="{{citem.checked}}" />{{citem.label}}
+                            </label>
+                        </repeat>
+                    </radio-group>
+                </view>
+            </view>
+
+        </view>
+    </repeat>
+</view>
+</template>
+<script>
+import wepy from "wepy";
+import tools from "../helps/tools";
+import help from "../helps/help";
+import Config from "../config/Config";
+export default class cStep extends wepy.component {
+    props = {
+        step: {
+            twoWay: true
+        }
+    }
+    computed = {
+
+    }
+    onLoad() {
+    }
+    methods = {
+
+        goto(url) {
+            console.log("触发点击跳转");
+            wx.navigateTo({
+                url: url
+            });
+        },
+        radioChange(index, e) {
+            if (this.step.fields[index].disabled || this.step.disabled) {
+                return;
+            }
+            let radioIndex = e.detail.value;
+            let branchIndex = this.step.fields[index].radios[radioIndex].branchIndex;
+            this.step.fields[index].value = this.step.fields[index].radios[radioIndex].value;
+            for (let i in this.step.fields[index].radios) {
+                let radio = this.step.fields[index].radios[i];
+                if (i === branchIndex.toString()) {
+                    radio.checked = true;
+                } else {
+                    radio.checked = false;
+                }
+            }
+            this.$emit("branchChange", branchIndex);
+        },
+        inputChange(index, e) {
+            this.step.fields[index].value = e.detail.value;
+            this.$emit("dataChange");
+        },
+        inputFocus(index, e) {
+            this.step.fields[index].focused = true;
+        },
+
+        async inputBlur(index, e) {
+            const that = this;
+            const field = that.step.fields[index];
+            field.focused = false;
+            const key = field.key;
+            const value = field.value;
+
+            switch (key) {
+                // 代理人企业名称输入后校验
+                case "agentCompany":
+                    let res, data, OrgCode, id , valide;
+                    try {
+                        data = await help.request(Config.host + "company.find", { key: value }, "get");
+                        res = data.data.data;
+                        if (res && res.company) { // 验证通过
+                            OrgCode = res.company.OrgCode;
+                            id = res.company._id;
+                            valide = "true";
+                        } else { // 验证不通过
+                            OrgCode = "尚未匹配到公司信息";
+                            id = "";
+                            valide = "false";
+                        }
+
+                    } catch (err) {
+                        OrgCode = "尚未匹配到公司信息";
+                        id = "";
+                        valide = "false";
+                    }
+                    for (let i = 0; i < this.step.fields.length; i++) {
+                        const item = this.step.fields[i];
+                        if (item.key === "OrgCode") {
+                            item.value = OrgCode;
+                            item.isValidated = valide;
+                        }
+                        if (item.key === "agentCompanyId") {
+                            item.value = id;
+                            item.isValidated = valide;
+                        }
+                    }
+                    break;
+                    // 公司认证获取基本信息
+                case "name":
+                    try {
+                        if (!tools.checkType(value, "company")) {
+                            throw new Error("公司名称不合法");
+                            return;
+                        }
+                        help.showLoading();
+                        let result = await help.request(Config.host + "xCompany.info", { companyName: value }, "post");
+
+                        data = result.data.data;
+                        for (let key of Object.keys(data)) {
+                            for (let item of this.step.fields) {
+                                if (item.key === key) {
+                                    item.value = data[key];
+                                }
+                            }
+                        }
+                        for (let item of this.step.fields) {
+                            if (tools.checkValue(item.key, "address|startTime|legalName|OrgCode")) {
+                                item.disabled = true;
+                                item.isValidated = "true";
+                            }
+                        }
+                    } catch (err) {
+                        for (let item of this.step.fields) {
+                            if (tools.checkValue(item.key, "address|startTime|legalName|OrgCode")) {
+                                item.value = "";
+                                item.disabled = false;
+                                item.isValidated = "true";
+                            }
+                        }
+                    } finally {
+                        help.hideToast();
+                    }
+                    break;
+                   
+            }
+            if (field.regExp) {
+                const reg = new RegExp(field.regExp);
+                if (field.value && field.value !== "" && reg.test(field.value)) {
+                    field.isValidated = "true";
+                } else {
+                    field.isValidated = "false";
+                }
+            }
+            else{
+                field.isValidated = "true";
+            }
+
+            this.$apply();
+        },
+        async inputButtonClick(index, e) {
+            let that = this;
+            let phone;
+            console.log(index);
+            // 手机号码判断
+            if (index - 1 >= 0 && this.step.fields[index - 1]) {
+                phone = this.step.fields[index - 1].value;
+                console.log(phone);
+                if (!tools.checkPhone(phone)) {
+                    return;
+                }
+            }
+            // 倒计时判断
+            if (this.step.fields[index].isReciprocal) {
+                return;
+            }
+            try {
+                await help.request(Config.host + "certificate.sendValidateCode", {
+                    phone: phone
+                });
+            } catch (err) {
+                that.showToast("请求验证码失败,请稍后再试", "../../images/err.png");
+            }
+
+            this.$emit("cClick");
+            this.step.fields[index].reciprocal = 60;
+            this.step.fields[index].isReciprocal = true;
+            const time = function () {
+                setTimeout(function () {
+                    if (that.step.fields[index].reciprocal > 1) {
+                        that.step.fields[index].reciprocal -= 1;
+                        that.$apply();
+                        time();
+                    } else {
+                        that.step.fields[index].isReciprocal = false;
+                        that.$apply();
+                    }
+                }, 1000);
+            };
+            time();
+        },
+        async chooseIdCard(index, e) {
+            const that = this;
+            const field = this.step.fields[index];
+            if (field.disabled || this.step.disabled) {
+                return;
+            }
+            // 图片上传至微信服务器
+            let wchatPath = await tools.chooseImage();
+            try {
+                field.showUrl = wchatPath;
+                field.value = null;
+                help.showLoading("图片上传中");
+                // 图片上传至阿里云
+                const fileName = await tools.uploadImage(wchatPath);
+                field.value = fileName;
+                help.showLoading("图片识别中");
+                // 身份证识别
+                const showUrl = Config.imageUrl + "/" + fileName;
+                let idcardInfo = await help.request(Config.host + "certificate.idCard.recognition", { fileName: fileName, isFront: true });
+                idcardInfo = idcardInfo.data.data;
+                field.showUrl = showUrl
+                for (let key of Object.keys(idcardInfo)) {
+                    for (let item of this.step.fields) {
+                        if (item.key === key) {
+                            item.value = idcardInfo[key];
+                            item.isValidated = "true"
+                        }
+                    }
+                }
+                if(field.regExp){
+                    field.isValidated = "true";
+                }
+                help.hideToast();
+            } catch (err) {
+                help.hideToast();
+                for (let item of this.step.fields) {
+                    if (tools.checkValue(item.key, "realName|IDCard")) {
+                        item.value = "";
+                    }
+                }
+                help.showToast(err, "error");
+                if(field.regExp){
+                    field.isValidated = "false";
+                }
+            } finally {
+
+            }
+            this.$apply();
+        },
+        async chooseImage(index, e) {
+            const field = this.step.fields[index];
+            if (field.disabled) {
+                return;
+            }
+            if (this.step.disabled) {
+                wx.previewImage({
+                    current: `${field.value}`, // 当前显示图片的http链接
+                    urls: [`${field.value}`] // 需要预览的图片http链接列表
+                });
+                return;
+            }
+            try{
+                let that = this;
+                let path = await tools.chooseImage();
+                field.value = path;
+            }
+            finally{
+                if (field.regExp) {
+                    const reg = new RegExp(field.regExp);
+                    if (field.value && field.value !== "" && reg.test(field.value)) {
+                        field.isValidated = "true";
+                    } else {
+                        field.isValidated = "false";
+                    }
+                }
+                else{
+                    field.isValidated = "true";
+                }
+                this.$apply();
+            }
+
+        },
+        async clearImage(index, e) {
+            if (this.step.fields[index].disabled || this.step.disabled) {
+                return;
+            }
+            this.step.fields[index].value = "";
+            this.$apply();
+        },
+        async downFile(index, url) {
+            if (this.step.fields[index].disabled || this.step.disabled) {
+                return;
+            }
+            try {
+                const res = await wepy.downloadFile({
+                    url: url,
+                });
+                console.log(res);
+                wx.openDocument({
+                    filePath: res.tempFilePath,
+                });
+                // const file = await wepy.saveFile({
+                //      tempFilePath: res.tempFilePath
+                // })
+                // console.log(file);
+            } catch (err) {
+                help.showToast("文件下载失败", "error");
+            }
+        }
+
+    }
+}
+</script>

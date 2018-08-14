@@ -1,0 +1,172 @@
+<style>
+.search-bar {
+    position: relative;
+    height: 100%;
+    line-height: 100%;
+}
+
+.search-bar .search-bar__box {
+    height: 100%;
+    line-height: 100%;
+}
+
+.search-bar .search-bar__box .search-bar__input {
+    height: 100%;
+    line-height: 100%;
+}
+
+.search-bar .search-bar__list {
+    position: absolute;
+    background: #ffffff;
+    width: 100%;
+    border: 1rpx #ddd solid;
+    border-top: 0;
+    top: 100%;
+    z-index: 100;
+}
+
+.search-bar .search-bar__list .search-bar__list-item {
+    box-sizing: border-box;
+    border-top: 1rpx #ddd solid;
+    height: 70rpx;
+    line-height: 70rpx;
+    padding: 0 20rpx;
+    width: 100%;
+}
+</style>
+
+<template>
+<view class="search-bar">
+    <view class="search-bar__box">
+        <input class="search-bar__input" @focus="showList" @blur="showList" @input="change" value="{{name}}" placeholder="测试" />
+        <view>X</view>
+    </view>
+    <view wx:if="{{visible}}" class="search-bar__list">
+        <repeat for="{{list}}" index="index" item="item">
+            <view class="search-bar__list-item" @tap="select({{index}})">{{item.name}}</view>
+        </repeat>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../helps/help";
+import tools from "../helps/tools"
+import Config from "../config/Config";
+import ConstantCode from "../helps/ConstantCode";
+
+export default class FormSearch extends wepy.component {
+    props = {
+        extData: String, // 是否外接数据源 1. 连接 0. 使用内置数据源
+        url: String, // 数据源连接
+        list: {
+            type: Array,
+            default: [],
+        }, // 数据源
+        type: String, // emit事件类型
+    }
+
+    data = {
+        name: "",
+        isExtData: true,
+
+        timer: null,
+        last: undefined,
+        visible: false,
+    }
+
+    onLoad() {
+        this.isExtData = this.extData === '1';
+    }
+
+    /**
+     * 根据合约名模糊查询对应的合约并以列表形式展示
+     * @return {[type]} [description]
+     */
+    getList() {
+        const that = this;
+        help.request(`${Config.host}${this.url}?`, {
+            contractName: this.name,
+            contractState: ConstantCode.CONTRACT.CONTRACT_STATUS.FINISH,
+        }).then(
+            res => {
+                res = res.data;
+                if (res.success) {
+                    that.list.length = 0;
+                    res.data.forEach(item => {
+                        item.name = item.contractName;
+                        that.list.push(item);
+                    })
+                    that.$apply();
+                } else {
+                    help.showToast(res.msg, "error");
+                }
+            },
+            err => {
+                console.error(err);
+                help.showToast(err, "error");
+            }
+        );
+    }
+
+    methods = {
+        change(e) {
+            const that = this;
+            this.name = e.detail.value;
+
+            if (this.isExtData) {
+                // 节流, 避免过多的发起请求
+                const now = +new Date();
+                if (this.last && now - this.last < 800) {
+                    // 未到必须执行时间
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(() => {
+                        that.last = now;
+                        that.getList();
+                        that.timer = null;
+                    }, 300);
+                } else {
+                    // 必须执行
+                    this.last = now;
+                    clearTimeout(this.timer);
+                    this.getList();
+                }
+            }
+        },
+        /**
+         * 是否显示列表
+         * @param  {Object} e 事件对象
+         * @return {[type]}   [description]
+         */
+        showList(e) {
+            this.visible = e.type === 'focus';
+        },
+        /**
+         * 选择对应的合约
+         * @param  {[type]} index [选择的下标]
+         * @return {[type]}       [description]
+         */
+        select(index) {
+            const item = this.list[index];
+            this.name = item.name;
+            this.$apply();
+
+            if (this.type === "contract") {
+                this.$emit("userSelect", {
+                    type: this.type,
+                    contractId: item.contractId,
+                    contractName: item.contractName,
+                });
+            } else if (this.type === "relation") {
+                this.$emit("userSelect", {
+                    type: this.type,
+                    userName: item.userName,
+                    userPhone: item.userPhone,
+                    userAvatar: item.avatar,
+                })
+            }
+        },
+    }
+}
+</script>

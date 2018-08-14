@@ -1,0 +1,116 @@
+<style>
+page {
+    background-color: #f6f6f6;
+}
+</style>
+
+<template>
+<!--pages/UserInfo/UserInfo.wxml-->
+<view class="container">
+    <view class="section">
+        <view class="list-item" hover="true" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">头像</view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-right-img" src="{{userInfo.avatarUrl}}"></image>
+                <view class="clear"></view>
+            </view>
+        </view>
+        <view class="list-item" hover="true" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">昵称</view>
+            </view>
+            <view class="list-item-right">
+                <view class="list-item-right-des">{{userInfo.nickName}}</view>
+                <view class="clear"></view>
+            </view>
+        </view>
+    </view>
+
+    <view class="section">
+        <navigator url="{{(!userStatus.phone||userStatus.phone=='')?'./phoneAndPassword/phoneAndPassword':''}}">
+            <view class="list-item" hover="true" hover-class="list-item-active">
+                <view class="list-item-left">
+                    <view class="list-item-left-text">手机号码</view>
+                </view>
+                <view class="list-item-right">
+                    <view class="list-item-right-des">{{(!userStatus.phone||userStatus.phone=="")?"去绑定":userStatus.phone}}</view>
+                    <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                    <view class="clear"></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator url="{{(!userStatus.hasSignPassword)?'./phoneAndPassword/phoneAndPassword':'./phoneAndPassword/resetPassword'}}">
+            <view class="list-item" hover="true" hover-class="list-item-active">
+                <view class="list-item-left">
+                    <view class="list-item-left-text">签署密码</view>
+                </view>
+                <view class="list-item-right">
+                    <view class="list-item-right-des">{{(!userStatus.hasSignPassword)?"去设置":"已设置"}}</view>
+                    <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                    <view class="clear"></view>
+                </view>
+            </view>
+        </navigator>
+    </view>
+
+    <view class="section">
+        <!-- <navigator url="{{userStatus.identityStatus === 'Success' ? '':'./certification/menu'}}"> -->
+            <view class="list-item" hover="true" hover-class="list-item-active" @tap="gotoMenu">
+                <view class="list-item-left">
+                    <view class="list-item-left-text">实名认证</view>
+                </view>
+                <view class="list-item-right">
+                    <view class="list-item-right-des">{{userStatus.identity.identityName}}</view>
+                    <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                    <view class="clear"></view>
+                </view>
+            </view>
+        <!-- </navigator> -->
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../helps/help";
+import ConstantCode from "../helps/ConstantCode";
+export default class UserInfo extends wepy.page {
+    config = {
+        "navigationBarTitleText": "个人中心",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        userInfo: null,
+        userStatus: null
+    }
+    async onLoad(options) {
+        // 页面初始化 options为页面跳转所带来的参数
+        this.userInfo = wx.getStorageSync("userInfo");
+        this.$apply();
+    }
+    async onShow() {
+        let that = this;
+        let userStatus = await help.getUserStatus();
+        that.userStatus = userStatus;
+        that.$apply();
+    }
+    gotoMenu() {
+        if (this.userStatus && (!this.userStatus.phone || !this.userStatus.hasSignPassword)) {
+            wx.navigateTo({
+                url: "./phoneAndPassword/phoneAndPassword"
+            });
+        } else {
+            if (this.userStatus.identity.identityStatusCode === 1) {
+                help.showToast("目前正在实名认证中", "error");
+            } else {
+                wx.navigateTo({
+                    url: "./certification/menu"
+                });
+            }
+        }
+    }
+}
+</script>

@@ -1,0 +1,1149 @@
+<style lang="less">
+/* pages/Contract/Contract.wxss */
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+.container {
+    position: relative;
+    height: 100%;
+}
+.progress {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 140rpx;
+    background-color: #539DDB;
+    color: #72b8f3;
+    width: 750rpx;
+    white-space: nowrap;
+    /*border-bottom: 2px solid #539DDB;*/
+}
+.progress-item {
+    display: inline-block;
+    width: 220rpx;
+    height: 140rpx;
+    line-height: 140rpx;
+    text-align: center;
+}
+.progress-item-active {
+    color: #fff;
+}
+.full-page-swiper {
+    position: absolute;
+    bottom: 0;
+    top: 140rpx;
+    width: 750rpx;
+    overflow: hidden;
+    height: initial;
+}
+.step {
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.title {
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #999;
+    padding-left: 30rpx;
+    font-size: 32rpx;
+}
+.contractTemplate {
+    height: 300rpx;
+    /*#F1FAFB浅浅蓝*/
+    background-color: #fff;
+    width: 720rpx;
+    white-space: nowrap;
+    padding-left: 15rpx;
+    padding-right: 15rpx;
+}
+.contractTemplate-item {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+.contractTemplate-item-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 999;
+}
+.contractTemplate-item-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+
+.contractTemplate-selected {
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    z-index: 1000;
+}
+.contractTemplate-item-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    line-height: 240rpx;
+    width: 180rpx;
+    text-align: center;
+    z-index: 1001;
+    color: #fff;
+}
+
+.list-item {
+    position: relative;
+    /*height: 120rpx;*/
+    width: 750rpx;
+    /*border-top: 1rpx solid #f6f6f6;*/
+    /*border-bottom: 1rpx solid #f6f6f6;*/
+}
+
+.list-item-select {
+    position: absolute;
+    height: 60rpx;
+    width: 60rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+.list-item-des-text {
+    position: absolute;
+    height: 120rpx;
+    line-height: 120rpx;
+    font-size: 32rpx;
+    right: 160rpx;
+}
+.add-item {
+    height: 100rpx;
+    width: 750rpx;
+    position: relative;
+    /*border-top: 1rpx solid #eee;*/
+    /*border-bottom: 1rpx solid #eee;*/
+    /*margin-top: 15rpx;*/
+    // margin-bottom: 55rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+.list-item-add {
+    position: absolute;
+    height: 50rpx;
+    width: 50rpx;
+    top: 25rpx;
+    left: 50rpx;
+}
+.add-item-text {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    left: 120rpx;
+    color: #aaa;
+}
+.list-item-more {
+    position: absolute;
+    height: 40rpx;
+    width: 40rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+
+.radio-box {
+    padding: 30rpx;
+}
+.radio-item {
+    position: relative;
+    height: 220rpx;
+}
+.radio-item-img {
+    position: absolute;
+    top: 10rpx;
+    left: 0;
+    height: 50rpx;
+    width: 50rpx;
+}
+.radio-item-text {
+    position: absolute;
+    top: 0;
+    left: 80rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+.radio-item-des {
+    position: absolute;
+    top: 50rpx;
+    left: 80rpx;
+    font-size: 34rpx;
+    color: #bbb;
+    margin-top: 15rpx;
+}
+
+.img-box {
+    padding: 30rpx;
+    color: #999;
+
+}
+.file-img {
+    height: 750rpx;
+    width: 690rpx;
+    box-shadow: 1px 1px 5px #888888;
+    margin-top: 30rpx;
+}
+
+.input-box {
+    margin: 30rpx;
+    height: 500rpx;
+    border: 1rpx solid #eee;
+    border-radius: 10rpx;
+}
+.input-box-text {
+    margin: 50rpx;
+    color: #999;
+}
+.input-box input {
+    border: 1rpx solid #539DDB;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    height: 80rpx;
+    border-radius: 10rpx;
+}
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+    background-color: #FA8383;
+}
+.button-next-active {
+    background-color: #e38184;
+}
+.button-box {
+    height: 140rpx;
+    position: relative;
+}
+
+.first-show-box {
+    padding: 30rpx;
+}
+.first-show-box-img {
+    height: 100rpx;
+    width: 100rpx;
+    margin-top: 150rpx;
+    margin-left: 295rpx;
+    margin-bottom: 30rpx;
+}
+.first-show-box-message {
+    width: 690rpx;
+    text-align: center;
+    font-size: 32rpx;
+    color: #cdcdcd;
+    letter-spacing: 4rpx;
+}
+.first-show-box-button {
+    width: 320rpx;
+    height: 70rpx;
+    line-height: 70rpx;
+    font-size: 34rpx;
+    background-color: #fff;
+    border: 1px solid #cdcdcd;
+    margin-top: 80rpx;
+    border-radius: 6rpx;
+    text-align: center;
+    margin-left: 185rpx;
+    color: #000;
+}
+
+.next-show-box {
+    padding: 30rpx;
+    background-color: #fff;
+}
+.next-show-img-box {
+    position: relative;
+    height: 240rpx;
+    width: 180rpx;
+    margin: 23rpx;
+    border: 2rpx solid #cdcdcd;
+    display: inline-block;
+}
+.next-show-box-img {
+    position: absolute;
+    height: 240rpx;
+    width: 180rpx;
+    top: 0;
+    left: 0;
+}
+.next-show-box-delete {
+    position: absolute;
+    height: 50rpx;
+    width: 180rpx;
+    background-color: rgba(0,0,0,0.3);
+    bottom: 0;
+    z-index:1000;
+}
+.next-show-box-delete image {
+    height: 40rpx;
+    width: 40rpx;
+    margin-left: 70rpx;
+    margin-top: 5rpx;
+}
+.delete-active {
+    background-color: rgba(0,0,0,0.6);
+}
+
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    background-color: #FA8383;
+}
+.button-submit {
+    background-color: #4EBA0F;
+}
+.button-submit-active {
+    background-color: #428b17;
+}
+.button-next-active {
+    background-color: #e38184;
+}
+.button-box {
+    height: 125rpx;
+    position: relative;
+    margin-top: 30rpx;
+}
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+
+</style>
+
+<template>
+<!--pages/Contract/Contract.wxml-->
+<view class="container">
+    <scroll-view class="progress" scroll-x="true" scroll-left="{{scrollX}}">
+
+        <block wx:for="{{step}}" wx:key="id">
+            <view wx:if="{{hasGo >=index}}" class="progress-item {{index == currentStep?'progress-item-active':''}}"
+              data-index="{{index}}" bindtap="selectStep">
+                {{item.name}}
+            </view>
+
+        </block>
+    </scroll-view>
+
+    <swiper current="{{currentStep}}" class="full-page-swiper" bindchange="swiperChange">
+        <swiper-item class="step" style="background-color:#f6f6f6;">
+            <!--签约第一步-->
+           <!--  <view class="title">
+                签署编号
+            </view> -->
+            <view class="list-item ">
+                <view class="list-item-left">
+                    <view class="list-item-left-text">合约名称</view>
+                    <view class="clear"></view>
+                </view>
+                <input class="list-item-input" type="text" bindinput="bindNameChange" value="{{contractData.name}}" placeholder="请输入合约名称" placeholder-style="color:#ccc" />
+            </view>
+            <view class="title">
+                签署方式(长按查看示例)
+            </view>
+            <scroll-view scroll-x="true" class="contractTemplate">
+                <view class="contractTemplate-item" wx:for="{{contractTemplates}}" wx:key="id" bindtouchstart="mytouchstart" bindtouchend="mytouchend" bindtap="selectTemplate({{index}})" wx:if="{{index != 1 || contractTemplates[1].isSelected || contractData.annex.length===0}}">
+                    <image class="contractTemplate-item-bg" src="{{item.imgUrl}}"></image>
+                    <view class="contractTemplate-item-mask"></view>
+                    <view class="contractTemplate-item-text">{{item.name}}</view>
+
+                    <image wx:if="{{item.isSelected}}" class="contractTemplate-selected" src="https://sxflcp.0575s.com/wximages/selected.png"></image>
+
+                </view>
+                <!-- 添加的附件 -->
+                <view wx:if="{{contractTemplates[0].isSelected}}" class="contractTemplate-item" wx:for="{{contractData.annex}}" wx:key="wxPath">
+                    <image bindtap="annexTab({{index}})" class="contractTemplate-item-bg" src="{{item.wxPath}}"></image>
+                    <view hover hover-class="delete-active" class="next-show-box-delete" bindtap="bindDeleteOrder" data-index="{{index}}">
+                        <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/fault.png"></image>
+                    </view>
+                </view>
+                <view wx:if="{{contractTemplates[0].isSelected}}" class="contractTemplate-item" bindtap="bindAddOrder">
+                    <image class="contractTemplate-item-bg" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/addFile.png"></image>
+                    <!--<view class="contractTemplate-item-mask"></view>-->
+                    <view class="contractTemplate-item-text"></view>
+                </view>
+
+                <view class="clear"></view>
+            </scroll-view>
+            <!-- <view class="title">
+                发起方
+            </view>
+            <view class="special-list">
+                <view class="list-item" hover hover-class="list-item-active">
+                    <view class="list-item-left">
+                        <image src="{{contractData.senderAvatar}}" class="list-item-left-icon"></image>
+                        <view class="list-item-left-textbox">
+                            <view class="list-item-left-textbox-name">{{contractData.senderName}}</view>
+                            <view class="list-item-left-textbox-des">{{contractData.senderPhone}}</view>
+                            <view class="clear"></view>
+                        </view>
+                    </view>
+                    <switch class="list-item-select" bindchange="bindSwitchChange('sender',{{index}})" checked style="width:initial; right:10rpx; top:25rpx;"></switch>
+                    <view class="list-item-des-text">{{contractData.sender.needSign?'需签署':'无需签署'}}</view>
+                </view>
+            </view> -->
+            <view class="title">
+                接收方
+            </view>
+            <view class="special-list">
+                <view class="list-item" hover hover-class="list-item-active">
+                    <view class="list-item-left">
+                        <image src="{{contractData.senderAvatar}}" class="list-item-left-icon"></image>
+                        <view class="list-item-left-textbox">
+                            <view class="list-item-left-textbox-name">{{contractData.senderName}}</view>
+                            <view class="list-item-left-textbox-des">{{contractData.senderPhone}}</view>
+                            <view class="clear"></view>
+                        </view>
+                    </view>
+                    <switch class="list-item-select" bindchange="bindSwitchChange('sender',{{index}})" checked style="width:initial; right:10rpx; top:25rpx;"></switch>
+                    <view class="list-item-des-text">{{contractData.sender.needSign?'需签署':'无需签署'}}</view>
+                </view>
+                <block  wx:for="{{contractData.receivers}}" wx:key="id">
+                <view wx:if="{{!(contractData.sender.needSign&&index===0)}}" hover hover-class="list-item-active" @longtap="userLongtap({{index}})" class="list-item" data-index="{{index}}">
+                    <view class="list-item-left" >
+                        <image src="{{(item.userAvatar && item.userAvatar!='') ?item.userAvatar:'http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png'}}" class="list-item-left-icon"></image>
+                        <view class="list-item-left-textbox">
+                            <view class="list-item-left-textbox-name">{{item.userName}}</view>
+                            <view class="list-item-left-textbox-des">{{item.userPhone}}</view>
+                        </view>
+                    </view>
+                    <!-- <switch class="list-item-select" bindchange="bindSwitchChange('receivers',{{index}})" checked style="width:initial; right:10rpx; top:25rpx;"></switch> -->
+                    <!-- <view class="list-item-des-text">{{item.needSign?'需签署':'需确认'}}</view> -->
+                    <image class="list-item-select" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/fault.png" bindtap="bindDeleteReceiver({{index}})" data-index="{{index}}"></image>
+                </view>
+                </block>
+            </view>
+
+            <navigator url="./contracts/addReceiver?key=添加接收方">
+                <view class="add-item" hover="true" hover-class="list-item-active">
+                    <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/add.png" class="list-item-add"></image>
+                    <view class="add-item-text">添加接收方</view>
+                    <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png" class="list-item-more"></image>
+                </view>
+            </navigator>
+            <view class="button-box">
+                <button data-step="{{currentStep}}" class="button-next" hover-class="button-next-active" bindtap="bindNextStep(1)">下一步</button>
+            </view>
+
+            <!--签约第一步-->
+        </swiper-item>
+        <!--签约第二步-->
+        <swiper-item  wx:if="{{hasGo >=1}}" class="step" style="background-color:#f6f6f6;" >
+            <view class="section">
+                <picker mode="date" value="{{contractData.signEndAt}}" start="{{todayDate}}"   bindchange="bindDateChange">
+                    <view class="list-item" hover="true" hover-class="list-item-active">
+                        <view class="list-item-left">
+                            <view class="list-item-left-text">签约截止日期</view>
+                            <view class="clear"></view>
+                        </view>
+                        <view class="list-item-right">
+                            <view class="list-item-right-des">{{contractData.signEndAt}}</view>
+                            <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                            <view class="clear"></view>
+                        </view>
+                    </view>
+                </picker>
+                <picker mode="date" value="{{contractData.paymentAt}}" start="{{todayDate}}" bindchange="bindPaymentChange">
+                    <view class="list-item" hover="true" hover-class="list-item-active">
+                        <view class="list-item-left">
+                            <view class="list-item-left-text">付款期限</view>
+                            <view class="clear"></view>
+                        </view>
+                        <view class="list-item-right">
+                            <view class="list-item-right-des">{{contractData.paymentAt}}</view>
+                            <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                            <view class="clear"></view>
+                        </view>
+                    </view>
+                </picker>
+            </view>
+
+            <view class="section">
+                <picker class="list-item" bindchange="bindDutiesChange" value="0" range-key="showText" range="{{contractData.receivers}}">
+                    <view class="list-item" hover="true" hover-class="list-item-active">
+                        <view class="list-item-left">
+                            <view class="list-item-left-text">责任人（发送签约提醒）</view>
+                            <view class="clear"></view>
+                        </view>
+                        <view class="list-item-right" >
+                            <view class="list-item-right-des" style="width:300rpx;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{contractData.duties.userName}}</view>
+                            <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                            <view class="clear"></view>
+                        </view>
+                    </view>
+                </picker>
+            </view>
+
+            <button class="button-next" hover-class="button-next-active" bindtap="bindNextStep(2)">下一步</button>
+            <!--签约第二步-->
+        </swiper-item>
+
+        <!--签约第三步-->
+        <swiper-item class="step" wx:if="{{hasGo >=2}}" style="background-color:#f6f6f6;">
+            <view class="section">
+                <view class="list-item ">
+                    <view class="list-item-left">
+                        <view class="list-item-left-text">签署密码</view>
+                        <view class="clear"></view>
+                    </view>
+                    <input class="list-item-input" type="password" bindinput="bindPasswordChange" value="{{signpassword}}" placeholder="请输入签署密码" placeholder-style="color:#ccc" />
+                </view>
+                <navigator  url = "./phoneAndPassword/resetPassword" hover-class="none" style="font-size:26rpx; text-align:right;color:#ccc;margin-right:30rpx;padding:10px 0;" > 忘记密码？</navigator>
+                <div class="clear"></div>
+            </view>
+            <view class="button-box">
+                <button bindtap="submit" class="button-submit" hover-class="button-submit-active">确 定</button>
+            </view>
+        </swiper-item>
+
+    </swiper>
+
+
+</view>
+<view class="bottom-line"></view>
+
+<view class="payModal" style="font-family:微软雅黑;" wx:if="{{isModal}}">
+    <view class="modal-bg" bindtap="cancelPay" style="position:absolute; top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);z-index:10;"> </view>
+    <view class="modal-box" style="z-index:11;position:absolute;width:80%;padding-bottom:30rpx;background-color:#fff;border-radius:10rpx;margin:0 auto; top: 0; left: 0; bottom: 0; right: 0;height:400rpx; margin:auto; overflow:hidden;">
+        <view class="modal-head" style="height:90rpx; line-height:90rpx;text-align:center; font-size:30rpx;  border-bottom:2rpx solid #eee;">
+            文件签署付费方式
+        </view>
+        <view class="modal-body" style="width:100%; max-height:390rpx;">
+            <view class="modal-item" style=" margin-top:20rpx;max-height:130rpx; overflow:hidden;" wx:for="{{payerSelect}}" wx:key="value" bindtap="selectRadio({{index}},{{item.value}})">
+                <view style="height:100%;width:15%;float:left"  >
+                    <image wx:if="{{item.isSelected}}" mode="aspectFit" style="width:100%;height:40rpx;margin-top:5rpx;" class="modal-img" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/pass.png"></image>
+                    <image wx:if="{{!item.isSelected}}" mode="aspectFit" style="width:100%;height:40rpx;margin-top:5rpx;" class="modal-img" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/correct.png"></image>
+                </view>
+                <view style="modal-text" style="float:left;width:85%;line-height:50rpx; font-size:28rpx;padding-right:15rpx; box-sizing:border-box;">{{item.text}}</view>
+                <view style="modal-desc" style="float:right;width:85%;color:#aaa;font-size:28rpx; padding-right:15rpx; box-sizing:border-box;">{{item.des}}</view>
+                <view style="clear:both"></view>
+            </view>
+            <view bindtap="bindNextStep(1)" class="modal-btn"  style="width:200rpx; margin:0 auto; height:60rpx;line-height:60rpx; background-color:#FA8383; color:#fff; text-align:center;margin-top:30rpx; font-size:30rpx; border-radius:10rpx;">确 认</view>
+        </view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../helps/help";
+import tools from "../helps/tools";
+import Config from "../config/Config";
+import ConstantCode from "../helps/ConstantCode";
+export default class Contract extends wepy.page {
+    config = {
+        "navigationBarTitleText": "轻松一签，回款无忧",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        todayDate:help.DateFormat(new Date(), "yyyy-MM-dd"),
+        ConstantCode:ConstantCode,
+        hasGo:0,
+        isModal:false,
+        payer:true,
+        step: [
+            {
+                name: "发起签署",
+                show: true
+            },
+            {
+                name: "信息填写",
+                show: false
+            },
+            {
+                name: "签署密码",
+                show: false
+            }
+        ],
+        contractTemplates: [
+            {
+                id: "0",
+                name: "快捷签",
+                imgUrl: "http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/code1.jpg",
+                imgs: [
+                    "http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/code1.jpg",
+                    "http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/code2.jpg"
+                ],
+                isSelected: true
+            }
+        ],
+        orders: [],
+        firstboxshow: "block",
+        nextboxshow: "none",
+        currentStep: 0,
+        scrollX: 0,
+        payerSelect: [
+            {
+                text: "由我来承担此次签署的费用",
+                des: "待签署完成后，将从您的账户中扣除相应的签署次数",
+                isSelected: true,
+                imgShow: "none",
+                value:"SENDER"
+            },
+            {
+                text: "由接收方各自承担签署的费用",
+                des: "",
+                isSelected: false,
+                imgShow: "block",
+                value:"RECIVER"
+            }
+        ],
+        payTypeIndex: 0,
+        dutiesIndex: 0,
+        contractData: {
+            name: "",
+            receivers: [],
+            duties: {},
+            annex: [],
+            sender: {
+                needSign: true
+            },
+            signPayment:ConstantCode.SIGN_PAYMNET.SENDER
+        },
+        senderReceiver: {},
+        signpassword: "",
+        userStatus: {}
+    }
+    async onLoad() {
+        console.log(ConstantCode);
+        // console.log("contract onload");
+        let globalApp = this.$parent;
+        this.userInfo = wx.getStorageSync("userInfo");
+    }
+    async onShow() {
+        console.log("contract onShow");
+        let that = this;
+        // ------------------------更新合约
+        this.contractData.name = help.DateFormat(new Date(), "yyyyMMddhh");
+        try {
+            let userStatus = await help.getUserStatus();
+            that.userStatus = userStatus;
+        } catch (err) {
+            help.showToast(err, "error", function() {
+                wx.switchTab({
+                    url: "./index"
+                });
+            });
+        }
+        this.initContract();
+        this.initUsers();
+    }
+    // 清除数据
+     clearData() {
+        // 清除数据
+        // app.globalData.receivers = [];
+        this.hasGo=0;
+        this.orders = [];
+        this.currentStep = 0;
+        this.scrollX = 0;
+        this.payTypeIndex = 0;
+        this.dutiesIndex = 0;
+        this.signpassword = "";
+        this.contractData = {
+            name: "",
+            receivers: [],
+            duties: {},
+            annex: [],
+            sender: {
+                needSign: true
+            },
+            signPayment:ConstantCode.SIGN_PAYMNET.SENDER
+        };
+        this.payerSelect = [
+            {
+                text: "由我来承担此次签署的费用",
+                des: "待签署完成后，将从您的账户中扣除相应的签署次数",
+                isSelected: true,
+                imgShow: "none",
+                value:"SENDER"
+            },
+            {
+                text: "由接收方各自承担签署的费用",
+                des: "",
+                isSelected: false,
+                imgShow: "block",
+                value:"RECIVER"
+            }
+        ];
+        let app = this.$parent;
+        app.globalData.receivers = [];
+        // this.contractData.annex = [];
+        // this.contractData.duties = {};
+        // this.signpassword = "";
+        // this.contractData.signEndAt = "";
+        // this.contractData.paymentAt = "";
+        this.$apply();
+    }
+    // 更新我的信息至发件人
+    async initContract() {
+        let app = this.$parent;
+        // 更新我的信息至发件人
+        try {
+            var userStatus = await help.getUserStatus();
+        } catch (err) {
+            help.showToast(err, "error", function() {
+                wx.switchTab({
+                    url: "./index"
+                });
+            });
+        }
+        this.userStatus = userStatus;
+        // 初始模板信息
+        this.contractData.contractTemplateId = this.contractTemplates[0].id;
+        this.contractData.contractTemplateName = this.contractTemplates[0].name;
+        // ------------------------更新我的信息
+        this.contractData.senderName = this.userStatus.identity.name;
+        this.contractData.senderPhone = this.userStatus.phone ? this.userStatus.phone : "您还没有绑定手机号";
+        this.contractData.senderAvatar = this.userInfo.avatarUrl;
+        // 不需要签署
+        if (!this.contractData.sender.needSign) {
+            return;
+        }
+        // 填装当前用户信息至receiver
+        let obj = {};
+        obj.userName = this.userStatus.name;
+        obj.userPhone =  this.userStatus.phone ? this.userStatus.phone : "您还没有绑定手机号";
+        obj.userAvatar = this.userInfo.avatarUrl;
+        obj.showText = `${obj.userName}(${obj.userPhone})`;
+        obj.property = 0;
+        this.senderReceiver = obj;
+        if (app.globalData.receivers.length === 0) { // 收件人里没有
+            app.globalData.receivers.push(obj);
+        } else { // 收件人里有，更新
+            app.globalData.receivers.splice(0, 1);
+            app.globalData.receivers.splice(0, 0, this.senderReceiver);
+        }
+        this.$apply();
+    }
+
+    // 更新globalData 中的user至本页面
+    initUsers() {
+        let app = this.$parent;
+        if (app.globalData.receivers) {
+            // 有变化
+            if (app.globalData.receivers.length !== this.contractData.receivers.length) {
+                this.contractData.duties = {};
+            }
+            this.contractData.receivers = app.globalData.receivers;
+        }
+        // 更新责任人
+        this.dutiesIndex = 0;
+        if( this.contractData.receivers.length > 0 ){
+            this.contractData.duties.userName = this.contractData.receivers[0].userName;
+            this.contractData.duties.userPhone = this.contractData.receivers[0].userPhone;
+        }
+        this.$apply();
+    }
+    swiperChange(e) {
+        this.currentStep = e.detail.current;
+        if (e.detail.current >= 3) {
+            this.scrollX = 1100;
+        } else {
+            this.scrollX = 0;
+        }
+    }
+    methods = {
+        onShareAppMessage: function () {
+           return {
+             title: '白鲸宝',
+             path: '/pages/index',
+             success: function(res) {
+             },
+             fail: function(res) {
+               // 转发失败
+                help.showToast("分享失败");
+             }
+           }
+         },
+        // 提交
+        submit: async function(e) {
+            let that = this;
+            if (this.signpassword === "") {
+                help.showToast("请填写签署密码", "error");
+                return;
+            }
+            help.showLoading("数据处理中");
+            // 上传选中的文件
+            try {
+                const wxPaths = this.contractData.annex.map(item=>{
+                    return item.wxPath;
+                });
+                const paths = await  tools.uploadImage(wxPaths);
+                for(let i in this.contractData.annex){
+                    this.contractData.annex[i].path = paths[i];
+                }
+            } catch (err) {
+                console.log(err);
+                help.showToast("文件上传失败", "error");
+                return;
+            }
+            // var obj = JSON.parse(JSON.stringify(this.contractData));
+            this.contractData.sender.userName = "无效数据";
+            this.contractData.sender.userPhone = "15268477078";
+            this.contractData.sender.property = "0";
+            console.log(this.contractData);
+            try {
+                let option = {
+                    contract: JSON.stringify(this.contractData),
+                    signpassword: tools.md5Encryption(this.signpassword)
+                };
+                if (this.userStatus.companyList&&this.userStatus.companyList.length > 0) {
+                    option.companyId = this.userStatus.companyList[0].companyId;
+                }
+                await help.request(Config.host + "contract.new", option);
+                console.log("合约生成成功");
+                help.showToast("合约生成成功", "success", function() {
+                    that.clearData();
+                    wx.switchTab({
+                        url: "userCenter"
+                    });
+                });
+            } catch (err) {
+                console.log("合约生成失败"+err);
+                help.showToast(err, "error");
+                return;
+            }
+            // 刷新用户状态字段
+            await help.requestUserStatus();
+        },
+        // 签署密码改变
+        bindPasswordChange: function(e) {
+            this.signpassword = e.detail.value;
+        },
+        // 合约名称改变
+        bindNameChange: function(e) {
+            this.contractData.name = e.detail.value;
+        },
+        // 签约截至日期改变
+        bindDateChange: function(e) {
+            this.contractData.signEndAt = e.detail.value;
+        },
+        // 付款期限
+        bindPaymentChange: function(e) {
+            this.contractData.paymentAt = e.detail.value;
+        },
+        // 责任人改变
+        bindDutiesChange: function(e) {
+            if (!(this.contractData.receivers && this.contractData.receivers.length > 0)) {
+                return;
+            }
+            this.dutiesIndex = e.detail.value;
+            this.contractData.duties.userName = this.contractData.receivers[this.dutiesIndex].userName;
+            this.contractData.duties.userPhone = this.contractData.receivers[this.dutiesIndex].userPhone;
+        },
+
+        // 删除按钮
+        bindDeleteReceiver: function(index, e) {
+            let app = this.$parent;
+            let that = this;
+            let array = app.globalData.receivers;
+            if (index === 0 && that.contractData.senderPhone === array[0].userPhone) {
+                return;
+            }
+            wx.showModal({
+                title: "提示",
+                content: "是否删除该接收方",
+                success: function(res) {
+                    if (res.confirm) {
+                        array.splice(index, 1);
+                        that.initUsers();
+                    } else if (res.cancel) {}
+                }
+            });
+        },
+        swiperChange: function(e) {
+            this.currentStep = e.detail.current;
+            if (e.detail.current >= 3) {
+                this.scrollX = 1100;
+            } else {
+                this.scrollX = 0;
+            }
+        },
+        selectStep: function(e) {
+            let index = e.currentTarget.dataset.index;
+            this.currentStep = index;
+        },
+        selectTemplate: function(index,e) {
+            let that = this;
+            // 触摸时间距离页面打开的毫秒数
+            var touchTime = that.touch_end - that.touch_start;
+            if (touchTime > 350 && this.contractTemplates[index].imgs) {
+                wx.previewImage({
+                    urls: this.contractTemplates[index].imgs
+                });
+            } else {
+                // 清空上传的附件信息
+                let array = this.contractTemplates;
+                for (let i = 0; i < array.length; i++) {
+                    if (i === index){
+                        this.contractData.contractTemplateId = array[i].id;
+                        this.contractData.contractTemplateName = array[i].name;
+                        // 本来就选中的
+                        if (array[i].isSelected === true) {
+                            return;
+                        }
+                        array[i].isSelected = true;
+                    } else {
+                        array[i].isSelected = false;
+                    }
+                }
+                this.contractTemplates = array;
+                this.contractData.annex = [];
+            }
+        },
+        selectRadio: function(index,value) {
+            let array = this.data.payerSelect;
+            this.contractData.signPayment = this.ConstantCode.SIGN_PAYMNET[value];
+            for (let i = 0; i < array.length; i++) {
+                if (i === index) {
+                    array[i].isSelected = true;
+                    array[i].imgShow = "none";
+                } else {
+                    array[i].isSelected = false;
+                    array[i].imgShow = "block";
+                }
+            }
+            this.payerSelect = array;
+        },
+        // 按下事件开始
+        mytouchstart: function(index,e) {
+            let that = this;
+            that.touch_start = e.timeStamp;
+        },
+        // 按下事件结束
+        mytouchend: function(index,e) {
+            let that = this;
+            that.touch_end = e.timeStamp;
+        },
+        bindNextStep: function(index, e) {
+            // 判断是否已经实名认证
+            if (this.userStatus  && this.userStatus.identity.identityStatusCode === 1) {
+                help.showModal("提示", "正在实名认证中", false, function() {
+                    // wx.switchTab({
+                    //     url: "./index"
+                    // });
+                });
+                return;
+            } else if ( this.userStatus.identity.identityStatusCode === 0) {
+                let Referer = "menu";
+                let url = !(this.userStatus.phone && this.userStatus.hasSignPassword) ? "./phoneAndPassword/phoneAndPassword" : "./certification/menu";
+                help.showModal("提示", "请先进行实名认证", true, function() {
+                    wx.navigateTo({
+                        url: `${url}?referer=${Referer}`
+                    });
+                }, function() {
+                    // wx.switchTab({
+                    //     url: "./index"
+                    // });
+                });
+                return;
+            }
+            // 验证
+            if (index === "1") {
+                if (this.contractData.receivers.length < 2) {
+                    help.showToast("必须有2个及以上收件方(签署)", "error");
+                    return;
+                }
+                // 附件判断
+                if (this.contractTemplates[0].isSelected && !(this.contractData.annex && this.contractData.annex.length > 0)) {
+                    help.showToast("请上传码单/对账单", "error");
+                    return;
+                }
+
+                if (!this.contractData.name || this.contractData.name === "") {
+                    help.showToast("请填写合约编号", "error");
+                    return;
+                }
+                if(!this.isModal){
+                    this.isModal = true;
+                    this.$apply();
+                    return ;
+                }
+                else{
+                    this.isModal = false;
+                }
+            }
+            if (index === "2") {
+                if (!this.contractData.signEndAt  ) {
+                    help.showToast("请选择截止日期", "error");
+                    return;
+                }
+                if (!this.contractData.duties || !this.contractData.duties.userName) {
+                    help.showToast("请选择责任人", "error");
+                    return;
+                }
+            }
+
+            this.currentStep = index;
+            if(index>this.hasGo){
+                this.hasGo=index;
+            }
+            this.$apply();
+        },
+        // 取消支付弹框
+        cancelPay:function(){
+            this.isModal = false;
+            this.$apply();
+        },
+        // 接收方方长按删除
+        userLongtap: function(index) {
+            let app = this.$parent;
+            let that = this;
+            let array = app.globalData.receivers;
+            if (index === 0 && that.contractData.senderPhone === array[0].userPhone) {
+                return;
+            }
+            wx.showModal({
+                title: "提示",
+                content: "是否删除该接收方",
+                success: function(res) {
+                    if (res.confirm) {
+                        array.splice(index, 1);
+                        that.initUsers();
+                    } else if (res.cancel) {}
+                }
+            });
+        },
+        // 收件人是否签署切换
+        bindSwitchChange: function(who, index) {
+            let app = this.$parent;
+            if (who === "receivers") {
+                this.contractData.receivers[index].needSign = !this.contractData.receivers[index].needSign;
+            } else {
+                // 发件人 增删
+                if (this.contractData.sender.needSign) {
+                    app.globalData.receivers.splice(0, 1);
+                } else {
+                    app.globalData.receivers.splice(0, 0, this.senderReceiver);
+                }
+                this.contractData.sender.needSign = !this.contractData.sender.needSign;
+            }
+            this.initUsers();
+        },
+        bindImgUpload:async function(e) {
+            let that = this;
+            let orders =  await tools.chooseImage(9);
+            let annex = that.contractData.annex;
+            for (let i in orders) {
+                let obj = {};
+                obj.name = "附件";
+                obj.wxPath = orders[i];
+                annex.push(obj);
+            }
+            that.contractData.annex = annex;
+            that.firstboxshow = "none";
+            that.nextboxshow = "block";
+            that.$apply();
+        },
+
+        bindDeleteOrder: function(e) {
+            var that = this;
+            wx.showModal({
+                title: "提示",
+                content: "确定删除？",
+                success: function(res) {
+                    if (res.confirm) {
+                        that.contractData.annex.splice(e.currentTarget.dataset.index, 1);
+                        // that.orders = that.data.orders;
+                        that.$apply();
+                    } else if (res.cancel) {
+                        console.log("用户点击取消");
+                    }
+                },
+                complete: function() {
+                    console.log(that.contractData.annex.length);
+                    if (that.contractData.annex.length === 0) {
+                        that.firstboxshow = "block";
+                        that.nextboxshow = "none";
+                        that.$apply();
+                    }
+                }
+            });
+        },
+
+        bindAddOrder:async function() {
+            var that = this;
+            let orders =  await tools.chooseImage(9);
+            let annex = that.contractData.annex;
+            for (let i in orders) {
+                let obj = {};
+                obj.name = "附件";
+                obj.wxPath = orders[i];
+                annex.push(obj);
+            }
+            that.contractData.annex = annex;
+            that.firstboxshow = "none";
+            that.nextboxshow = "block";
+            console.log(that.contractData);
+            that.$apply();
+        },
+        // 预览上传的附件
+        annexTab: function(index) {
+            let pathArray = this.contractData.annex.map((item) => {
+                return item.wxPath;
+            });
+            wx.previewImage({
+                current: pathArray[index], // 当前显示图片的http链接
+                urls: pathArray
+            });
+        }
+    }
+}
+</script>

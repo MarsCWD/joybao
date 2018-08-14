@@ -1,0 +1,203 @@
+<style>
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+.contracts {
+    width: 750rpx;
+    min-height: 100rpx;
+
+    background-color: #f6f6f6;
+}
+
+.contracts {
+    background-color: #fff;
+}
+
+.contracts-item {
+    position: relative;
+    height: 140rpx;
+    border-bottom: 1rpx solid #eee;
+}
+
+.contracts-item-img {
+    position: absolute;
+    top: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    width: 80rpx;
+}
+
+.contracts-item-title {
+    position: absolute;
+    top: 20rpx;
+    left: 140rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.contracts-item-des {
+    position: absolute;
+    top: 80rpx;
+    left: 140rpx;
+    color: #999;
+    font-size: 30rpx;
+}
+
+.contracts-item-time {
+    position: absolute;
+    bottom: 20rpx;
+    right: 30rpx;
+    color: #999;
+    font-size: 30rpx;
+}
+
+.nothing-bg {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.nothing-bg {
+    text-align: center;
+    line-height: 100rpx;
+    color: #ccc;
+}
+</style>
+
+<template>
+<view class="container">
+    <scroll-view scroll-y bindscrolltolower="scrolltolower" style="height:100%;">
+        <view wx:if="{{!contracts.length}}" class="nothing-bg">
+            <text>暂无数据</text>
+        </view>
+        <view wx:if="{{contracts.length}}" class="contracts">
+            <view wx:for="{{contracts}}" wx:key="_id" class="special-list">
+                <navigator url="./contractDetail?id={{item.contractId}}">
+                    <view class="list-item">
+                        <view class="list-item-left">
+                            <image class="list-item-left-icon" src="{{item.userAvatar||'https://r.0575s.com/wximages/people.png'}}"></image>
+                            <view class="list-item-left-textbox">
+                                <view class="list-item-left-textbox-name">{{item.name?item.name:item.userPhone}}</view>
+                                <view class="list-item-left-textbox-des">
+                                    <text>{{item.contractName}}</text>
+                                </view>
+                            </view>
+                            <view class="clear"></view>
+                        </view>
+                        <view class="list-item-right">
+                            <view class="list-item-right-status">{{item.contractState === 'Wait'?'未生效':'已生效'}}</view>
+                            <view class="list-item-right-time">{{item.updatedAt}}</view>
+                        </view>
+                    </view>
+                </navigator>
+            </view>
+            <view wx:if="{{finishMore}}" style=" text-align:center; background-color:white;color:#666; font-size:28rpx; padding:10rpx 0">没有更多了</view>
+        </view>
+    </scroll-view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import ConstantCode from "../../helps/ConstantCode";
+export default class contractList extends wepy.page {
+    config = {
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+    }
+    data = {
+        contracts: [],
+        state: "",
+        waitMe: false,
+        finishMore: false,
+        isLoading: false
+    }
+    clearData() {
+        this.data = {
+            contracts: [],
+            state: "",
+            waitMe: false,
+            finishMore: false,
+            isLoading: false
+        }
+    }
+    async initContractList(cb) {
+        try {
+            let latest = (this.contracts && this.contracts.length > 0) ? Date.parse(new Date(this.contracts[this.contracts.length - 1].oldUpdateAt)) : new Date().getTime();
+            let result = await help.request(Config.host + "contract.list.all", {
+                latest: latest,
+                contractState: this.state,
+                waitMe: this.waitMe
+            });
+            if (!result || !result.data || !result.data.data || result.data.data.length === 0) {
+                this.finishMore = true;
+                if (cb && typeof (cb) === "function") {
+                    cb();
+                }
+                this.$apply();
+                return;
+            }
+            this.finishMore = false;
+
+            if (this.contracts && this.contracts.length > 0) {
+                this.contracts.push.apply(this.contracts, result.data.data);
+            } else {
+                this.contracts = result.data.data;
+            }
+            this.contracts.map((item) => {
+                item.oldUpdateAt = Date.parse(new Date(item.updatedAt));
+                item.updatedAt = help.DateFormat(new Date(item.updatedAt), "MM/dd hh:mm");
+                return item;
+            });
+            if (cb && typeof (cb) === "function") {
+                cb();
+            }
+            this.$apply();
+        } catch (err) {
+            console.log(err);
+            help.showToast(err, "error", function () {
+                wx.navigateBack({
+                    delta: 1
+                });
+            });
+        }
+    }
+    async onLoad(options) {
+        wx.setNavigationBarTitle({
+            "title": options.title
+        });
+        this.state = options.state ? options.state : "";
+        this.waitMe = options.waitme ? options.waitme : "";
+        this.userStatus = await help.getUserStatus()
+        this.initContractList(null);
+    }
+    onUnload() {
+        this.clearData();
+    }
+    onPullDownRefresh() {
+        this.initContractList(() => {
+            wx.stopPullDownRefresh();
+        });
+    }
+    methods = {
+        scrolltolower: function () {
+            if (!this.isLoading) {
+                this.isLoading = true;
+            } else {
+                return;
+            }
+            help.showLoading("数据加载中");
+            this.initContractList(() => {
+                help.hideToast();
+                this.isLoading = false;
+            });
+        }
+
+    }
+}
+</script>

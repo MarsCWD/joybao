@@ -1,0 +1,709 @@
+<style>
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+}
+
+.progress {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 140rpx;
+    background-color: #539DDB;
+    color: #72b8f3;
+    width: 750rpx;
+    white-space: nowrap;
+    /*border-bottom: 2px solid #539DDB;*/
+}
+
+.progress-item {
+    display: inline-block;
+    width: 220rpx;
+    height: 140rpx;
+    line-height: 140rpx;
+    text-align: center;
+}
+
+.progress-item-active {
+    color: #fff;
+}
+
+.full-page-swiper {
+    position: absolute;
+    bottom: 0rpx;
+    top: 140rpx;
+    width: 750rpx;
+    overflow: hidden;
+    height: initial;
+}
+
+.step {
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+
+.title {
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #999;
+    padding-left: 30rpx;
+    font-size: 32rpx;
+}
+
+.contractTemplate {
+    height: 300rpx;
+    /*#F1FAFB浅浅蓝*/
+    background-color: #fff;
+    width: 720rpx;
+    white-space: nowrap;
+    padding-left: 15rpx;
+    padding-right: 15rpx;
+}
+
+.contractTemplate-item {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+
+.contractTemplate-item-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.contractTemplate-item-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+
+.contractTemplate-selected {
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    z-index: 1000;
+}
+
+.contractTemplate-item-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    line-height: 240rpx;
+    width: 180rpx;
+    text-align: center;
+    z-index: 1001;
+    color: #fff;
+}
+
+.list-item {
+    position: relative;
+    /*height: 120rpx;*/
+    width: 750rpx;
+    /*border-top: 1rpx solid #f6f6f6;*/
+    /*border-bottom: 1rpx solid #f6f6f6;*/
+}
+
+.list-item-select {
+    position: absolute;
+    height: 60rpx;
+    width: 60rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+
+.list-item-des-text {
+    position: absolute;
+    height: 120rpx;
+    line-height: 120rpx;
+    font-size: 32rpx;
+    right: 160rpx;
+}
+
+.add-item {
+    height: 100rpx;
+    width: 750rpx;
+    position: relative;
+    /*border-top: 1rpx solid #eee;*/
+    /*border-bottom: 1rpx solid #eee;*/
+    /*margin-top: 15rpx;*/
+    margin-bottom: 80rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-add {
+    position: absolute;
+    height: 50rpx;
+    width: 50rpx;
+    top: 25rpx;
+    left: 50rpx;
+}
+
+.add-item-text {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    left: 120rpx;
+    color: #aaa;
+}
+
+.list-item-more {
+    position: absolute;
+    height: 40rpx;
+    width: 40rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+
+
+.radio-box {
+    padding: 30rpx;
+}
+
+.radio-item {
+    position: relative;
+    height: 220rpx;
+}
+
+.radio-item-img {
+    position: absolute;
+    top: 10rpx;
+    left: 0;
+    height: 50rpx;
+    width: 50rpx;
+}
+
+.radio-item-text {
+    position: absolute;
+    top: 0;
+    left: 80rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.radio-item-des {
+    position: absolute;
+    top: 50rpx;
+    left: 80rpx;
+    font-size: 34rpx;
+    color: #bbb;
+    margin-top: 15rpx;
+}
+
+.img-box {
+    padding: 30rpx;
+    color: #999;
+}
+
+.file-img {
+    height: 750rpx;
+    width: 690rpx;
+    box-shadow: 1px 1px 5px #888888;
+    margin-top: 30rpx;
+}
+
+.input-box {
+    margin: 30rpx;
+    height: 500rpx;
+    border: 1rpx solid #eee;
+    border-radius: 10rpx;
+}
+
+.input-box-text {
+    margin: 50rpx;
+    color: #999;
+}
+
+.input-box input {
+    border: 1rpx solid #539DDB;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    height: 80rpx;
+    border-radius: 10rpx;
+}
+
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    background-color: #FA8383;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 125rpx;
+    position: relative;
+    margin-top: 30rpx;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+</style>
+
+<template>
+<view class="container">
+    <view wx:if="{{template.stepSum>1}}">
+        <scroll-view class="progress" scroll-x="true" scroll-left="{{scrollX}}">
+            <repeat for="{{template.steps}}">
+                <view wx:if="{{hasGo >=index}}" class="progress-item {{index==currentStep?'progress-item-active':''}}" data-index="{{index}}" bindtap="selectStep({{index}})">
+                    {{item.stepName}}
+                </view>
+            </repeat>
+        </scroll-view>
+
+        <swiper current="{{currentStep}}" class="full-page-swiper" bindchange="swiperChange">
+            <repeat for="{{template.steps}}">
+                <swiper-item class="step" wx:if="{{hasGo >=index}}">
+                    <step :step.sync="item" @branchChange.user="branchChange"></step>
+                    <view class="button-box">
+                        <button data-step="{{currentStep}}" class="{{  index === template.steps.length-1? 'button-submit':'button-next'}}" hover-class="{{index === template.steps.length-1? 'button-submit-active': 'button-next-active'}}" bindtap="bindNextStep({{index}})">{{index === template.steps.length-1 ? '完成':'下一步'}}</button>
+                    </view>
+                </swiper-item>
+            </repeat>
+        </swiper>
+        <view class="bottom-line"></view>
+    </view>
+
+    <view wx:if="{{template.stepSum === 1}}" style="height:100%">
+        <repeat for="{{template.steps}}">
+            <view class="step" >
+                <step :step="item"></step>
+                <view class="button-box">
+                    <button data-step="{{currentStep}}" class="{{  index === template.steps.length-1? 'button-submit':'button-next'}}" hover-class="{{index === template.steps.length-1? 'button-submit-active': 'button-next-active'}}" bindtap="bindNextStep({{index}})">{{index === template.steps.length-1 ? '完成':'下一步'}}</button>
+                </view>
+            </view>
+        </repeat>
+    </view>
+
+</view>
+</template>
+<script>
+import wepy from "wepy";
+import step from "../../components/step";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import ConstantCode from "../../helps/ConstantCode";
+import tools from "../../helps/tools";
+export default class certificationIndex extends wepy.page {
+        components = {
+            step: step
+        }
+        config = {
+            "navigationBarTitleText": "个体工商户认证",
+            "navigationBarBackgroundColor": "#539DDB",
+            "navigationBarTextStyle": "white"
+        }
+        data = {
+            currentStep: 0,
+            userStatus: {},
+            template: {
+                steps: [
+                    // 罪魁祸首！！！！
+                    // {
+                    //      fields: []
+                    // }
+                ]
+            },
+            hasGo:0
+        }
+        events = {
+            "cClick": (e) => {
+                console.log("点击了按钮");
+            },
+            "dataChange": (e) => {
+                console.log("其子组件有变化");
+            }
+        };
+        initBranch(branchIndex) {
+            this.hasGo = 0;
+            if (!this.template) { // 不存在模板数据
+                return;
+            }
+            if (!this.template.allSteps) {
+                this.template.allSteps = this.template.steps.slice(0);
+            }
+            if (!this.template.branch) { // 不存在分支数据
+            } else { // 存在分支
+                this.template.branchIndex = branchIndex;
+                let curBranch = this.template.branch[branchIndex];
+                this.template.steps = [];
+                for (let index = 0; index < this.template.allSteps.length; index++) {
+                    if (curBranch.indexOf(index) >= 0) {
+                        this.template.steps.push(this.template.allSteps[index]);
+                    }
+                }
+            }
+        };
+        // 移除个人认证步骤
+        removePersonStep() {
+            if (this.userStatus.identity.isPersonIdentity) {
+                for (let index in this.template.steps) {
+                    if (this.template.steps[index].stepName === '法人信息' || this.template.steps[index].stepName === '代理人信息') {
+                        this.template.steps.splice(index, 1);
+                        return;
+                    }
+                }
+            }
+        }
+        async onLoad(options) {
+            let that = this;
+            let key = options.key;
+            let name = options.name;
+            // 无手机号或签署密码就跳转
+            let userStatus = await help.getUserStatus();
+            this.userStatus = userStatus;
+            if (!(userStatus.phone && userStatus.hasSignPassword)) {
+                wx.redirectTo({
+                    url: "../phoneAndPassword/phoneAndPassword"
+                });
+            }
+            if (key === "idcard" && (this.userStatus.identity.isPersonIdentity)) {
+                    help.showToast("已提交了认证", "error", () => {
+                        help.goToReferer("");
+                    })
+                }
+                wx.setNavigationBarTitle({
+                    title: name
+                });
+
+                // 取出暂存模板数据
+                let template = wx.getStorageSync(key);
+                if (template) { // 存在模板数据
+                    this.template = template;
+                    this.initBranch(this.template.branchIndex);
+                    this.removePersonStep();
+                } else {
+                    try {
+                        console.log("准备获取认证模板" + key);
+                        let templateRes = await help.request(Config.host + "template.getTemplate", {
+                            templateKey: key
+                        }, "get");
+                        that.template = templateRes.data.data;
+                        that.template.templateKey = key;
+                        that.initBranch(that.template.branchIndex);
+                        this.removePersonStep();
+                        that.$apply();
+                    } catch (err) {
+                        help.showToast("无法获取认证数据,请稍后再试", "error", function() {
+                            help.goToReferer(that.referer);
+                        });
+                    }
+                }
+                this.$apply();
+            };
+            onShow() {
+                let app = this.$parent;
+                if (app.globalData && app.globalData.province && app.globalData.city) {
+                    for (let i in this.template.steps) {
+                        let step = this.template.steps[i];
+                        for (let j in step.fields) {
+                            let field = step.fields[j];
+                            if (field.showType === "cLocationPicker") {
+                                field.value = `${app.globalData.province},${app.globalData.city}`;
+                            }
+                        }
+                    }
+                }
+            };
+            onUnload() {
+                // 暂存模板数据
+                if (this.template.templateKey) {
+                    wx.setStorageSync(this.template.templateKey, this.template);
+                }
+                // 重置模板数据及title
+                this.currentStep = 0;
+                this.template = {
+                    steps: []
+                };
+                let app = this.$parent;
+                app.globalData.province = "";
+                app.globalData.city = "";
+            };
+
+              // 验证当页所有
+            validate (index) {
+                const that = this;
+                const step = that.template.steps[index];
+                if(step.disabled) {
+                    return true;
+                }
+                for(let item of step.fields){
+                    if(item.regExp){
+                        const reg = new RegExp(item.regExp);
+                        if( !item.value || item.value === "" || !reg.test(item.value)){
+                            item.isValidated = "false";
+                            that.$apply();
+                            let errMessage = item.errMessage ? item.errMessage : item.name+"输入有误";
+                            help.showToast(errMessage,"error");
+                            return false;
+                        }
+                        else{
+                            // item.isValidated = "true";
+                        }
+                    }
+                };
+                that.$apply();
+                return true;
+            };
+
+
+            // 处理item的数据
+            async parseValue(field) {
+                if(!field.value){
+                    return null;
+                }
+                const fieldObj = {};
+                switch(field.showType){
+                    case "cLocationPicker":
+                        let location = field.value;
+                        let locations = location.split(",");
+                        if (locations.length > 0) {
+                            fieldObj.provice = locations[0];
+                        }
+                        if (locations.length > 1) {
+                            fieldObj.city = locations[1];
+                        }
+                    break;
+                    case "cImage":
+                        try{
+                            fieldObj[field.key] = await tools.uploadImage(field.value);
+                            console.log("图片上传阿里云成功："+fieldObj[field.key]);
+                        }
+                        catch(err){
+                            throw err;
+                        }
+                    break;
+
+                    case "cDownLoadImage":
+                          try{
+                            fieldObj[field.key] = await tools.uploadImage(field.value);
+                            console.log("图片上传阿里云成功："+fieldObj[field.key]);
+                        }
+                        catch(err){
+                            throw err;
+                        }
+                    break;
+
+                    default:
+                        fieldObj[field.key] = field.value;
+                }
+                return fieldObj;
+            }
+
+            // 生成提交數據
+            async submitData() {
+                help.showLoading("数据处理中");
+                let template = this.template;
+                let that = this;
+                let data = [];
+                for (let i in template.steps) {
+                    let step = template.steps[i];
+                    let stepData = {};
+                    for (let j in step.fields) {
+                        try{
+                            let curValue = await this.parseValue(step.fields[j]);
+                            Object.assign(stepData,curValue); 
+                        }
+                        catch(err){
+                            help.showToast(err, "error");
+                            return ;
+                        }
+                    }
+                    data.push(stepData);
+                }
+                console.log("生成了提交数据");
+                console.log(data);
+                // help.hideLoading();
+                let pa = {};
+                switch (template.templateName) {
+                    case "代理人认证":
+                        {
+                            try {
+                                if (this.userStatus.identity.isPersonIdentity) {
+                                    pa = {
+                                        companyId: data[0].agentCompanyId,
+                                        certificateId: data[1].certificateId
+                                    }
+                                } else {
+                                    pa = {
+                                        companyId: data[0].agentCompanyId,
+                                        identity: JSON.stringify(data[1]),
+                                        certificateId: data[2].certificateId,
+                                        
+                                    }
+                                }
+                                await help.request(Config.host + "certificate.agent", pa);
+                                console.log("你的申请已被提交,请等待验证通过");
+                                help.showToast("你的申请已被提交,请等待验证通过", "success", function() {
+                                    help.goToReferer(that.referer, 2);
+                                });
+                            } catch (err) {
+                                help.showToast(err, "error");
+                                return;
+                            }
+                            await help.requestUserStatus();
+                            break;
+                        }
+                    case "公司注册":
+                        {
+                            try {
+                                if (this.userStatus.identity.isPersonIdentity) {
+                                    if (data.length > 1) {
+                                        data[0].certificateId = data[1].certificateId;
+                                    }
+                                    pa = {
+                                        company: JSON.stringify(data[0]),
+                                    }
+                                } else {
+                                    if (data.length > 2) {
+                                        data[0].certificateId = data[2].certificateId;
+                                    }
+                                    pa = {
+                                        company: JSON.stringify(data[0]),
+                                        identity: JSON.stringify(data[1]),
+                                    }
+                                }
+                                await help.request(Config.host + "certificate.company", pa);
+                                console.log("你的申请已被提交,请等待验证通过");
+                                help.showToast("你的申请已被提交,请等待验证通过", "success", function() {
+                                    help.goToReferer(that.referer, 2);
+                                });
+                            } catch (err) {
+                                help.showToast(err, "error");
+                                return;
+                            }
+                            await help.requestUserStatus();
+                            break;
+                        }
+                    case "身份证认证":
+                        {
+                            try {
+                                var identity = {};
+                                await help.request(Config.host + "certificate.personal.idCard", {
+                                    identity: JSON.stringify(Object.assign(identity, data[0], data[1], data[2])),
+                                });
+                                console.log("你的申请已被提交,请等待验证通过");
+                                help.showToast("你的申请已被提交,请等待验证通过", "success", function() {
+                                    help.goToReferer(that.referer, 2);
+                                });
+                            } catch (err) {
+                                help.showToast(err, "error");
+                                return;
+                            }
+                            await help.requestUserStatus();
+                            break;
+                        }
+                    default:
+                        {}
+                }
+            }
+            extend(o, n) {
+                for (var p in n) {
+                    if (n.hasOwnProperty(p) && (!o.hasOwnProperty(p))) {
+                        o[p] = n[p];
+                    }
+                }
+            };
+            events = {
+                setLocation(province, city) {
+                    console.log(province + city);
+                }
+            }
+            methods = {
+                branchChange(branchIndex) {
+                    console.log("切换分支到" + branchIndex);
+                    this.initBranch(branchIndex);
+                    this.removePersonStep();
+                },
+                bindNextStep(index) {     
+                    if (index === this.template.steps.length - 1) {
+                        for(let i=0;i<this.template.steps.length;i++){
+                            if(!this.validate(i)){
+                                console.log(`第${i+1}步校验不通过!`);
+                                return ;
+                            }
+                        }
+                        console.log("完成了,模板数据为");
+                        console.log(this.template);
+                        this.submitData();
+                    } else {
+                        if(!this.validate(index)){
+                            console.log("当前步骤校验不通过!");
+                            return ;
+                        }
+                        this.currentStep = index + 1;
+                        if(this.currentStep>this.hasGo){
+                            this.hasGo=this.currentStep;
+                        }
+                        this.$apply();
+                    }
+                },
+
+                swiperChange(e) {
+                    this.currentStep = e.detail.current;
+                    // if (e.detail.current >= 3) {
+                    //     this.scrollX = 1100;
+                    // } else {
+                    //     this.scrollX = 0;
+                    // }
+                },
+                selectStep(index) {
+                    this.currentStep = index;
+                }
+            }
+        }
+</script>

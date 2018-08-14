@@ -1,0 +1,382 @@
+<style>
+/* pages/audit/audit.wxss */
+
+page {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    font-family: 微软雅黑;
+}
+
+.audit-nav {
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 750rpx;
+    background-color: #539DDB;
+    color: #72b8f3;
+    font-size: 32rpx;
+    text-align: center;
+}
+
+.nav-item {
+    float: left;
+    width: 250rpx;
+}
+
+.nav-item-active {
+    color: #fff;
+}
+
+.audit-swiper {
+    position: absolute;
+    top: 80rpx;
+    bottom: 0;
+    width: 750rpx;
+    height: initial;
+    /*background-color: red;*/
+    overflow: hidden;
+}
+
+.audit-swiper swiper-item {
+    height: 100%;
+    background-color: #eee;
+    overflow: auto;
+}
+
+
+.list-item {
+    height: 180rpx;
+    width: 750rpx;
+    background-color: #fff;
+    font-size: 30rpx;
+    margin-bottom: 3rpx;
+}
+
+.top {
+    position: relative;
+    height: 120rpx;
+    width: 750rpx;
+    /*background-color: red;*/
+}
+
+.top-image {
+    position: absolute;
+    height: 80rpx;
+    width: 80rpx;
+    top: 20rpx;
+    left: 20rpx;
+}
+
+.top-nickname {
+    position: absolute;
+    line-height: 120rpx;
+    left: 110rpx;
+}
+
+.top-time {
+    position: absolute;
+    right: 20rpx;
+    line-height: 120rpx;
+    font-size: 26rpx;
+    color: #ddd;
+}
+
+.bottom {
+    height: 60rpx;
+    width: 750rpx;
+    font-size: 24rpx;
+    /*line-height: 60rpx;*/
+    color: #666;
+}
+
+.bottom-category {
+    float: left;
+    /*line-height: 60rpx;*/
+    margin-left: 30rpx;
+    /*color: #FFC85B;*/
+}
+
+.bottom-detail {
+    float: left;
+    margin-left: 15rpx;
+}
+
+.bottom-detail-img {
+    float: left;
+    height: 32rpx;
+    width: 32rpx;
+    margin-left: 5rpx;
+}
+
+.bottom-more {
+    float: right;
+    margin-right: 20rpx;
+    font-size: 26rpx;
+}
+</style>
+<template>
+<!--pages/audit/audit.wxml-->
+<view class="audit-nav">
+    <view class="nav-item {{index==currentState?'nav-item-active':''}}" wx:key="name" wx:for="{{auditStates}}" data-index="{{index}}" bindtap="selectState">{{item.name}}</view>
+</view>
+
+<swiper class="audit-swiper" current="{{currentState}}" bindchange="swiperChange">
+
+    <!--待审核-->
+    <swiper-item>
+        <scroll-view scroll-y bindscrolltolower="scrolltolower({{ConstantCode.AUDIT_STATUS.IN_PROCESSING}})" style="height:{{scrollHeight}}px;">
+            <repeat class="list" for="{{audits.inProcessing}}" key="_id">
+                <navigator url="./auditDetail?id={{item._id}}&type={{item.type}}&status={{ConstantCode.AUDIT_STATUS.IN_PROCESSING}}">
+                    <view class="list-item">
+                        <view class="top">
+                            <image class="top-image" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png"></image>
+                            <view class="top-nickname">{{item.title}}</view>
+                            <view class="top-time">{{item.updatedAt}}</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="bottom-category">{{item.subject}}</view>
+                            <view class="bottom-more">
+                                <view style="float:left; color:#71C9CE;">详情</view>
+                                <image style="float:left; height:30rpx; width:30rpx; margin-top:4rpx;" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more2.png"></image>
+                            </view>
+                        </view>
+                    </view>
+                </navigator>
+            </repeat>
+            <view wx:if = "{{audits.inProcessingMore}}" style = " text-align:center; background-color:white;color:#666; font-size:28rpx; padding:10rpx 0">没有更多了</view>
+        </scroll-view>
+    </swiper-item>
+
+
+    <!--已通过-->
+    <swiper-item>
+        <scroll-view scroll-y bindscrolltolower="scrolltolower({{ConstantCode.AUDIT_STATUS.FINISH}})" style="height:{{scrollHeight}}px;">
+            <repeat class="list" wx:for="{{audits.finish}}" wx:key="_id">
+                <navigator url="./auditDetail?id={{item._id}}&type={{item.type}}&status={{ConstantCode.AUDIT_STATUS.FINISH}}">
+                    <view class="list-item" url="./auditDetail?id={{item._id}}" for="{{audits.finish}}">
+                        <view class="top">
+                            <image class="top-image" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png"></image>
+                            <view class="top-nickname">{{item.title}}</view>
+                            <view class="top-time">{{item.updatedAt}}</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="bottom-category">{{item.subject}}</view>
+                            <view class="bottom-more">
+                                <view class="bottom-more" style="color:green;">已通过</view>
+                            </view>
+                        </view>
+                        <!-- <view class="bottom">
+                        <view class="bottom-category">身份证：332526********2528</view>
+                        <view class="bottom-detail">认证ID：00000001</view>
+                        <view class="bottom-more" style="color:green;">已通过</view>
+                    </view> -->
+                    </view>
+                </navigator>
+            </repeat>
+                <view wx:if = "{{audits.finishMore}}" style = " text-align:center; background-color:white;color:#666; font-size:28rpx; padding:10rpx 0">没有更多了</view>
+        </scroll-view>
+    </swiper-item>
+
+    <!--已驳回-->
+    <swiper-item>
+        <scroll-view scroll-y bindscrolltolower="scrolltolower({{ConstantCode.AUDIT_STATUS.REJECT}})" style="height:{{scrollHeight}}px;">
+            <repeat class="list" wx:for="{{audits.reject}}" wx:key="_id">
+                <navigator url="./auditDetail?id={{item._id}}&type={{item.type}}&status={{ConstantCode.AUDIT_STATUS.REJECT}}">
+                    <view class="list-item" url="./auditDetail?id={{item._id}}" for="{{audits.reject}}">
+                        <view class="top">
+                            <image class="top-image" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/people.png"></image>
+                            <view class="top-nickname">{{item.title}}</view>
+                            <view class="top-time">{{item.updatedAt}}</view>
+                        </view>
+                        <view class="bottom">
+                            <view class="bottom-category">{{item.subject}}</view>
+                            <view class="bottom-more">
+                                <view class="bottom-more" style="color:red;">已驳回</view>
+                            </view>
+                        </view>
+
+                    </view>
+                </navigator>
+            </repeat>
+        </scroll-view>
+        <view wx:if = "{{audits.rejectMore}}" style = " text-align:center; background-color:white;color:#666; font-size:28rpx; padding:10rpx 0">没有更多了</view>
+    </swiper-item>
+</swiper>
+</template>
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import ConstantCode from "../../helps/ConstantCode";
+export default class auditList extends wepy.page {
+    config = {
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTitleText": "代理审核",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        test: "",
+        scrollHeight: 0,
+        ConstantCode: {},
+        auditStates: [{
+                name: "待审核",
+                show: true
+            },
+            {
+                name: "已通过",
+                show: false
+            },
+            {
+                name: "已驳回",
+                show: false
+            }
+        ],
+        currentState: 0,
+        audits: {
+            rejectMore:false,
+            finishMore:false,
+            inProcessingMore:false,
+            inProcessing: [],
+            reject: [],
+            finish: [],
+        },
+        ConstantCode: ConstantCode,
+        isLoading:false
+    }
+    initData() {
+        this.data = {
+            auditStates: [{
+                    name: "待审核",
+                    show: true
+                },
+                {
+                    name: "已通过",
+                    show: false
+                },
+                {
+                    name: "已驳回",
+                    show: false
+                }
+            ],
+            scrollHeight:0,
+            currentState: 0,
+            audits: {
+                inProcessing: {},
+                reject: {},
+                finish: {}
+            },
+            ConstantCode: ConstantCode
+        }
+        const device = wx.getSystemInfoSync();
+        let rpxDpx = 750 / device.screenWidth;
+        this.scrollHeight = device.windowHeight - (80 / rpxDpx);
+        this.$apply();
+    }
+    async onLoad(options) {
+        this.initData();
+        this.ConstantCode = ConstantCode;
+    }
+    async onShow() {
+        // help.request(Config.host + `audit.list}`, {}, 'get');
+        const that = this;
+        let res = await Promise.all([
+            (async() => {
+                return help.request(Config.host + `audit.list`, {
+                    auditStatus: this.ConstantCode.AUDIT_STATUS.IN_PROCESSING
+                }, 'get').then(function(res) {
+                    let data = res.data.data;
+                    that.audits.inProcessing = res.data.data;
+                    that.parseAudits(that.audits.inProcessing);
+                });
+            })(),
+            (() => {
+                return help.request(Config.host + `audit.list`, {
+                    auditStatus: this.ConstantCode.AUDIT_STATUS.FINISH
+                }, 'get').then(function(res) {
+                    that.audits.finish = res.data.data;
+                    that.parseAudits(that.audits.finish);
+                });
+            })(),
+            (() => {
+                return help.request(Config.host + `audit.list`, {
+                    auditStatus: this.ConstantCode.AUDIT_STATUS.REJECT
+                }, 'get').then(function(res) {
+                    that.audits.reject = res.data.data;
+                    that.parseAudits(that.audits.reject);
+                });
+            })()
+        ]);
+        this.$apply();
+    }
+    parseAudits(array){
+         array.map((item) => {
+            item.oldUpdateAt = Date.parse(new Date(item.updatedAt));
+            item.updatedAt = help.DateFormat(new Date(item.updatedAt), "MM/dd hh:mm");
+            return item;
+        });
+    }
+    onUnload() {
+        this.initData();
+    }
+    methods = {
+        swiperChange: function(e) {
+            this.currentState = e.detail.current;
+        },
+        selectState: function(e) {
+            this.currentState = e.currentTarget.dataset.index;
+        },
+        scrolltolower: async function(who) {
+            if(!this.isLoading){
+                this.isLoading = true;
+            }
+            else{
+                return ;
+            }
+            help.showLoading("数据加载中");
+            const that = this;
+            let targetList = {};
+            switch (who) {
+                case that.ConstantCode.AUDIT_STATUS.FINISH:
+                    targetList = that.audits.finish;
+                    break;
+                case that.ConstantCode.AUDIT_STATUS.IN_PROCESSING:
+                    targetList = that.audits.inProcessing;
+                    break;
+                case that.ConstantCode.AUDIT_STATUS.REJECT:
+                    targetList = that.audits.reject;
+                    break;
+                default:
+            }
+            try {
+                const res = await help.request(Config.host + `audit.list`, {
+                    auditStatus: who,
+                    latest:targetList[targetList.length-1].oldUpdateAt
+                }, 'get');
+                let curlist = res.data.data;
+                that.parseAudits(curlist);
+                if(curlist.length === 0){
+                    switch (who) {
+                        case that.ConstantCode.AUDIT_STATUS.FINISH:
+                            that.audits.finishMore = true;
+                            break;
+                        case that.ConstantCode.AUDIT_STATUS.IN_PROCESSING:
+                            that.audits.inProcessingMore = true;
+                            break;
+                        case that.ConstantCode.AUDIT_STATUS.REJECT:
+                            that.audits.rejectMore = true;
+                            break;
+                        default:
+                    }
+                }
+                targetList.push.apply(targetList,curlist);
+                that.$apply();
+            } catch (err) {
+                help.showToast(err, "error");
+            } finally {
+                help.hideToast();
+                this.isLoading = false ;
+            }
+        }
+    }
+}
+</script>

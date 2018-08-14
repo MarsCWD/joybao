@@ -1,0 +1,450 @@
+<style>
+.clear {
+    clear: both;
+}
+
+.list-item-active {
+    background-color: #eee !important;
+}
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+/*列表样式1*/
+
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+
+.list-item-button {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    right: 0;
+    width: 230rpx;
+    text-align: center;
+}
+
+.cInputButton .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 330rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*列表样式1*/
+
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+
+.cInput .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 550rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+
+.IDfile {
+    width: 690rpx;
+    margin-left: 30rpx;
+    height: 440rpx;
+    margin-top: 30rpx;
+    border-radius: 40rpx;
+    box-shadow: 1px 1px 6px #aaa;
+}
+
+.IDdesc {
+    text-align: center;
+    width: 100%;
+    margin: 20rpx 0 40rpx;
+}
+
+.IDbtn {
+    margin-left: 75rpx;
+    width: 600rpx;
+    height: 80rpx;
+    text-align: center;
+    color: white;
+    background-color: #539DDB;
+    line-height: 80rpx;
+    border-radius: 20rpx;
+    margin-bottom: 40rpx;
+}
+
+.IDconfirm {
+    background-color: #62b900 !important;
+}
+
+.cImage {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+
+.cImage-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+
+.cImage-text {
+    margin-left: 20rpx;
+}
+
+.step-section {
+    margin-top: 40rpx;
+}
+
+.step-section-text {
+    margin-left: 30rpx;
+    padding-bottom: 10rpx;
+    font-size: 34rpx;
+    color: #ccc;
+}
+
+.cutline {
+    height: 60rpx;
+    width: 3rpx;
+    position: absolute;
+    right: 230rpx;
+    background-color: #eee;
+    top: 20rpx;
+}
+
+.button-next {
+    background-color: #FA8383;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 125rpx;
+    position: relative;
+    margin-top: 80rpx;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+
+.register-top-box {
+    position: absolute;
+    top: 0;
+    bottom: 640rpx;
+}
+
+.register-bottom-box {
+    position: absolute;
+    bottom: 0;
+    width:100%;
+}
+
+.select-box-img {
+    height: 100%;
+}
+</style>
+
+<template>
+<view class="register-top-box" style="width:100%;">
+    <image style="margin:0 auto; display:block;  height:60%; margin-top:5%;" mode="aspectFit" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/registerLogo.png"></image>
+</view>
+<view class="register-bottom-box">
+    <view class="section" style="margin:0 30rpx;">
+        <text style="color:#aaa; font-size:32rpx;">验证手机及签署密码后即可享受交易保障</text>
+    </view>
+    <view class="section" wx:if="{{userStatus.phone === '' || !userStatus.phone}}">
+        <view class="list-item cInputButton">
+            <view class="list-item-left">
+                <view class="list-item-left-text">手机号码</view>
+                <view class="clear"></view>
+            </view>
+            <input class="list-item-input" disabled="{{userStatus.phone}}" type="number" bindinput="phoneChange" maxlength="11" value="{{phone}}" placeholder="绑定的手机号码" placeholder-style="color:#ccc" />
+            <view class="cutline"></view>
+            <view class="list-item-button" hover="true"  bindtap="inputButtonClick" hover-class="list-item-active">{{countDown!=60?countDown+'s后重试':'获取验证码'}}</view>
+        </view>
+        <view class="list-item cInput">
+            <view class="list-item-left">
+                <view class="list-item-left-text">验证码</view>
+                <view class="clear"></view>
+            </view>
+            <input class="list-item-input" type="number" maxlength="11" bindinput="verificationCodeChange" value="{{verificationCode}}" placeholder="请输入验证码" placeholder-style="color:#ccc" />
+        </view>
+    </view>
+
+    <view class="section" wx:if="{{!userStatus.hasSignPassword}}">
+        <view class="list-item cInput">
+            <view class="list-item-left">
+                <view class="list-item-left-text">签署密码</view>
+                <view class="clear"></view>
+            </view>
+            <input class="list-item-input" password="true" type="text" maxlength="11" bindinput="passwordChange" value="{{password}}" placeholder="请设置一个密码" placeholder-style="color:#ccc" />
+        </view>
+    </view>
+
+    <view class="section" style="margin: 30rpx;height:50rpx;color:#aaa; font-size:32rpx; line-height:50rpx;">
+        <image mode="aspectFit" bindtap="bindSelect" style="float:left;display:block; width:50rpx; height:50rpx; margin-right:20rpx;" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/{{!isSelect?'correct':'pass'}}.png"></image>
+        <view style="float:left" class="select-box-desc">是否同意签署白鲸宝<navigator style="display:inline;color:#539DDB" url="../lawyer/regulation">《相关条约》</navigator></view>
+        <view class="clear"></view>
+    </view>
+    <!-- /*<view class="radio-box">
+        <view class="radio-item" wx:key="id" wx:for="{{payerSelect}}" bindtap="selectRadio" data-index="{{index}}">
+            <image wx:if="{{item.isSelected}}" class="radio-item-img" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/pass.png"></image>
+            <image src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/correct.png" class="radio-item-img" style="display:{{item.imgShow}}"></image>
+            <view class="radio-item-text">{{item.text}}</view>
+            <view class="radio-item-des">{{item.des}}</view>
+        </view>
+    </view>*/ -->
+
+    <!-- disabled="{{((userStatus.hasSignPassword||isPasswordPass)&&isPhonePass&&verificationCode!='')?false:true}}" -->
+    <view class="step" style="background-color:#f6f6f6;">
+        <view class="button-box" style="margin-top:10rpx">
+            <button class='button-submit' hover-class="button-submit-active" disabled="{{((!userStatus.hasSignPassword && !isPasswordPass)||!(userStatus.phone || (isPhonePass && verificationCode !== '')))&&!isSelect}}" bindtap="bindSubmit">完成</button>
+        </view>
+    </view>
+    <navigator open-type="navigateBack" delta="1" class="section" style="text-align:center;margin: 20rpx 0rpx;height:50rpx;color:#aaa; font-size:32rpx; line-height:50rpx;">
+        <text>待会再说</text>
+    </navigator>
+</view>
+</template>
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import tools from "../../helps/tools";
+import Config from "../../config/Config";
+export default class phoneRegister extends wepy.page {
+    config = {
+        "navigationBarTitleText": "完善用户信息",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white",
+    }
+    data = {
+        phone: "",
+        verificationCode: "",
+        isReciprocal: false,
+        isPhonePass: false,
+        isPasswordPass: false,
+        repeatPassword: "",
+        password: "",
+        userStatus: {},
+        isSelect: true,
+        countDown :60
+    }
+    async onLoad(options) {
+        let globalApp = this.$parent;
+        this.countDown = globalApp.getCountDown();
+        if(this.countDown!=60){
+            this.updateCountDown();
+        }
+        try {
+            let userStatus = await help.getUserStatus();
+            this.userStatus = userStatus;
+        } catch (err) {
+            help.showToast(err, "error", function() {
+                wx.navigateBack({
+                    delta: 1
+                });
+            });
+        }
+        this.$apply();
+    }
+    // 校验手机号码合法性
+    validatePhone(phone) {
+        this.isPhonePass = false;
+        if (tools.checkPhone(phone)) {
+            this.isPhonePass = true;
+            return true;
+        }
+        return false;
+    }
+    // 校验密码一致性
+    validatePassword() {
+        if (this.password !== "") {
+            this.isPasswordPass = true;
+            return true;
+        } else {
+            this.isPasswordPass = false;
+            return false;
+        }
+    }
+    // 不停更新
+     updateCountDown(){
+        let that = this;
+        let globalApp = this.$parent;
+        that.countDown = globalApp.getCountDown();
+        that.$apply();
+        if(that.countDown != 60) {
+            setTimeout(()=>{
+                that.updateCountDown();
+            },1000);
+        }
+    }
+    methods = {
+        bindSelect(e) {
+            this.isSelect = !this.isSelect;
+            this.$apply();
+        },
+        // 提交
+        async bindSubmit(e) {
+            // 没有签署密码 并且 密码没通过
+            if(!this.userStatus.hasSignPassword && !this.isPasswordPass){
+                return ;
+            }
+            // ! 已经有密码 或者 密码通过而且验证码存在
+            if(!(this.userStatus.phone || (this.isPhonePass && this.verificationCode !== ""))){
+                return ;
+            }
+            // 没有选中同意
+            if(!this.isSelect){
+                return ;
+            }
+            try {
+                if (!this.userStatus.phone) {
+                    await help.request(Config.host + "user.phone", {
+                        phone: this.phone,
+                        code: this.verificationCode
+                    });
+                }
+                if (!this.userStatus.hasSignPassword) {
+                    await help.request(Config.host + "user.signpassword", {
+                        signpassword: tools.md5Encryption(this.password)
+                    });
+                }
+                help.showToast("提交完成", "success", function() {
+                    wx.navigateBack({
+                        delta: 1
+                    });
+                });
+            } catch (err) {
+                help.showToast(err, "error", function() {});
+                return;
+            }
+            await help.requestUserStatus();
+        },
+        // 电话号码改变
+        phoneChange(e) {
+            this.phone = e.detail.value;
+            this.validatePhone(this.phone);
+        },
+        // 验证码改变
+        verificationCodeChange: function(e) {
+            this.verificationCode = e.detail.value;
+        },
+        // 点击获取验证码
+        inputButtonClick: async function(e) {
+            const that = this;
+            let globalApp = this.$parent;
+            // 手机号码
+            if (!this.validatePhone(this.phone)) {
+                return;
+            }
+            // 倒计时
+            if(this.countDown!=60) {
+                return ;
+            }
+            try {
+                await help.request(Config.host + "user.sendValidateCode", {
+                    phone: this.phone
+                });
+                globalApp.startCountDown();
+                this.updateCountDown();
+                help.showToast("验证码发送成功", "success");
+            } catch (err) {
+                help.showToast(err, "error");
+                return ;
+            }
+            
+        },
+        passwordChange(e) {
+            this.password = e.detail.value;
+            this.validatePassword();
+        },
+        repeatPasswordChange(e) {
+            this.repeatPassword = e.detail.value;
+            this.validatePassword();
+        }
+    }
+}
+</script>

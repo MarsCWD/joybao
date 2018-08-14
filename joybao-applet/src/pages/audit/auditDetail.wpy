@@ -1,0 +1,652 @@
+<style>
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+.container {
+    position: relative;
+    height: 100%;
+}
+
+.progress {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    height: 140rpx;
+    background-color: #539DDB;
+    color: #72b8f3;
+    width: 750rpx;
+    white-space: nowrap;
+    /*border-bottom: 2px solid #539DDB;*/
+}
+
+.progress-item {
+    display: inline-block;
+    width: 220rpx;
+    height: 140rpx;
+    line-height: 140rpx;
+    text-align: center;
+}
+
+.progress-item-active {
+    color: #fff;
+}
+
+.full-page-swiper {
+    position: absolute;
+    bottom: 0rpx;
+    top: 140rpx;
+    width: 750rpx;
+    overflow: hidden;
+    height: initial;
+}
+
+.step {
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+
+.title {
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #999;
+    padding-left: 30rpx;
+    font-size: 32rpx;
+}
+
+.contractTemplate {
+    height: 300rpx;
+    /*#F1FAFB浅浅蓝*/
+    background-color: #fff;
+    width: 720rpx;
+    white-space: nowrap;
+    padding-left: 15rpx;
+    padding-right: 15rpx;
+}
+
+.contractTemplate-item {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+
+.contractTemplate-item-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.contractTemplate-item-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+
+.contractTemplate-selected {
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    z-index: 1000;
+}
+
+.contractTemplate-item-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    line-height: 240rpx;
+    width: 180rpx;
+    text-align: center;
+    z-index: 1001;
+    color: #fff;
+}
+
+.list-item {
+    position: relative;
+    /*height: 120rpx;*/
+    width: 750rpx;
+    /*border-top: 1rpx solid #f6f6f6;*/
+    /*border-bottom: 1rpx solid #f6f6f6;*/
+}
+
+.list-item-select {
+    position: absolute;
+    height: 60rpx;
+    width: 60rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+
+.list-item-des-text {
+    position: absolute;
+    height: 120rpx;
+    line-height: 120rpx;
+    font-size: 32rpx;
+    right: 160rpx;
+}
+
+.add-item {
+    height: 100rpx;
+    width: 750rpx;
+    position: relative;
+    /*border-top: 1rpx solid #eee;*/
+    /*border-bottom: 1rpx solid #eee;*/
+    /*margin-top: 15rpx;*/
+    margin-bottom: 80rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-add {
+    position: absolute;
+    height: 50rpx;
+    width: 50rpx;
+    top: 25rpx;
+    left: 50rpx;
+}
+
+.add-item-text {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    left: 120rpx;
+    color: #aaa;
+}
+
+.list-item-more {
+    position: absolute;
+    height: 40rpx;
+    width: 40rpx;
+    right: 30rpx;
+    top: 30rpx;
+}
+
+
+.radio-box {
+    padding: 30rpx;
+}
+
+.radio-item {
+    position: relative;
+    height: 220rpx;
+}
+
+.radio-item-img {
+    position: absolute;
+    top: 10rpx;
+    left: 0;
+    height: 50rpx;
+    width: 50rpx;
+}
+
+.radio-item-text {
+    position: absolute;
+    top: 0;
+    left: 80rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.radio-item-des {
+    position: absolute;
+    top: 50rpx;
+    left: 80rpx;
+    font-size: 34rpx;
+    color: #bbb;
+    margin-top: 15rpx;
+}
+
+.img-box {
+    padding: 30rpx;
+    color: #999;
+}
+
+.file-img {
+    height: 750rpx;
+    width: 690rpx;
+    box-shadow: 1px 1px 5px #888888;
+    margin-top: 30rpx;
+}
+
+.input-box {
+    margin: 30rpx;
+    height: 500rpx;
+    border: 1rpx solid #eee;
+    border-radius: 10rpx;
+}
+
+.input-box-text {
+    margin: 50rpx;
+    color: #999;
+}
+
+.input-box input {
+    border: 1rpx solid #539DDB;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    height: 80rpx;
+    border-radius: 10rpx;
+}
+
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    background-color: #FA8383;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 125rpx;
+    position: relative;
+    margin-top: 80rpx;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+</style>
+
+<template>
+<view class="container">
+    <scroll-view class="progress" scroll-x="true" scroll-left="{{scrollX}}">
+        <repeat for="{{template.steps}}">
+            <view class="progress-item {{index==currentStep?'progress-item-active':''}}" data-index="{{index}}" bindtap="selectStep({{index}})">
+                {{item.stepName}}
+            </view>
+        </repeat>
+    </scroll-view>
+
+    <swiper current="{{currentStep}}" class="full-page-swiper" bindchange="swiperChange">
+        <repeat for="{{template.steps}}">
+            <swiper-item class="step">
+                <step :step="item"></step>
+                <view class="button-box">
+                    <button wx:if="{{index != template.steps.length-1 || status === ConstantCode.AUDIT_STATUS.IN_PROCESSING}}" data-step="{{currentStep}}" class="{{  index === template.steps.length-1? 'button-submit':'button-next'}}" hover-class="{{index === template.steps.length-1? 'button-submit-active': 'button-next-active'}}"
+                        bindtap="bindNextStep({{index}},true)">{{index === template.steps.length-1 ? '通过':'下一步'}}</button>
+                
+                </view>
+                <view class="button-box" style="margin:0">
+            
+                    <button class="button-next" wx:if="{{index === template.steps.length-1 && status === ConstantCode.AUDIT_STATUS.IN_PROCESSING}}" hover-class="button-next-active" bindtap="bindNextStep({{index}},{{false}})">驳回</button>
+                </view>
+            </swiper-item>
+        </repeat>
+    </swiper>
+    <view class="bottom-line"></view>
+</view>
+</template>
+<script>
+import wepy from "wepy";
+import step from "../../components/step";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import tools from "../../helps/tools";
+import ConstantCode from "../../helps/ConstantCode";
+export default class certificationIndex extends wepy.page {
+    components = {
+        step: step
+    }
+    config = {
+        "navigationBarTitleText": "认证审核",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        scrollX: 0,
+        currentStep: 0,
+        template: {
+            steps: [
+                // 罪魁祸首！！！！
+                // {
+                //      fields: []
+                // }
+            ]
+        },
+        ConstantCode: ConstantCode,
+        identityInfo: {},
+        auditTemplate: {
+            stepName: "完成审核",
+            // disabled: "false",
+            fields: [{
+                dataType: "text",
+                key: "realName",
+                name: "真实姓名",
+                placeholder: "请输入其真实姓名",
+                showType: "cInput",
+                split: "审核信息",
+                step: 1,
+                wight: 1
+            }, {
+                dataType: "text",
+                key: "IDCard",
+                name: "身份证",
+                placeholder: "请输入其身份证",
+                showType: "cInput",
+                step: 1,
+                wight: 1
+            }],
+            status: ""
+        },
+        status:""
+    }
+    events = {};
+    // 初始化本页数据
+    initData() {
+        this.data = {
+            scrollX: 0,
+            currentStep: 0,
+            template: {
+                steps: [
+                    // 罪魁祸首！！！！
+                    // {
+                    //      fields: []
+                    // }
+                ]
+            },
+            identityInfo: {},
+            ConstantCode: ConstantCode,
+            auditTemplate: {
+                stepName: "完成审核",
+                // disabled: "false",
+                fields: [{
+                    dataType: "text",
+                    key: "realName",
+                    name: "真实姓名",
+                    placeholder: "请输入其真实姓名",
+                    showType: "cInput",
+                    split: "审核信息",
+                    step: 1,
+                    wight: 1
+                }, {
+                    dataType: "text",
+                    key: "IDCard",
+                    name: "身份证",
+                    placeholder: "请输入其身份证",
+                    showType: "cInput",
+                    step: 1,
+                    wight: 1
+                }],
+                status: ""
+            },
+            status: ""
+        };
+    }
+    //  1.填充模板数据
+    //  2.填充审核页面步骤
+    fillTemplate() {
+        console.log( this.identityInfo);
+        if (!this.template || !this.identityInfo) {
+            return;
+        }
+        let curIdentityInfo;
+        switch (this.template.templateKey) {
+            case ConstantCode.TEMPLATE.TYPE.COMPANY:
+                curIdentityInfo = Object.assign(this.identityInfo.company, this.identityInfo.person.identity);
+                break;
+            case ConstantCode.TEMPLATE.TYPE.IDCARD:
+                curIdentityInfo = this.identityInfo.identity;
+                break;
+            case ConstantCode.TEMPLATE.TYPE.AGENT:
+                curIdentityInfo = Object.assign(this.identityInfo.agent, this.identityInfo.person.identity);
+                // 模板key 和 认证信息key 不匹配
+                curIdentityInfo.agentCompany = curIdentityInfo.companyName;
+                curIdentityInfo.agentCompanyId = curIdentityInfo.companyId;
+
+                this.template.steps[0].fields[1].hidden = true;
+                break;
+            default:
+        }
+        const steps = this.template.steps;
+        // 设置disabled
+        for (let step of steps) {
+            step.disabled = true;
+        }
+        // 填充数据
+        for (let item in curIdentityInfo) {
+            let key = item;
+            let value = curIdentityInfo[item];
+            for (let step of steps) {
+                let fields = step.fields;
+                let i;
+                for (i = 0; i < fields.length; i++) {
+                    let field = fields[i];
+                    if (field.key === key) {
+                        if (field.showType === "cIdCard" || field.showType === "cImage"  || field.showType === "cDownLoadImage") {
+                            field.value = `${Config.imageUrl}/${value}`;
+                            field.showUrl = `${Config.imageUrl}/${value}`;
+                        } else {
+                            field.value = value;
+                        }
+                        break;
+                    } else if (field.key === "location" && (key === "provice" || key === "city")) {
+                        field.value = field.value ? field.value : "";
+                        field.value += value;
+                        break;
+                    }
+                }
+                if (i < fields.length) {
+                    break;
+                }
+            }
+        }
+        if (this.status !== ConstantCode.AUDIT_STATUS.IN_PROCESSING) {
+            return;
+        }
+        // 添加审核页面步骤
+        // 已认证个人 (个人认证除外)
+        if ((this.identityInfo.company || this.identityInfo.agent) && this.identityInfo.person.identity.realName) {
+            this.auditTemplate.fields = [];
+        }
+        this.template.steps.push(this.auditTemplate);
+        console.log(this.template);
+    }
+    initBranch(branchIndex) {
+        if (!this.template) { // 不存在模板数据
+            return;
+        }
+        if (!this.template.allSteps) {
+            this.template.allSteps = this.template.steps.slice(0);
+        }
+        if (!this.template.branch) { // 不存在分支数据
+        } else {
+            let curBranch = this.template.branch[branchIndex];
+            this.template.steps = [];
+            for (let index = 0; index < this.template.allSteps.length; index++) {
+                if (curBranch.indexOf(index) >= 0) {
+                    this.template.steps.push(this.template.allSteps[index]);
+                }
+            }
+        }
+    };
+    async onLoad(options) {
+        this.recordId = options.id;
+        this.status = options.status;
+        let that = this;
+        try {
+            let result = await help.request(`${Config.host}audit.view?recordId=${options.id}`, {}, 'get');
+            this.identityInfo = result.data.data;
+        } catch (err) {
+            help.showToast(err, "error", function () {
+                help.goToReferer();
+            });
+        }
+        let key = "";
+        switch (options.type) {
+            case "CompanyIdentity":
+                key = ConstantCode.TEMPLATE.TYPE.COMPANY;
+                break;
+            case "PersonIdentity":
+                key = ConstantCode.TEMPLATE.TYPE.IDCARD;
+                break;
+            case "AgentIdentity":
+                key = ConstantCode.TEMPLATE.TYPE.AGENT;
+                break;
+            default:
+        }
+        try {
+            console.log("准备获取认证模板" + key);
+            let templateRes = await help.request(Config.host + "template.getTemplate", { templateKey: key }, "get");
+            that.template = templateRes.data.data;
+            that.template.templateKey = key;
+            if (key === ConstantCode.TEMPLATE.TYPE.COMPANY) {
+                // 1 代理人 2 法人
+                if (that.identityInfo.company.userType === "1") {
+                    that.initBranch(1);
+                } else {
+                    that.initBranch(0);
+                }
+            }
+            that.fillTemplate();
+            that.$apply();
+        } catch (err) {
+            help.showToast("无法获取认证数据,请稍后再试", "error", function () {
+                help.goToReferer(that.referer);
+            });
+        }
+    };
+    onShow() {
+        let app = this.$parent;
+    };
+    onUnload() {
+        this.initData();
+    };
+    events = {
+        setLocation(province, city) {
+            console.log(province + city);
+        }
+    };
+    async submitData(pass) {
+        let auditInfo = {};
+        let url = "";
+        auditInfo.pass = pass;
+        auditInfo.recordId = this.recordId;
+        // 通过
+        switch (this.template.templateKey) {
+            case ConstantCode.TEMPLATE.TYPE.COMPANY: // 公司审核
+                {
+                    if (pass) {
+                        let obj = {};
+                        for (let field of this.auditTemplate.fields) {
+                            let key = field.key;
+                            let value = field.value;
+                            obj[key] = value;
+                        }
+                        auditInfo.agentObj = JSON.stringify(obj);
+                    }
+                    url = "audit.result.company";
+                    break;
+                }
+            case ConstantCode.TEMPLATE.TYPE.IDCARD: // 个人审核
+                {
+                    url = "audit.result.person";
+                    if (pass) {
+                        for (let field of this.auditTemplate.fields) {
+                            let key = field.key;
+                            let value = field.value;
+                            auditInfo[key] = value;
+                        }
+                    }
+                    break;
+                }
+            case ConstantCode.TEMPLATE.TYPE.AGENT: // 代理人审核
+                {
+                    let obj = {};
+                    url = "audit.agent.result";
+                    if (pass) {
+                        for (let field of this.auditTemplate.fields) {
+                            let key = field.key;
+                            let value = field.value;
+                            obj[key] = value;
+                        }
+                        auditInfo.agentObj = JSON.stringify(obj);
+                        auditInfo.companyId = this.template.steps[0].fields[2].value;
+                    }
+                    break;
+                }
+            default:
+        }
+        try {
+            let result = await help.request(`${Config.host}${url}`, auditInfo);
+            help.showToast("操作成功", "success", function () {
+                help.goToReferer("", 1);
+            });
+        } catch (err) {
+            help.showToast(err, "error");
+            return;
+        }
+    };
+    methods = {
+        branchChange(branchIndex) {
+            console.log("切换分支到" + branchIndex);
+            this.initBranch(branchIndex);
+        },
+        bindNextStep(index, pass = true) {
+            if (index === this.template.steps.length - 1) {
+                this.submitData(pass);
+            } else {
+                this.currentStep = index + 1;
+            }
+        },
+        swiperChange(e) {
+            this.currentStep = e.detail.current;
+            if (e.detail.current >= 3) {
+                this.scrollX = 1100;
+            } else {
+                this.scrollX = 0;
+            }
+            this.$apply();
+        },
+        selectStep(index) {
+            this.currentStep = index;
+        }
+    }
+}
+</script>

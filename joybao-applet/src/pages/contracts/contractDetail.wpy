@@ -1,0 +1,432 @@
+<style>
+page{
+    overflow: hidden;
+}
+.constract {}
+
+.floor {
+    border-bottom: 1px solid #f6f6f6;
+    padding: 10rpx 30rpx;
+}
+
+.constract-title {
+    height: 80rpx;
+    overflow: hidden;
+    border-right: 1px solid #eee;
+    line-height: 80rpx;
+
+
+    padding-right: 30rpx;
+}
+
+.constract-name {
+    height: 80rpx;
+    overflow: hidden;
+    line-height: 80rpx;
+    padding-left: 30rpx;
+}
+
+
+
+.contractTemplate {
+    height: 300rpx;
+    /*#F1FAFB浅浅蓝*/
+    /*background-color: #F1FAFB;*/
+    white-space: nowrap;
+}
+
+.contractTemplate-item {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    box-shadow: 1px 1px 6px #aaa;
+}
+
+.contractTemplate-item image {
+    width: 100%;
+    height: 100%;
+}
+
+.sign-head {
+    background-color: #f6f6f6;
+    color: #aaa;
+    vertical-align: bottom;
+    padding: 40rpx 0 20rpx 30rpx;
+}
+
+.sign-item {
+    padding: 10rpx 30rpx;
+    height: 80rpx;
+}
+
+.sign-avater {
+    height: 60rpx;
+    width: 60rpx;
+    margin: 10rpx 30rpx 10rpx 0;
+}
+
+.sign-name {
+    line-height: 80rpx;
+}
+
+.sign-desc {
+    line-height: 40rpx;
+    font-size: 30rpx;
+    text-align: right;
+}
+
+.sign-date {
+    text-align: right;
+    line-height: 40rpx;
+    font-size: 26rpx;
+    color: #aaa;
+}
+
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+    background-color: #FA8383;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 140rpx;
+    position: relative;
+}
+
+.input-box button {
+    border: none;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    font-size: 36rpx;
+    color: #fff;
+    background-color: sandybrown;
+    width: 300rpx;
+    float: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+}
+
+.button-next {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+    background-color: #FA8383;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 140rpx;
+    position: relative;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+.list-item-left-textbox-name {
+height:40rpx;
+width:300rpx;
+line-height:40rpx;
+font-size:33rpx;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+-o-text-overflow:ellipsis;
+}
+.list-item-left-textbox-des {
+height:40rpx;
+width:400rpx;
+line-height:40rpx;
+font-size:26rpx;
+color:#aaa;
+font-size:26rpx;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+-o-text-overflow:ellipsis;
+
+}
+.signed-sign{
+    position:absolute;
+top:0px;
+right:0px;
+width:120px;
+transform:rotate(30deg);
+height:120px;
+
+}
+
+</style>
+
+<template>
+<view class="container">
+    <view class="constract">
+        <view class="floor">
+            <view class=" constract-title left ">合约名称</view>
+            <view class="constract-name left ">{{contracts.name}}</view>
+            <view class="clear "></view>
+        </view>
+        <view class="floor">
+            <text>发件人:{{contracts.sender.userName}}</text>
+            <scroll-view scroll-x="true" class="contractTemplate">
+                <view class="contractTemplate-item" @tap="previewImage({{index}})" wx:for="{{contracts.annex}}" wx:key="path" data-url="{{item.path}}">
+                    <image src="{{item.path}}"></image>
+                </view>
+                <view class="clear"></view>
+            </scroll-view>
+        </view>
+    </view>
+    <view class="sign-head floor">
+        签署动态
+    </view>
+    <view class="sign-list">
+        <!-- 发起 -->
+        <view class="sign-item floor">
+            <view>
+                <image class="sign-avater left" src="{{contracts.sender.avatar?contracts.sender.avatar:'https://sxflcp.0575s.com/wximages/people.png'}}"></image>
+                <view class="list-item-left-textbox left">
+                    <view class="list-item-left-textbox-name">{{contracts.sender.userName}}</view>
+                    <view class="list-item-left-textbox-des">
+                        <text>{{contracts.sender.companyName||contracts.sender.userPhone}}</text>
+                    </view>
+                </view>
+                <view class="right">
+                    <view class="sign-desc">发起签署</view>
+                    <view class="sign-date">{{contracts.createdAt}}</view>
+                </view>
+                <view class="clear"></view>
+            </view>
+        </view>
+        <!-- 动态 -->
+        <repeat for="{{contracts.receivers}}" key="userId">
+            <view class="sign-item floor" wx:if="{{item.signState==='Signed'||item.confirmState==='Confirmed'}}">
+                <view>
+                    <image class="sign-avater left" src="{{item.avatar?item.avatar:'https://sxflcp.0575s.com/wximages/people.png'}}"></image>
+                    <view class="list-item-left-textbox left">
+                        <view class="list-item-left-textbox-name">{{item.userName}}</view>
+                        <view class="list-item-left-textbox-des">
+                            <text>{{contracts.sender.companyName||contracts.sender.userPhone}}</text>
+                        </view>
+                    </view>
+                    <view class="right">
+                        <view class="sign-desc">{{item.signState==='Signed'?'已签署':'已确认'}}</view>
+                        <view class="sign-date">{{item.updatedAt}}</view>
+                    </view>
+                    <view class="clear"></view>
+                </view>
+            </view>
+        </repeat>
+    </view>
+
+
+    <block wx:if="{{contracts.status != ConstantCode.CONTRACT.CONTRACT_STATUS.FINISH}}">
+        <button style="bottom:70px !important;" wx:if="{{userStatus.identityStatus === 'Success' && recevier.confirmState === 'NeedConfirmed'}}" class="button-submit" hover-class="button-submit-active" bindtap="confirmContract">确认</button>
+
+        <button wx:if="{{userStatus.identityStatus === 'Success' && recevier.signState === 'NeedSigned'}}" class="button-next" hover-class="button-next-active" bindtap="sign">签署</button>
+
+        <navigator wx:if="{{userStatus.identityStatus != 'Success'|| !userStatus.defaultSealId}}" url="{{userStatus.defaultSealId?'../certification/menu':'../autograph'}}">
+            <button class="button-next" hover-class="button-next-active">
+                {{userStatus.defaultSealId?"去实名认证":"去生成签章"}}
+            </button>
+        </navigator>
+    </block>
+
+
+        <image class="signed-sign" wx:if="{{contracts.status == 'Finish'}}"  src = "https://sxflcp.0575s.com/wximages/signed.png" mode = "aspectFit"></image>
+
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+import ConstantCode from "../../helps/ConstantCode";
+
+export default class addReceiver extends wepy.page {
+    config = {
+        "navigationBarTitleText": "合约",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+    }
+    data = {
+        contracts: {},
+        userStatus: {},
+        // 当前签署人
+        recevier: {},
+        contractId: "",
+        ConstantCode: ConstantCode
+    }
+    // 获取合约相关数据
+    async initContract(cb) {
+        let that = this;
+        // 获取用户状态
+        let userStatus = await help.getUserStatus();
+        let contractRes;
+        try{
+            // 获取合约详情
+            contractRes = await help.request(Config.host + "contract.view", { contractId: that.contractId }, "get");
+
+        }
+        catch(err){
+            help.showToast(err,"error",()=>{
+                help.goToReferer("",1);
+            })
+        }
+
+        that.userStatus = userStatus;
+        that.contracts = contractRes.data.data;
+
+        // 动态时间格式
+        that.contracts.createdAt = help.DateFormat(new Date(that.contracts.createdAt), "MM/dd hh:mm");
+        that.contracts.signEndAt = help.DateFormat(new Date(that.contracts.signEndAt), "MM/dd hh:mm");
+        that.contracts.updatedAt = help.DateFormat(new Date(that.contracts.updatedAt), "MM/dd hh:mm");
+        that.contracts.receivers
+        .sort(function(a,b){
+            return Date.parse(a.updatedAt)-Date.parse(b.updatedAt);
+        })
+        .map(function (item) {
+            item.updatedAt = help.DateFormat(new Date(item.updatedAt), "MM/dd hh:mm");
+            return item;
+        });
+        // 格式化图片显示
+        that.contracts.annex.map(function (item) {
+            item.path = Config.ALiYun.address + "/wximages/" + item.path + "?v=" + Date.parse(new Date());
+            return item;
+        });
+        console.log(that.contracts);
+        let phone = that.userStatus.phone;
+        for (let i in that.contracts.receivers) {
+            if (that.contracts.receivers[i].userPhone === phone) {
+                that.recevier = that.contracts.receivers[i];
+                that.$apply();
+                break;
+            }
+        }
+        that.$apply();
+        if (cb && typeof (cb) === "function") {
+            cb();
+        }
+    }
+    onLoad(options) {
+        this.contractId = options.id;
+        this.contracts = {};
+        this.userStatus = {};
+        this.recevier = {}; // 当前签署人
+    }
+    onShow() {
+        this.initContract(null);
+    }
+    // 获取图片路径数组
+    getUrlArray() {
+        let array = [];
+        if (this.contracts) {
+            for (let i in this.contracts.annex) {
+                array.push(`${this.contracts.annex[i].path}?v=${Date.parse(new Date())}`);
+            }
+        }
+        return array;
+    }
+    methods = {
+        // 浏览图片
+        previewImage: function (index, e) {
+            let array = this.getUrlArray();
+            wx.previewImage({
+                current: array[index],
+                urls: array
+            });
+        },
+        sign: function (e) {
+            // Config.ALiYun
+            // 校验
+            // 支持个人
+            wx.navigateTo({
+                url: `./signarue?contractId=${this.contractId}`
+            });
+        },
+        confirmContract: async function (e) {
+            console.log(this.userStatus);
+            let option = {};
+            option.contractId = this.contractId;
+            if (this.userStatus.companyList && this.userStatus.companyList.length > 0) {
+                option.companyId = this.userStatus.companyList[0].companyId;
+            }
+            try {
+                await help.request(Config.host + "contract.sign", {
+                    contractId: this.contractId
+                });
+                this.initContract();
+                help.showToast("您已成功确认", "success");
+            } catch (err) {
+                help.showToast(err, "error");
+            }
+        }
+    }
+
+    onPullDownRefresh() {
+        this.initContract(function () {
+            wx.stopPullDownRefresh();
+        });
+    }
+}
+</script>

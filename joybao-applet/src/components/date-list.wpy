@@ -1,0 +1,142 @@
+<style>
+.list-layout {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 120rpx;
+    box-sizing: border-box;
+}
+
+.list-title {
+    height: 60rpx;
+    line-height: 60rpx;
+    background-color: #fff;
+    color: #aaa;
+    font-size: 30rpx;
+}
+
+.list-title-time {
+    float: left;
+    margin-left: 30rpx;
+}
+
+.list-title-account {
+    float: right;
+    margin-right: 30rpx;
+}
+
+.list-item {
+    position: relative;
+    height: 140rpx;
+    margin-top: 3rpx;
+    margin-bottom: 3rpx;
+}
+
+.list-item-img {
+    position: absolute;
+    top: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    width: 80rpx;
+}
+
+.list-item-title {
+    position: absolute;
+    top: 20rpx;
+    left: 130rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 32rpx;
+}
+
+.list-item-remark {
+    position: absolute;
+    top: 80rpx;
+    left: 130rpx;
+    color: #999;
+    font-size: 26rpx;
+}
+
+.list-item-time {
+    position: absolute;
+    top: 20rpx;
+    right: 30rpx;
+    color: #999;
+    font-size: 30rpx;
+}
+
+.list-time-month {
+    position: absolute;
+    color: #999;
+    height: 140rpx;
+    line-height: 140rpx;
+    width: 100rpx;
+    left: 20rpx;
+    font-size: 30rpx;
+}
+
+.list-item-money {
+    position: absolute;
+    right: 30rpx;
+    height: 140rpx;
+    line-height: 140rpx;
+}
+
+.money-color-red {
+    color: #F69D9D;
+}
+
+.money-color-green {
+    color: #61B390;
+}
+</style>
+
+<template>
+<scroll-view scroll-y>
+    <repeat for="{{list}}" index="index" item="item">
+        <view wx:if="{{item.showType===1}}" class="list-title">
+            <view class="list-title-time">{{item.day}}日-{{item.weekDay}}</view>
+            <view class="list-title-account">支出:{{item.pay}} 收入:{{item.income}}</view>
+        </view>
+        <view wx:elif="{{item.showType===2}}" class="list-title">
+            <view class="list-title-time">{{title}}</view>
+            <view class="list-title-account" @tap="press">{{label}}</view>
+        </view>
+        <view wx:else class="list list-item">
+            <image class="list-item-img" src="{{item.relation.userAvatar?item.relation.userAvatar:'http://joybao.oss-cn-hangzhou.aliyuncs.com/record1.png'}}"></image>
+            <view class="list-item-title">{{item.name}}</view>
+            <view class="list-item-remark">
+                {{item.remark==null?'':item.remark}}
+            </view>
+            <view class="list-item-money {{item.money>=0?'money-color-green':'money-color-red'}}">{{item.money>=0?"+"+item.money:item.money}}</view>
+        </view>
+    </repeat>
+</scroll-view>
+</template>
+
+<script>
+import wepy from "wepy";
+
+export default class DateList extends wepy.component {
+    props = {
+        // 数据源
+        list: {
+            type: Object,
+            default: [],
+        },
+        title: {
+            type: String,
+            default: ""
+        },
+        label: {
+            type: String,
+            default: ""
+        },
+    }
+
+    methods = {
+        press() {
+            this.$emit("press");
+        }
+    }
+};
+</script>

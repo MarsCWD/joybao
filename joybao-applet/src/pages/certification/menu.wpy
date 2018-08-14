@@ -1,0 +1,158 @@
+<style>
+/* pages/certification/certificationMethods/certificationMethods.wxss */
+
+page {
+    background-color: #f6f6f6;
+}
+
+.radio-box {
+    padding: 30rpx 30rpx 0 30rpx;
+    background-color: #fff;
+    margin-top: 30rpx;
+}
+
+.radio-item {
+    position: relative;
+    height: 100rpx;
+    padding: 20rpx 0;
+}
+
+.radio-item-img {
+    position: absolute;
+    top: 10rpx;
+    left: 0;
+    height: 50rpx;
+    width: 50rpx;
+}
+
+.radio-item-text {
+    position: absolute;
+    top: 0;
+    left: 80rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.radio-item-des {
+    position: absolute;
+    top: 50rpx;
+    left: 80rpx;
+    font-size: 28rpx;
+    color: #bbb;
+    margin-top: 15rpx;
+}
+</style>
+
+<template>
+<!--pages/certification/certificationMethods/certificationMethods.wxml-->
+<view class="container">
+    <view class="radio-box">
+        <view class="radio-item" wx:key="id" wx:for="{{payerSelect}}" bindtap="selectRadio({{index}})" data-index="{{index}}">
+            <image wx:if="{{item.isSelected}}" class="radio-item-img" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/pass.png"></image>
+            <image wx:show="{{}}" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/correct.png" class="radio-item-img" style="display:{{item.imgShow}}"></image>
+            <view class="radio-item-text">{{item.text}}</view>
+            <view class="radio-item-des">{{item.des}}</view>
+        </view>
+    </view>
+    <view class="section" wx:if="{{payerSelect[1].isSelected}}">
+
+
+        <navigator url="./certificationIndex?key=idcard&name=身份证认证" class="list-item" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">身份证认证</view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                <view class="clear"></view>
+            </view>
+        </navigator>
+    </view>
+
+    <view class="section" wx:if="{{payerSelect[0].isSelected}}">
+        <navigator url="./certificationIndex?key=company&name=公司注册" class="list-item" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">公司注册</view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                <view class="clear"></view>
+            </view>
+        </navigator>
+       <!--  <navigator url="./certificationIndex?key=personal&name=个体工商户认证" class="list-item" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">个体工商户认证</view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                <view class="clear"></view>
+            </view>
+        </navigator> -->
+        <navigator url="./certificationIndex?key=agent&name=代理人认证" class="list-item" hover-class="list-item-active">
+            <view class="list-item-left">
+                <view class="list-item-left-text">代理人认证</view>
+            </view>
+            <view class="list-item-right">
+                <image class="list-item-arrow" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/wximages/more.png"></image>
+                <view class="clear"></view>
+            </view>
+        </navigator>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+export default class certificationMethods extends wepy.page {
+    config = {
+        "navigationBarTitleText": "实名认证",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        payerSelect: [
+            {
+                text: "公司认证",
+                des: "企业或个体工商户",
+                isSelected: true,
+                imgShow: "none"
+            },
+            {
+                text: "个人认证",
+                des: "个人实名认证",
+                isSelected: false,
+                imgShow: "block"
+            }
+        ],
+        isPhoneAndPassword: false,
+    };
+    async onLoad(options) {
+        // 无手机号或签署密码就跳转
+        let userStatus = await help.getUserStatus();
+        if (!(userStatus.phone && userStatus.hasSignPassword)) {
+            wx.redirectTo({
+                url: "../phoneAndPassword/phoneAndPassword"
+            });
+        }
+    }
+    async onShow() {
+    }
+    methods = {
+        selectRadio(index) {
+            console.log("切换开始");
+            let select = index;
+            let array = this.payerSelect;
+            for (let i = 0; i < array.length; i++) {
+                if (i === select) {
+                    array[i].isSelected = true;
+                    array[i].imgShow = "none";
+                } else {
+                    array[i].isSelected = false;
+                    array[i].imgShow = "block";
+                }
+            }
+            this.payerSelect = array;
+        }
+    }
+}
+</script>

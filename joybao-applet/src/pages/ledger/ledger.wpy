@@ -1,0 +1,798 @@
+<style>
+/* pages/Ledger/Ledger.wxss */
+
+
+/*#539DDB 蓝色*/
+
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+.count-box {
+    position: relative;
+    height: 190rpx;
+    width: 750rpx;
+    background-color: #539DDB;
+    color: #fff;
+}
+
+.count-time {
+    position: absolute;
+    width: 230rpx;
+    left: 30rpx;
+    top: 25rpx;
+}
+
+.count-account {
+    position: absolute;
+    width: 520rpx;
+    right: 0;
+    top: 25rpx;
+    border-left: 1rpx dashed #c5def2;
+    height: 140rpx;
+}
+
+.count-add {
+    float: left;
+    width: 230rpx;
+    margin-left: 30rpx;
+}
+
+.count-reduce {
+    float: left;
+    width: 230rpx;
+    margin-left: 30rpx;
+}
+
+.count-time-year {
+    font-size: 26rpx;
+    color: #c5def2;
+    margin-top: 15rpx;
+}
+
+.count-title {
+    font-size: 26rpx;
+    color: #c5def2;
+    margin-top: 15rpx;
+}
+
+.count-num {
+    margin-top: 35rpx;
+    font-size: 40rpx;
+}
+
+.count-time-month {
+    font-size: 32rpx;
+    margin-top: 5rpx;
+}
+
+.count-time-month text {
+    font-size: 70rpx;
+}
+
+
+.header {
+    position: fixed;
+    height: 80rpx;
+    width: 750rpx;
+    top: 190;
+    left: 0;
+    color: #72b8f3;
+    font-size: 30rpx;
+    box-sizing: border-box;
+}
+
+.header-item {
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 250rpx;
+    text-align: center;
+    float: left;
+    color: #fff;
+    background-color: #4787bd;
+    border-left: 1rpx solid #fff;
+    box-sizing: border-box;
+}
+
+.header-item:first-child {
+    border-left: 0rpx;
+}
+
+.header .active {
+    color: #000;
+    background-color: #fff;
+}
+
+
+
+.full-page-swiper {
+    position: absolute;
+    bottom: 0rpx;
+    top: 270rpx;
+    width: 750rpx;
+    overflow: hidden;
+    height: initial;
+}
+
+.full-page-swiper swiper-item {
+    height: 100%;
+}
+
+.detail-add-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120rpx;
+    line-height: 120rpx;
+    text-align: center;
+    background-color: #ffffff;
+    font-size: 32rpx;
+}
+
+.picker-view-layout {
+    position: absolute;
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+    height: 360rpx;
+}
+
+.picker-view {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 300rpx;
+}
+
+.picker-view-item {
+    text-align: center;
+    line-height: 100rpx;
+}
+
+.picker-button-layout {
+    width: 100%;
+    top: 0;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.picker-button {
+    display: inline;
+    color: black;
+    top: 20rpx;
+    height: 32rpx;
+    position: absolute;
+    line-height: 32rpx;
+}
+
+.reconciliation {
+    height: 160rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+    box-sizing: border-box;
+}
+
+
+.triangle-down {
+    width: 0;
+    height: 0rpx;
+    border-left: 8rpx solid transparent;
+    border-right: 8rpx solid transparent;
+    border-top: 16rpx solid #fff;
+    position: absolute;
+    top: 100rpx;
+    left: 120rpx;
+}
+
+.account-page {
+    top: 0;
+    position: absolute;
+    background-color: #f6f6f6;
+    width: 100%;
+    height: 100%;
+}
+
+.input-box {
+    position: relative;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 750rpx;
+    border-bottom: 3rpx solid #eee;
+    background-color: #fff;
+}
+
+.input-box .input-name {
+    display: inline-block;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 190rpx;
+    font-size: 32rpx;
+    padding-left: 20rpx;
+}
+
+.input-box .input-value {
+    display: inline-block;
+    height: 80rpx;
+    overflow: visible;
+    line-height: 80rpx;
+    width: 500rpx;
+    font-size: 32rpx;
+    padding-left: 20rpx;
+}
+
+.button-layout {
+    margin-top: 50rpx;
+    text-align: center;
+    border-bottom: 0;
+    background-color: inherit;
+}
+
+.input-box button {
+    margin: 0 20rpx;
+    display: inline-block;
+    width: 230rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+}
+</style>
+<template>
+<view class="container">
+    <!-- 当月支出, 收入 开始 -->
+    <view class="count-box">
+        <view class="count-time">
+            <view class="count-time-year">{{iYear}}年</view>
+            <view class="count-time-month" @tap="showDate">
+                <text>{{iMonth}}</text>月
+                <text class="triangle-down"></text>
+            </view>
+        </view>
+        <view class="count-account">
+            <view class="count-add">
+                <view class="count-title">支出(元)</view>
+                <view class="count-num">{{pay}}</view>
+            </view>
+            <view class="count-reduce">
+                <view class="count-title">收入(元)</view>
+                <view class="count-num">{{income}}</view>
+            </view>
+        </view>
+    </view>
+    <!-- 当月支出, 收入 结束 -->
+
+    <!-- 分类 开始 -->
+    <view class="header">
+        <repeat for="{{swipers}}" index="index" item="item">
+            <view class="header-item {{currentSwiper==index?'active':''}}" @tap="swiperSelect({{index}})">{{item}}</view>
+        </repeat>
+    </view>
+    <!-- 分类 结束 -->
+
+    <!-- 三块展示内容 开始 -->
+    <swiper current="{{currentSwiper}}" class="full-page-swiper" @change="swiperChange">
+        <swiper-item>
+            这是月报表
+        </swiper-item>
+        <swiper-item>
+            <detailList :list.sync="details"></detailList>
+            <view class="detail-add-item" @tap="showAccountPage">
+                <text>+</text> <text>记一笔</text>
+            </view>
+        </swiper-item>
+        <swiper-item>
+            <repeat for="{{reconciliations}}" index="index" item="item">
+                <view wx:if="{{item.type===1}}" class="list-item-title"></view>
+                <view wx:esle class="list-item reconciliation">
+                    <!-- <view class="list-time-month">{{item.time[8]+item.time[9]}}号</view> -->
+                    <image class="list-item-img" src="http://joybao.oss-cn-hangzhou.aliyuncs.com/record1.png"></image>
+                    <view class="list-item-title">{{item.name==null?'收入':item.name}}</view>
+                    <view class="list-item-remark">
+                        {{item.remark==null?'无':item.remark}}
+                    </view>
+                    <view class="list-item-money {{item.money>=0?'money-color-green':'money-color-red'}}">{{item.money>=0?"+"+item.money:item.money}}</view>
+                </view>
+            </repeat>
+        </swiper-item>
+    </swiper>
+    <!-- 三块展示内容 结束 -->
+
+    <!-- 年月选择器 开始 -->
+    <view wx:if="{{showPicker}}" class="picker-view-layout">
+        <view class="picker-button-layout">
+            <view class="picker-button" style="left: 30rpx;" @tap="closeDate(false)">取消</view>
+            <view class="picker-button" style="right: 30rpx;" @tap="closeDate(true)">确认</view>
+        </view>
+        <picker-view indicator-style="height: 50px;" class="picker-view" value="{{pickerValue}}" @change="changeDate">
+            <picker-view-column>
+                <repeat for="{{years}}" index="index" item="item">
+                    <view class="picker-view-item">{{item}}年</view>
+                </repeat>
+            </picker-view-column>
+            <picker-view-column>
+                <repeat for="{{months}}" index="index" item="item">
+                    <view class="picker-view-item">{{item}}月</view>
+                </repeat>
+            </picker-view-column>
+        </picker-view>
+    </view>
+    <!-- 年月选择器 结束 -->
+
+    <!-- 记账页面 开始 -->
+    <view wx:if="{{showAccount}}" class="account-page">
+        <view class="input-box">
+            <view class="input-name">账目名</view>
+            <input value="{{account.name}}" class="input-value" placeholder="输入账目名" @input="dataChange('name')" />
+        </view>
+        <view class="input-box">
+            <view class="input-name">账目备注</view>
+            <input value="{{account.remark}}" class="input-value" placeholder="输入备注,可不填写" @input="dataChange('remark')" />
+        </view>
+        <view class="input-box">
+            <view class="input-name">单号</view>
+            <view class="input-value">
+                <search1 extData="1" type="contract" url="contract.list"></search1>
+            </view>
+        </view>
+        <view class="input-box">
+            <!-- 从合约收件人中挑选 -->
+            <view wx:if="{{account.contract}}">
+                <view class="input-name">客户名称</view>
+                <view class="input-value">
+                    <search2 extData="0" type="relation" :list.sync="relationData"></search2>
+                </view>
+            </view>
+            <navigator wx:else url="../common/findPerson?from=bill">
+                <view class="input-name">客户名称</view>
+                <view class="input-value">{{account.relation.userName||"请选择客户"}}</view>
+            </navigator>
+        </view>
+        <view class="input-box">
+            <picker @change="typePicker" value="{{typeIndex}}" range="{{types}}" @change="pickerChange('type')">
+                <view class="input-name">账目类型</view>
+                <view class="input-value">{{types[typeIndex]}}</view>
+            </picker>
+        </view>
+        <view class="input-box">
+            <picker @change="sortPicker" value="{{sortIndex}}" range="{{sorts}}" @change="pickerChange('sort')">
+                <view class="input-name">分类</view>
+                <view class="input-value">{{sorts[sortIndex]}}</view>
+            </picker>
+        </view>
+        <view class="input-box">
+            <view class="input-name">{{account.type==='Income'?'发货':'采购'}}</view>
+            <input value="{{account.amount}}" class="input-value" placeholder="{{account.type==='Income'?'发货金额':'采购金额'}}" @input="dataChange('amount')" />
+        </view>
+        <view class="input-box">
+            <view class="input-name">回款</view>
+            <input value="{{account.backMoney}}" class="input-value" placeholder="回款金额" @input="dataChange('backMoney')" />
+        </view>
+        <view class="input-box">
+            <view class="input-name">退货</view>
+            <input value="{{account.returnGoods}}" class="input-value" placeholder="退货金额" @input="dataChange('returnGoods')" />
+        </view>
+        <view class="input-box">
+            <view class="input-name">{{account.type==='Income'?'应收':'付款'}}</view>
+            <input value="{{remain}}" class="input-value" placeholder="{{account.type==='Income'?'应收金额':'付款金额'}}" />
+        </view>
+        <view class="input-box">
+            <picker mode="date" value="{{account.shipTime}}" start="2015-01-01" @change="dateChange('ship')">
+                <view class="input-name">发货时间</view>
+                <view class="input-value">{{account.shipTime}}</view>
+            </picker>
+        </view>
+        <view class="input-box">
+            <picker mode="date" value="{{account.backTime}}" start="2000-01-01" @change="dateChange('back')">
+                <view class="input-name">回款时间</view>
+                <view class="input-value">{{account.backTime}}</view>
+            </picker>
+        </view>
+        <view class="input-box button-layout">
+            <button @tap="closeAccountPage(false)">取消</button>
+            <button @tap="closeAccountPage(true)">完成</button>
+        </view>
+    </view>
+    <!-- 记账页面 结束 -->
+</view>
+</template>
+
+<script>
+const date = new Date(),
+    years = [],
+    // months = ["--"];
+    months = [];
+for (let i = 2017, dist = date.getFullYear(); i <= dist; i++) {
+    years.push(`${i}`);
+}
+
+for (let i = 1; i <= 12; i++) {
+    months.push(i < 10 ? `0${i}` : `${i}`);
+}
+
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+
+import DateList from "../../components/date-list";
+import FormSearch from "../../components/form-search";
+
+export default class Ledger extends wepy.page {
+    config = {
+        "navigationBarTitleText": "账本",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+
+    components = {
+        search1: FormSearch,
+        search2: FormSearch,
+        detailList: DateList,
+    }
+
+    computed = {
+        remain() {
+            return this.account.amount - this.account.backMoney - this.account.returnGoods;
+        },
+    }
+    data = {
+        // 轮播属性
+        swipers: ["月报表", "账本明细", "对账"],
+        currentSwiper: 1,
+
+        // 显示记一笔
+        hasSave: true,
+        showAccount: false,
+        account: {
+            name: "",
+            remark: "", // 备注
+            relation: {
+                userName: "",
+                userPhone: "",
+                userType: "",
+            }, // 账目名
+            // contract: {
+            //     contractId: "",
+            //     contractName: "",
+            // },
+            contract: undefined,
+            type: "",
+            sort: "",
+            amount: 0,
+            backMoney: 0,
+            returnGoods: 0,
+            remain: 0,
+
+            shipTime: undefined,
+            backTime: undefined,
+        },
+        relationData: [],
+        types: ["收入", "支出"],
+        typeMap: ["Income", "Pay"],
+        typeIndex: 0,
+        sorts: [],
+        sortIndex: 0,
+
+        // 日期选择器数据和临时数据
+        showPicker: false,
+        years: years,
+        months: months,
+        isTimePicker: false, // 是否确定选择日期完毕
+        // pickerValue: [0, date.getMonth() + 1],
+        pickerValue: [0, date.getMonth()],
+
+        // 具体数据
+        iYear: date.getFullYear(),
+        iMonth: (date.getMonth() + 1) > 10 ? date.getMonth() + 1 : `0${date.getMonth()+1}`,
+        income: 0, // 收入
+        pay: 0, // 支出
+
+        // 明细列表
+        details: [],
+        // 对账列表
+        reconciliations: [{
+                id: 0,
+                name: "公司名称",
+                remark: "交易名称",
+                time: "2017-04-10",
+                money: 1
+            },
+            {
+                id: 1,
+                name: "个人名称",
+                remark: "交易名称",
+                time: "2017-04-11",
+                money: -2
+            },
+            {
+                id: 2,
+                name: "公司名称",
+                remark: "收购布料100匹",
+                time: "2017-04-12",
+                money: 3
+            }
+        ],
+    }
+
+    onLoad() {
+        const that = this;
+        help.request(`${Config.host}bill.sort.list`, {}, "get").then(
+            res => {
+                res = res.data;
+                if (res.success) {
+                    that.sorts = res.data;
+                } else {
+                    help.showToast(res.msg, "error");
+                }
+            },
+            err => {
+                console.error(err);
+                help.showToast(err, "error");
+            }
+        );
+        this.getBillList();
+    }
+
+    onShow() {
+        const app = this.$parent;
+        if (app.globalData.to === "bill") {
+            this.account.relation = app.globalData.person;
+            app.globalData.to = "";
+        }
+    }
+
+    /**
+     * 根据年, 月 获取账目列表
+     * @return {[type]}       [description]
+     */
+    getBillList() {
+        const that = this;
+        const url = `${Config.host}bill.list?year=${this.iYear}&month=${this.iMonth}`;
+        this.details.length = 0;
+        help.request(url, {}, "get").then(
+            res => {
+                res = res.data;
+                console.log(res);
+                if (res.success) {
+                    // 根据时间分割时间段
+                    let obj = null; // 日期对象
+                    const arr = that.details; // 结果对象
+
+                    // TODO 替换 后台会传来具体的值
+                    that.income = 0;
+                    that.pay = 0;
+
+                    const bills = res.data.bills;
+                    const debits = res.data.debits;
+
+                    // 遍历账目明细获得的显示数据
+                    bills.forEach(item => {
+                        // 将对象转为显示的格式
+                        item.money = item.amount - item.backMoney - item.returnGoods;
+                        if (item.type === "Pay") {
+                            item.money = -item.money;
+                        }
+                        item.showType = 0;
+                        item.updatedAt = new Date(item.updatedAt);
+                        item.time = help.DateFormat(item.updatedAt, "yyyy-MM-dd");
+
+                        if (obj && obj.date === item.date) {
+                            // 是同一天
+                            arr.push(item);
+                            if (item.type === "Pay") {
+                                obj.pay -= item.money;
+                            } else if (item.type === 'Income') {
+                                obj.income += item.money;
+                                that.income += item.money;
+                            };
+                        } else {
+                            // 不是同一天
+                            obj = that.getDateObj(item);
+                            arr.push(obj);
+                            arr.push(item);
+                        }
+
+                        // 可能废弃
+                        if (item.type === "Pay") {
+                            that.pay -= item.money;
+                        } else if (item.type === 'Income') {
+                            that.income += item.money;
+                        };
+                    });
+
+                    // 遍历对账记录获得具体的显示数据
+                    // debits.forEach(item => {
+                    //     item.
+                    // });
+
+                    // TODO 全年抽屉列表展示
+                    that.$apply();
+                } else {
+                    help.showToast(res.msg, "error");
+                }
+            },
+            err => {
+                console.error(err);
+                help.showToast(err, "error");
+            }
+        );
+    }
+
+    /**
+     * [构造对应时间对象]
+     * @param  {[type]} item [构造的Item值]
+     * @return {[type]}      [description]
+     */
+    getDateObj(item) {
+        const obj = {
+            showType: 1,
+            day: item.date,
+            weekDay: help.getWeekDay(item.updatedAt),
+            income: 0,
+            pay: 0,
+        };
+        if (item.type === "Pay") {
+            obj.pay -= item.money;
+        } else if (item.type === 'Income') {
+            obj.income += item.money;
+        };
+        return obj;
+    }
+
+    methods = {
+        swiperChange(e) {
+            this.currentSwiper = e.detail.current;
+        },
+        swiperSelect(index) {
+            this.currentSwiper = index;
+        },
+
+        /** 日期选择 开始 **/
+        showDate() {
+            this.year = this.iYear;
+            this.month = this.iMonth;
+            this.showPicker = true;
+        },
+        changeDate(e) {
+            const val = e.detail.value;
+            this.pickerValue = val;
+            this.year = this.years[val[0]];
+            this.month = this.months[val[1]];
+            this.isTimePicker = true;
+        },
+        closeDate(save) {
+            if (save) {
+                const that = this;
+                // TODO 等待picker-view的Change事件响应 需要优化
+                setTimeout(() => {
+                    that.iYear = this.year;
+                    that.iMonth = this.month;
+                    that.getBillList();
+                }, 300);
+            }
+            this.showPicker = false;
+            this.isTimePicker = false;
+        },
+        /** 日期选择 结束 **/
+
+        /** 记一笔 开始 **/
+        showAccountPage() {
+            if (this.hasSave) {
+                this.sortIndex = 0;
+                this.typeIndex = 0;
+                this.account.sort = this.sorts[this.sortIndex];
+                this.account.type = this.typeMap[this.typeIndex];
+                this.account.shipTime = help.DateFormat(new Date(), "yyyy-MM-dd");
+                this.account.backTime = help.DateFormat(new Date(), "yyyy-MM-dd");
+                this.hasSave = false;
+            }
+            this.showAccount = true;
+        },
+        closeAccountPage(save) {
+            const that = this;
+            if (save === "true") {
+                // TODO 属性校验
+                help.request(`${Config.host}bill.new`, { bill: JSON.stringify(this.account) }).then(
+                    res => {
+                        res = res.data;
+                        if (res.success) {
+                            this.account._id = res.data;
+                            that.showAccount = false;
+                            that.hasSave = true;
+                            that.getBillList();
+                            that.$apply();
+                        } else {
+                            help.showToast(res.msg, "error");
+                        }
+                    },
+                    err => {
+                        console.error(err);
+                        help.showToast(err, "error");
+                    }
+                );
+            } else {
+                this.showAccount = false;
+            }
+        },
+        dateChange(select, e) {
+            switch (select) {
+                case "ship":
+                    this.account.shipTime = e.detail.value;
+                    break;
+                case "back":
+                    this.account.backTime = e.detail.value;
+                    break;
+            }
+        },
+
+        /**
+         * 修改内存中暂存的表单数据
+         * @param  {[type]} name [要改变的属性名]
+         * @param  {[type]} e    [事件对象]
+         * @return {[type]}      [description]
+         */
+        dataChange(name, e) {
+            this.account[name] = e.detail.value;
+        },
+        /**
+         * Pcker 选择变换
+         * @param  {[type]} name [要改变的属性名]
+         * @param  {[type]} e    [事件对象]
+         * @return {[type]}      [description]
+         */
+        pickerChange(name, e) {
+            const index = e.detail.value;
+            if (name === 'type') {
+                this.typeIndex = index;
+                this.account.type = this.typeMap[index];
+            } else if (name === 'sort') {
+                this.sortIndex = index;
+                this.account.sort = this.sorts[index];
+            }
+        },
+        /** 记一笔 结束 **/
+    }
+
+    events = {
+        /**
+         * 根据合约Id获得该合约对应的收件人
+         * @param contractId 合约Id
+         * @param evt        事件对象
+         */
+        "userSelect": (obj, evt) => {
+            const that = this;
+            if (obj.type === "contract") {
+                help.request(`${Config.host}contract.view?contractId=${obj.contractId}&onlyReceivers=1`, {}, "get").then(
+                    res => {
+                        res = res.data;
+                        if (res.success) {
+                            that.relationData.length = 0;
+                            res.data.receivers.forEach(item => {
+                                item.name = item.userName;
+                                that.relationData.push(item);
+                            });
+                            that.account.contract = {
+                                contractId: obj.contractId,
+                                contractName: obj.contractName,
+                            };
+                            that.$apply();
+                        } else {
+                            help.showToast(res.msg, "error");
+                        }
+                    },
+                    err => {
+                        console.error(err);
+                        help.showToast(err, "error");
+                    }
+                );
+            } else if (obj.type === "relation") {
+                this.account.relation = {
+                    userName: obj.userName,
+                    userPhone: obj.userPhone,
+                    userAvatar: obj.userAvatar,
+                };
+                console.log(this.account.relation)
+            }
+        },
+    }
+}
+</script>

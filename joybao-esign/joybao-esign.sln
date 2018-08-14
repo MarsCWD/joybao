@@ -1,0 +1,19 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JoyBao.API", "JoyBao.API\JoyBao.API.csproj", "{86E9F74B-A55C-4DE8-B444-0EE6D03942BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86E9E59E-F248-481D-B865-26DBBC86A13D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86E9F74B-A55C-4DE8-B444-0EE6D03942BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E9F74B-A55C-4DE8-B444-0EE6D03942BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E9F74B-A55C-4DE8-B444-0EE6D03942BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E9F74B-A55C-4DE8-B444-0EE6D03942BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

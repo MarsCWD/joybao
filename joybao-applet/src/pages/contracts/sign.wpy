@@ -1,0 +1,300 @@
+<style>
+.clear {
+    clear: both;
+}
+
+.list-item-active {
+    background-color: #eee !important;
+}
+
+
+page {
+    background-color: #f6f6f6;
+    height: 100%;
+}
+
+
+
+
+/*列表样式1*/
+
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+
+.list-item-button {
+    position: absolute;
+    height: 100rpx;
+    line-height: 100rpx;
+    right: 0;
+    width: 230rpx;
+    text-align: center;
+}
+
+.cInputButton .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 330rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+
+
+
+
+
+
+
+
+
+/*列表样式1*/
+
+.list-item {
+    position: relative;
+    width: 750rpx;
+    height: 100rpx;
+    background-color: #fff;
+    margin-top: 3rpx;
+}
+
+.list-item-left {
+    position: absolute;
+    height: 100rpx;
+    top: 0;
+    left: 30rpx;
+    width: 180rpx;
+    overflow: hidden;
+}
+
+.list-item-left-text {
+    height: 100rpx;
+    line-height: 100rpx;
+    float: left;
+    /*margin-left: 30rpx;*/
+}
+
+.cInput .list-item-input {
+    height: 100rpx;
+    line-height: 100rpx;
+    width: 550rpx;
+    position: absolute;
+    left: 180rpx;
+    text-align: right;
+}
+
+.IDfile {
+    width: 690rpx;
+    margin-left: 30rpx;
+    height: 440rpx;
+    margin-top: 30rpx;
+    border-radius: 40rpx;
+    box-shadow: 1px 1px 6px #aaa;
+}
+
+.IDdesc {
+    text-align: center;
+    width: 100%;
+    margin: 20rpx 0 40rpx;
+}
+
+.IDbtn {
+    margin-left: 75rpx;
+    width: 600rpx;
+    height: 80rpx;
+    text-align: center;
+    color: white;
+    background-color: #539DDB;
+    line-height: 80rpx;
+    border-radius: 20rpx;
+    margin-bottom: 40rpx;
+}
+
+.IDconfirm {
+    background-color: #62b900 !important;
+}
+
+.cImage {
+    margin-top: 30rpx;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+    height: 240rpx;
+    width: 180rpx;
+    /*background-color: #888;*/
+    display: inline-block;
+    position: relative;
+}
+
+.cImage-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240rpx;
+    width: 180rpx;
+    z-index: 998;
+}
+
+.cImage-text {
+    margin-left: 20rpx;
+}
+
+.step-section {
+    margin-top: 40rpx;
+}
+
+.step-section-text {
+    margin-left: 30rpx;
+    padding-bottom: 10rpx;
+    font-size: 34rpx;
+    color: #ccc;
+}
+
+.cutline {
+    height: 60rpx;
+    width: 3rpx;
+    position: absolute;
+    right: 230rpx;
+    background-color: #eee;
+    top: 20rpx;
+}
+
+.button-next {
+    background-color: #FA8383;
+}
+
+.button-submit {
+    background-color: #4EBA0F;
+}
+
+.button-submit-active {
+    background-color: #428b17;
+}
+
+.button-next-active {
+    background-color: #e38184;
+}
+
+.button-box {
+    height: 125rpx;
+    position: relative;
+    margin-top: 80rpx;
+}
+
+.button-box button {
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    width: 690rpx;
+    color: #fff;
+}
+</style>
+
+<template>
+<view class="section">
+    <view class="list-item cInput">
+        <view class="list-item-left">
+            <view class="list-item-left-text">短信验证码</view>
+            <view class="clear"></view>
+        </view>
+        <input class="list-item-input" type="text" bindinput="codeChange" value="{{code}}" placeholder="请输入签署密码" placeholder-style="color:#ccc" />
+    </view>
+</view>
+<view class="button-box">
+    <button class="button-submit" hover-class="button-submit-active" disabled="{{code === ''}}" @tap="signarue">签署</button>
+</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import help from "../../helps/help";
+import Config from "../../config/Config";
+/** TODO 样式完成 **/
+export default class sign extends wepy.page {
+    config = {
+        "navigationBarTitleText": "签署",
+        "navigationBarBackgroundColor": "#539DDB",
+        "navigationBarTextStyle": "white"
+    }
+    data = {
+        contracts: {},
+        code: "",
+    }
+    async onLoad(options) {
+        this.positionX = options.positionX;
+        this.positionY = options.positionY;
+        this.contractId = options.contractId;
+        this.defaultSealId = options.defaultSealId;
+        this.pageIndex = options.pageIndex;
+        this.signatureType = options.signatureType;
+        this.width = options.width;
+    }
+    onUnload(){
+        this.clearData();
+    }
+    clearData(){
+        this.data =  {
+            contracts: {},
+            code: "",
+        }
+        this.$apply();
+    }
+    methods = {
+        codeChange(e) {
+            this.code = e.detail.value;
+        },
+        async signarue() {
+            let signPosition = {};
+            signPosition.signatureType = this.signatureType; // 参考服务端 ConstantCode.CONTRACT.SIGN_TYPE
+            signPosition.positionX = this.positionX;
+            signPosition.positionY = this.positionY;
+            signPosition.positionType = "测试";
+            signPosition.sealId = this.defaultSealId;
+            signPosition.showText = "测试";
+            signPosition.pageIndex = this.pageIndex;
+            signPosition.width = this.width;
+            try {
+                let  pa = {
+                    contractId: this.contractId,
+                    code: this.code,
+                    signPosition: JSON.stringify(signPosition)
+                };
+                this.contra
+                await help.request(Config.host + "contract.sign", {
+                    contractId: this.contractId,
+                    code: this.code,
+                    signPosition: JSON.stringify(signPosition)
+                });
+                help.showToast("签署成功", "success", function() {
+                    help.requestUserStatus();
+                    help.goToReferer("", 1);
+                });
+            } catch (err) {
+                help.showToast(err, "error");
+            }
+        }
+    }
+}
+</script>
